@@ -4,6 +4,5 @@
 
 ```
 yarn
-yarn build // optional
-yarn cli
+yarn cli -h
 ```
