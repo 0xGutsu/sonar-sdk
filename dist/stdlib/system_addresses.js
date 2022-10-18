@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.is_vm_address_ = exports.is_vm_ = exports.is_reserved_address_ = exports.is_framework_reserved_address_ = exports.is_core_resource_address_ = exports.is_aptos_framework_address_ = exports.assert_vm_ = exports.assert_framework_reserved_address_ = exports.assert_core_resource_address_ = exports.assert_core_resource_ = exports.assert_aptos_framework_ = exports.EVM = exports.ENOT_FRAMEWORK_RESERVED_ADDRESS = exports.ENOT_CORE_RESOURCE_ADDRESS = exports.ENOT_APTOS_FRAMEWORK_ADDRESS = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -37,121 +46,143 @@ exports.ENOT_CORE_RESOURCE_ADDRESS = (0, move_to_ts_1.u64)("1");
 exports.ENOT_FRAMEWORK_RESERVED_ADDRESS = (0, move_to_ts_1.u64)("4");
 exports.EVM = (0, move_to_ts_1.u64)("2");
 function assert_aptos_framework_(account, $c) {
-    if (!is_aptos_framework_address_(Signer.address_of_(account, $c), $c)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ENOT_APTOS_FRAMEWORK_ADDRESS), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_aptos_framework_address_(yield Signer.address_of_(account, $c), $c))) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ENOT_APTOS_FRAMEWORK_ADDRESS), $c));
+        }
+        return;
+    });
 }
 exports.assert_aptos_framework_ = assert_aptos_framework_;
 function assert_core_resource_(account, $c) {
-    return assert_core_resource_address_(Signer.address_of_(account, $c), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield assert_core_resource_address_(yield Signer.address_of_(account, $c), $c);
+    });
 }
 exports.assert_core_resource_ = assert_core_resource_;
 function assert_core_resource_address_(addr, $c) {
-    if (!is_core_resource_address_($.copy(addr), $c)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ENOT_CORE_RESOURCE_ADDRESS), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_core_resource_address_($.copy(addr), $c))) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ENOT_CORE_RESOURCE_ADDRESS), $c));
+        }
+        return;
+    });
 }
 exports.assert_core_resource_address_ = assert_core_resource_address_;
 function assert_framework_reserved_address_(account, $c) {
-    if (!is_framework_reserved_address_(Signer.address_of_(account, $c), $c)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ENOT_FRAMEWORK_RESERVED_ADDRESS), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_framework_reserved_address_(yield Signer.address_of_(account, $c), $c))) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ENOT_FRAMEWORK_RESERVED_ADDRESS), $c));
+        }
+        return;
+    });
 }
 exports.assert_framework_reserved_address_ = assert_framework_reserved_address_;
 function assert_vm_(account, $c) {
-    if (!is_vm_(account, $c)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.EVM), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_vm_(account, $c))) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.EVM), $c));
+        }
+        return;
+    });
 }
 exports.assert_vm_ = assert_vm_;
 function is_aptos_framework_address_(addr, $c) {
-    return (($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex());
+    return __awaiter(this, void 0, void 0, function* () {
+        return (($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex());
+    });
 }
 exports.is_aptos_framework_address_ = is_aptos_framework_address_;
 function is_core_resource_address_(addr, $c) {
-    return (($.copy(addr)).hex() === (new aptos_1.HexString("0xa550c18")).hex());
+    return __awaiter(this, void 0, void 0, function* () {
+        return (($.copy(addr)).hex() === (new aptos_1.HexString("0xa550c18")).hex());
+    });
 }
 exports.is_core_resource_address_ = is_core_resource_address_;
 function is_framework_reserved_address_(addr, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
-    if (is_aptos_framework_address_($.copy(addr), $c)) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
-    }
-    if (temp$1) {
-        temp$2 = true;
-    }
-    else {
-        temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
-    }
-    if (temp$2) {
-        temp$3 = true;
-    }
-    else {
-        temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
-    }
-    if (temp$3) {
-        temp$4 = true;
-    }
-    else {
-        temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
-    }
-    if (temp$4) {
-        temp$5 = true;
-    }
-    else {
-        temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
-    }
-    if (temp$5) {
-        temp$6 = true;
-    }
-    else {
-        temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
-    }
-    if (temp$6) {
-        temp$7 = true;
-    }
-    else {
-        temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
-    }
-    if (temp$7) {
-        temp$8 = true;
-    }
-    else {
-        temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
-    }
-    if (temp$8) {
-        temp$9 = true;
-    }
-    else {
-        temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
-    }
-    return temp$9;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+        if (yield is_aptos_framework_address_($.copy(addr), $c)) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
+        }
+        if (temp$1) {
+            temp$2 = true;
+        }
+        else {
+            temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
+        }
+        if (temp$2) {
+            temp$3 = true;
+        }
+        else {
+            temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
+        }
+        if (temp$3) {
+            temp$4 = true;
+        }
+        else {
+            temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
+        }
+        if (temp$4) {
+            temp$5 = true;
+        }
+        else {
+            temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
+        }
+        if (temp$5) {
+            temp$6 = true;
+        }
+        else {
+            temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
+        }
+        if (temp$6) {
+            temp$7 = true;
+        }
+        else {
+            temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
+        }
+        if (temp$7) {
+            temp$8 = true;
+        }
+        else {
+            temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
+        }
+        if (temp$8) {
+            temp$9 = true;
+        }
+        else {
+            temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
+        }
+        return temp$9;
+    });
 }
 exports.is_framework_reserved_address_ = is_framework_reserved_address_;
 function is_reserved_address_(addr, $c) {
-    let temp$1;
-    if (is_aptos_framework_address_($.copy(addr), $c)) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = is_vm_address_($.copy(addr), $c);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield is_aptos_framework_address_($.copy(addr), $c)) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = yield is_vm_address_($.copy(addr), $c);
+        }
+        return temp$1;
+    });
 }
 exports.is_reserved_address_ = is_reserved_address_;
 function is_vm_(account, $c) {
-    return is_vm_address_(Signer.address_of_(account, $c), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield is_vm_address_(yield Signer.address_of_(account, $c), $c);
+    });
 }
 exports.is_vm_ = is_vm_;
 function is_vm_address_(addr, $c) {
-    return (($.copy(addr)).hex() === (new aptos_1.HexString("0x0")).hex());
+    return __awaiter(this, void 0, void 0, function* () {
+        return (($.copy(addr)).hex() === (new aptos_1.HexString("0x0")).hex());
+    });
 }
 exports.is_vm_address_ = is_vm_address_;
 function loadParsers(repo) {

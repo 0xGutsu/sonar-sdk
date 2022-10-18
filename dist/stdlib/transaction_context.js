@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.get_script_hash_ = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -30,7 +39,9 @@ exports.packageName = "AptosFramework";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "transaction_context";
 function get_script_hash_($c) {
-    return $.aptos_framework_transaction_context_get_script_hash($c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_transaction_context_get_script_hash($c);
+    });
 }
 exports.get_script_hash_ = get_script_hash_;
 function loadParsers(repo) {

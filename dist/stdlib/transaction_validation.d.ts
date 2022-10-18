@@ -39,12 +39,12 @@ export declare class TransactionValidation {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function epilogue_(account: HexString, _txn_sequence_number: U64, txn_gas_price: U64, txn_max_gas_units: U64, gas_units_remaining: U64, $c: AptosDataCache): void;
-export declare function initialize_(aptos_framework: HexString, script_prologue_name: U8[], module_prologue_name: U8[], multi_agent_prologue_name: U8[], user_epilogue_name: U8[], $c: AptosDataCache): void;
-export declare function module_prologue_(sender: HexString, txn_sequence_number: U64, txn_public_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): void;
-export declare function multi_agent_script_prologue_(sender: HexString, txn_sequence_number: U64, txn_sender_public_key: U8[], secondary_signer_addresses: HexString[], secondary_signer_public_key_hashes: U8[][], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): void;
-export declare function prologue_common_(sender: HexString, txn_sequence_number: U64, txn_authentication_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): void;
-export declare function script_prologue_(sender: HexString, txn_sequence_number: U64, txn_public_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, _script_hash: U8[], $c: AptosDataCache): void;
+export declare function epilogue_(account: HexString, _txn_sequence_number: U64, txn_gas_price: U64, txn_max_gas_units: U64, gas_units_remaining: U64, $c: AptosDataCache): Promise<void>;
+export declare function initialize_(aptos_framework: HexString, script_prologue_name: U8[], module_prologue_name: U8[], multi_agent_prologue_name: U8[], user_epilogue_name: U8[], $c: AptosDataCache): Promise<void>;
+export declare function module_prologue_(sender: HexString, txn_sequence_number: U64, txn_public_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): Promise<void>;
+export declare function multi_agent_script_prologue_(sender: HexString, txn_sequence_number: U64, txn_sender_public_key: U8[], secondary_signer_addresses: HexString[], secondary_signer_public_key_hashes: U8[][], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): Promise<void>;
+export declare function prologue_common_(sender: HexString, txn_sequence_number: U64, txn_authentication_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, $c: AptosDataCache): Promise<void>;
+export declare function script_prologue_(sender: HexString, txn_sequence_number: U64, txn_public_key: U8[], txn_gas_price: U64, txn_max_gas_units: U64, txn_expiration_time: U64, chain_id: U8, _script_hash: U8[], $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -54,6 +54,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get TransactionValidation(): typeof TransactionValidation;
-    loadTransactionValidation(owner: HexString, loadFull?: boolean): Promise<TransactionValidation>;
+    loadTransactionValidation(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<TransactionValidation>;
 }
 //# sourceMappingURL=transaction_validation.d.ts.map

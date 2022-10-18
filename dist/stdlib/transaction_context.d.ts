@@ -4,7 +4,7 @@ import { HexString, AptosClient } from "aptos";
 export declare const packageName = "AptosFramework";
 export declare const moduleAddress: HexString;
 export declare const moduleName = "transaction_context";
-export declare function get_script_hash_($c: AptosDataCache): U8[];
+export declare function get_script_hash_($c: AptosDataCache): Promise<U8[]>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

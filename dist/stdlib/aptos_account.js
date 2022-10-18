@@ -46,25 +46,31 @@ exports.moduleName = "aptos_account";
 exports.EACCOUNT_NOT_FOUND = (0, move_to_ts_1.u64)("1");
 exports.EACCOUNT_NOT_REGISTERED_FOR_APT = (0, move_to_ts_1.u64)("2");
 function assert_account_exists_(addr, $c) {
-    if (!Account.exists_at_($.copy(addr), $c)) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_NOT_FOUND), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield Account.exists_at_($.copy(addr), $c))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_NOT_FOUND), $c));
+        }
+        return;
+    });
 }
 exports.assert_account_exists_ = assert_account_exists_;
 function assert_account_is_registered_for_apt_(addr, $c) {
-    assert_account_exists_($.copy(addr), $c);
-    if (!Coin.is_account_registered_($.copy(addr), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_NOT_REGISTERED_FOR_APT), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_account_exists_($.copy(addr), $c);
+        if (!(yield Coin.is_account_registered_($.copy(addr), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_NOT_REGISTERED_FOR_APT), $c));
+        }
+        return;
+    });
 }
 exports.assert_account_is_registered_for_apt_ = assert_account_is_registered_for_apt_;
 function create_account_(auth_key, $c) {
-    let signer;
-    signer = Account.create_account_($.copy(auth_key), $c);
-    Coin.register_(signer, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let signer;
+        signer = yield Account.create_account_($.copy(auth_key), $c);
+        yield Coin.register_(signer, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        return;
+    });
 }
 exports.create_account_ = create_account_;
 function buildPayload_create_account(auth_key, isJSON = false) {
@@ -75,12 +81,14 @@ function buildPayload_create_account(auth_key, isJSON = false) {
 }
 exports.buildPayload_create_account = buildPayload_create_account;
 function transfer_(source, to, amount, $c) {
-    if (!Account.exists_at_($.copy(to), $c)) {
-        create_account_($.copy(to), $c);
-    }
-    else {
-    }
-    return Coin.transfer_(source, $.copy(to), $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield Account.exists_at_($.copy(to), $c))) {
+            yield create_account_($.copy(to), $c);
+        }
+        else {
+        }
+        return yield Coin.transfer_(source, $.copy(to), $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+    });
 }
 exports.transfer_ = transfer_;
 function buildPayload_transfer(to, amount, isJSON = false) {
@@ -109,19 +117,19 @@ class App {
     payload_create_account(auth_key, isJSON = false) {
         return buildPayload_create_account(auth_key, isJSON);
     }
-    create_account(_account, auth_key, _maxGas = 1000, _isJSON = false) {
+    create_account(_account, auth_key, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_create_account(auth_key, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_create_account(auth_key, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_transfer(to, amount, isJSON = false) {
         return buildPayload_transfer(to, amount, isJSON);
     }
-    transfer(_account, to, amount, _maxGas = 1000, _isJSON = false) {
+    transfer(_account, to, amount, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_transfer(to, amount, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_transfer(to, amount, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

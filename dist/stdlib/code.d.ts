@@ -3,6 +3,7 @@ import { AptosDataCache, AptosParserRepo, AptosLocalCache } from "@manahippo/mov
 import { U8, U64 } from "@manahippo/move-to-ts";
 import { TypeParamDeclType, FieldDeclType } from "@manahippo/move-to-ts";
 import { StructTag, TypeTag } from "@manahippo/move-to-ts";
+import { OptionTransaction } from "@manahippo/move-to-ts";
 import { HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types } from "aptos";
 import * as Option from "./option";
 import * as String from "./string";
@@ -115,21 +116,21 @@ export declare class UpgradePolicy {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function can_change_upgrade_policy_to_(from: UpgradePolicy, to: UpgradePolicy, $c: AptosDataCache): boolean;
-export declare function check_coexistence_(old_pack: PackageMetadata, new_modules: String.String[], $c: AptosDataCache): void;
-export declare function check_dependencies_(publish_address: HexString, pack: PackageMetadata, $c: AptosDataCache): AllowedDep[];
-export declare function check_upgradability_(old_pack: PackageMetadata, new_pack: PackageMetadata, new_modules: String.String[], $c: AptosDataCache): void;
-export declare function get_module_names_(pack: PackageMetadata, $c: AptosDataCache): String.String[];
-export declare function initialize_(aptos_framework: HexString, package_owner: HexString, metadata: PackageMetadata, $c: AptosDataCache): void;
-export declare function is_policy_exempted_address_(addr: HexString, $c: AptosDataCache): boolean;
-export declare function publish_package_(owner: HexString, pack: PackageMetadata, code: U8[][], $c: AptosDataCache): void;
-export declare function publish_package_txn_(owner: HexString, metadata_serialized: U8[], code: U8[][], $c: AptosDataCache): void;
+export declare function can_change_upgrade_policy_to_(from: UpgradePolicy, to: UpgradePolicy, $c: AptosDataCache): Promise<boolean>;
+export declare function check_coexistence_(old_pack: PackageMetadata, new_modules: String.String[], $c: AptosDataCache): Promise<void>;
+export declare function check_dependencies_(publish_address: HexString, pack: PackageMetadata, $c: AptosDataCache): Promise<AllowedDep[]>;
+export declare function check_upgradability_(old_pack: PackageMetadata, new_pack: PackageMetadata, new_modules: String.String[], $c: AptosDataCache): Promise<void>;
+export declare function get_module_names_(pack: PackageMetadata, $c: AptosDataCache): Promise<String.String[]>;
+export declare function initialize_(aptos_framework: HexString, package_owner: HexString, metadata: PackageMetadata, $c: AptosDataCache): Promise<void>;
+export declare function is_policy_exempted_address_(addr: HexString, $c: AptosDataCache): Promise<boolean>;
+export declare function publish_package_(owner: HexString, pack: PackageMetadata, code: U8[][], $c: AptosDataCache): Promise<void>;
+export declare function publish_package_txn_(owner: HexString, metadata_serialized: U8[], code: U8[][], $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_publish_package_txn(metadata_serialized: U8[], code: U8[][], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function request_publish_(owner: HexString, expected_modules: String.String[], bundle: U8[][], policy: U8, $c: AptosDataCache): void;
-export declare function request_publish_with_allowed_deps_(owner: HexString, expected_modules: String.String[], allowed_deps: AllowedDep[], bundle: U8[][], policy: U8, $c: AptosDataCache): void;
-export declare function upgrade_policy_arbitrary_($c: AptosDataCache): UpgradePolicy;
-export declare function upgrade_policy_compat_($c: AptosDataCache): UpgradePolicy;
-export declare function upgrade_policy_immutable_($c: AptosDataCache): UpgradePolicy;
+export declare function request_publish_(owner: HexString, expected_modules: String.String[], bundle: U8[][], policy: U8, $c: AptosDataCache): Promise<void>;
+export declare function request_publish_with_allowed_deps_(owner: HexString, expected_modules: String.String[], allowed_deps: AllowedDep[], bundle: U8[][], policy: U8, $c: AptosDataCache): Promise<void>;
+export declare function upgrade_policy_arbitrary_($c: AptosDataCache): Promise<UpgradePolicy>;
+export declare function upgrade_policy_compat_($c: AptosDataCache): Promise<UpgradePolicy>;
+export declare function upgrade_policy_immutable_($c: AptosDataCache): Promise<UpgradePolicy>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -143,9 +144,9 @@ export declare class App {
     get PackageDep(): typeof PackageDep;
     get PackageMetadata(): typeof PackageMetadata;
     get PackageRegistry(): typeof PackageRegistry;
-    loadPackageRegistry(owner: HexString, loadFull?: boolean): Promise<PackageRegistry>;
+    loadPackageRegistry(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<PackageRegistry>;
     get UpgradePolicy(): typeof UpgradePolicy;
     payload_publish_package_txn(metadata_serialized: U8[], code: U8[][], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    publish_package_txn(_account: AptosAccount, metadata_serialized: U8[], code: U8[][], _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    publish_package_txn(_account: AptosAccount, metadata_serialized: U8[], code: U8[][], option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
 }
 //# sourceMappingURL=code.d.ts.map

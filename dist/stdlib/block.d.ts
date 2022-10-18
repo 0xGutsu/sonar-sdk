@@ -67,14 +67,14 @@ export declare class UpdateEpochIntervalEvent {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function block_prologue_(vm: HexString, hash: HexString, epoch: U64, round: U64, proposer: HexString, failed_proposer_indices: U64[], previous_block_votes_bitvec: U8[], timestamp: U64, $c: AptosDataCache): void;
-export declare function emit_genesis_block_event_(vm: HexString, $c: AptosDataCache): void;
-export declare function emit_new_block_event_(vm: HexString, event_handle: Event.EventHandle, new_block_event: NewBlockEvent, $c: AptosDataCache): void;
-export declare function emit_writeset_block_event_(vm_signer: HexString, fake_block_hash: HexString, $c: AptosDataCache): void;
-export declare function get_current_block_height_($c: AptosDataCache): U64;
-export declare function get_epoch_interval_secs_($c: AptosDataCache): U64;
-export declare function initialize_(aptos_framework: HexString, epoch_interval_microsecs: U64, $c: AptosDataCache): void;
-export declare function update_epoch_interval_microsecs_(aptos_framework: HexString, new_epoch_interval: U64, $c: AptosDataCache): void;
+export declare function block_prologue_(vm: HexString, hash: HexString, epoch: U64, round: U64, proposer: HexString, failed_proposer_indices: U64[], previous_block_votes_bitvec: U8[], timestamp: U64, $c: AptosDataCache): Promise<void>;
+export declare function emit_genesis_block_event_(vm: HexString, $c: AptosDataCache): Promise<void>;
+export declare function emit_new_block_event_(vm: HexString, event_handle: Event.EventHandle, new_block_event: NewBlockEvent, $c: AptosDataCache): Promise<void>;
+export declare function emit_writeset_block_event_(vm_signer: HexString, fake_block_hash: HexString, $c: AptosDataCache): Promise<void>;
+export declare function get_current_block_height_($c: AptosDataCache): Promise<U64>;
+export declare function get_epoch_interval_secs_($c: AptosDataCache): Promise<U64>;
+export declare function initialize_(aptos_framework: HexString, epoch_interval_microsecs: U64, $c: AptosDataCache): Promise<void>;
+export declare function update_epoch_interval_microsecs_(aptos_framework: HexString, new_epoch_interval: U64, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -84,7 +84,7 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get BlockResource(): typeof BlockResource;
-    loadBlockResource(owner: HexString, loadFull?: boolean): Promise<BlockResource>;
+    loadBlockResource(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<BlockResource>;
     get NewBlockEvent(): typeof NewBlockEvent;
     get UpdateEpochIntervalEvent(): typeof UpdateEpochIntervalEvent;
 }

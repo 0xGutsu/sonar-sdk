@@ -95,15 +95,17 @@ Capabilities.fields = [
     { name: "mint_cap", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "MintCapability", [new $.TypeParamIdx(0)]) }
 ];
 function burn_(account, amount, $c, $p) {
-    let account_addr, capabilities, to_burn;
-    account_addr = Signer.address_of_(account, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
-    }
-    capabilities = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr));
-    to_burn = Coin.withdraw_(account, $.copy(amount), $c, [$p[0]]);
-    Coin.burn_(to_burn, capabilities.burn_cap, $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, capabilities, to_burn;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
+        }
+        capabilities = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr));
+        to_burn = yield Coin.withdraw_(account, $.copy(amount), $c, [$p[0]]);
+        yield Coin.burn_(to_burn, (capabilities).burn_cap, $c, [$p[0]]);
+        return;
+    });
 }
 exports.burn_ = burn_;
 function buildPayload_burn(amount, $p, /* <CoinType>*/ isJSON = false) {
@@ -114,10 +116,12 @@ function buildPayload_burn(amount, $p, /* <CoinType>*/ isJSON = false) {
 }
 exports.buildPayload_burn = buildPayload_burn;
 function initialize_(account, name, symbol, decimals, monitor_supply, $c, $p) {
-    let burn_cap, freeze_cap, mint_cap;
-    [burn_cap, freeze_cap, mint_cap] = Coin.initialize_(account, String.utf8_($.copy(name), $c), String.utf8_($.copy(symbol), $c), $.copy(decimals), monitor_supply, $c, [$p[0]]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), account, new Capabilities({ burn_cap: $.copy(burn_cap), freeze_cap: $.copy(freeze_cap), mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]])));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let burn_cap, freeze_cap, mint_cap;
+        [burn_cap, freeze_cap, mint_cap] = yield Coin.initialize_(account, yield String.utf8_($.copy(name), $c), yield String.utf8_($.copy(symbol), $c), $.copy(decimals), monitor_supply, $c, [$p[0]]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), account, new Capabilities({ burn_cap: $.copy(burn_cap), freeze_cap: $.copy(freeze_cap), mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]])));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, /* <CoinType>*/ isJSON = false) {
@@ -131,15 +135,17 @@ function buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, /* 
 }
 exports.buildPayload_initialize = buildPayload_initialize;
 function mint_(account, dst_addr, amount, $c, $p) {
-    let account_addr, capabilities, coins_minted;
-    account_addr = Signer.address_of_(account, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
-    }
-    capabilities = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr));
-    coins_minted = Coin.mint_($.copy(amount), capabilities.mint_cap, $c, [$p[0]]);
-    Coin.deposit_($.copy(dst_addr), coins_minted, $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, capabilities, coins_minted;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
+        }
+        capabilities = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Capabilities, [$p[0]]), $.copy(account_addr));
+        coins_minted = yield Coin.mint_($.copy(amount), (capabilities).mint_cap, $c, [$p[0]]);
+        yield Coin.deposit_($.copy(dst_addr), coins_minted, $c, [$p[0]]);
+        return;
+    });
 }
 exports.mint_ = mint_;
 function buildPayload_mint(dst_addr, amount, $p, /* <CoinType>*/ isJSON = false) {
@@ -151,8 +157,10 @@ function buildPayload_mint(dst_addr, amount, $p, /* <CoinType>*/ isJSON = false)
 }
 exports.buildPayload_mint = buildPayload_mint;
 function register_(account, $c, $p) {
-    Coin.register_(account, $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Coin.register_(account, $c, [$p[0]]);
+        return;
+    });
 }
 exports.register_ = register_;
 function buildPayload_register($p, /* <CoinType>*/ isJSON = false) {
@@ -177,11 +185,14 @@ class App {
         return exports.moduleName;
     } }
     get Capabilities() { return Capabilities; }
-    loadCapabilities(owner, $p, /* <CoinType> */ loadFull = true) {
+    loadCapabilities(owner, $p, /* <CoinType> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Capabilities.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -189,37 +200,37 @@ class App {
     payload_burn(amount, $p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_burn(amount, $p, isJSON);
     }
-    burn(_account, amount, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    burn(_account, amount, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_burn(amount, $p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_burn(amount, $p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_initialize(name, symbol, decimals, monitor_supply, $p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, isJSON);
     }
-    initialize(_account, name, symbol, decimals, monitor_supply, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    initialize(_account, name, symbol, decimals, monitor_supply, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_mint(dst_addr, amount, $p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_mint(dst_addr, amount, $p, isJSON);
     }
-    mint(_account, dst_addr, amount, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    mint(_account, dst_addr, amount, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_mint(dst_addr, amount, $p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_mint(dst_addr, amount, $p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_register($p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_register($p, isJSON);
     }
-    register(_account, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    register(_account, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_register($p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_register($p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

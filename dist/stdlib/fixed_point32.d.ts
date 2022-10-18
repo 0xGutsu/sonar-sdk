@@ -27,12 +27,12 @@ export declare class FixedPoint32 {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_from_rational_(numerator: U64, denominator: U64, $c: AptosDataCache): FixedPoint32;
-export declare function create_from_raw_value_(value: U64, $c: AptosDataCache): FixedPoint32;
-export declare function divide_u64_(val: U64, divisor: FixedPoint32, $c: AptosDataCache): U64;
-export declare function get_raw_value_(num: FixedPoint32, $c: AptosDataCache): U64;
-export declare function is_zero_(num: FixedPoint32, $c: AptosDataCache): boolean;
-export declare function multiply_u64_(val: U64, multiplier: FixedPoint32, $c: AptosDataCache): U64;
+export declare function create_from_rational_(numerator: U64, denominator: U64, $c: AptosDataCache): Promise<FixedPoint32>;
+export declare function create_from_raw_value_(value: U64, $c: AptosDataCache): Promise<FixedPoint32>;
+export declare function divide_u64_(val: U64, divisor: FixedPoint32, $c: AptosDataCache): Promise<U64>;
+export declare function get_raw_value_(num: FixedPoint32, $c: AptosDataCache): Promise<U64>;
+export declare function is_zero_(num: FixedPoint32, $c: AptosDataCache): Promise<boolean>;
+export declare function multiply_u64_(val: U64, multiplier: FixedPoint32, $c: AptosDataCache): Promise<U64>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

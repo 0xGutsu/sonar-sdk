@@ -46,10 +46,12 @@ exports.packageName = "AptosFramework";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "staking_proxy";
 function set_operator_(owner, old_operator, new_operator, $c) {
-    set_vesting_contract_operator_(owner, $.copy(old_operator), $.copy(new_operator), $c);
-    set_staking_contract_operator_(owner, $.copy(old_operator), $.copy(new_operator), $c);
-    set_stake_pool_operator_(owner, $.copy(new_operator), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield set_vesting_contract_operator_(owner, $.copy(old_operator), $.copy(new_operator), $c);
+        yield set_staking_contract_operator_(owner, $.copy(old_operator), $.copy(new_operator), $c);
+        yield set_stake_pool_operator_(owner, $.copy(new_operator), $c);
+        return;
+    });
 }
 exports.set_operator_ = set_operator_;
 function buildPayload_set_operator(old_operator, new_operator, isJSON = false) {
@@ -61,14 +63,16 @@ function buildPayload_set_operator(old_operator, new_operator, isJSON = false) {
 }
 exports.buildPayload_set_operator = buildPayload_set_operator;
 function set_stake_pool_operator_(owner, new_operator, $c) {
-    let owner_address;
-    owner_address = Signer.address_of_(owner, $c);
-    if (Stake.stake_pool_exists_($.copy(owner_address), $c)) {
-        Stake.set_operator_(owner, $.copy(new_operator), $c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let owner_address;
+        owner_address = yield Signer.address_of_(owner, $c);
+        if (yield Stake.stake_pool_exists_($.copy(owner_address), $c)) {
+            yield Stake.set_operator_(owner, $.copy(new_operator), $c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.set_stake_pool_operator_ = set_stake_pool_operator_;
 function buildPayload_set_stake_pool_operator(new_operator, isJSON = false) {
@@ -79,12 +83,14 @@ function buildPayload_set_stake_pool_operator(new_operator, isJSON = false) {
 }
 exports.buildPayload_set_stake_pool_operator = buildPayload_set_stake_pool_operator;
 function set_stake_pool_voter_(owner, new_voter, $c) {
-    if (Stake.stake_pool_exists_(Signer.address_of_(owner, $c), $c)) {
-        Stake.set_delegated_voter_(owner, $.copy(new_voter), $c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield Stake.stake_pool_exists_(yield Signer.address_of_(owner, $c), $c)) {
+            yield Stake.set_delegated_voter_(owner, $.copy(new_voter), $c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.set_stake_pool_voter_ = set_stake_pool_voter_;
 function buildPayload_set_stake_pool_voter(new_voter, isJSON = false) {
@@ -95,15 +101,17 @@ function buildPayload_set_stake_pool_voter(new_voter, isJSON = false) {
 }
 exports.buildPayload_set_stake_pool_voter = buildPayload_set_stake_pool_voter;
 function set_staking_contract_operator_(owner, old_operator, new_operator, $c) {
-    let current_commission_percentage, owner_address;
-    owner_address = Signer.address_of_(owner, $c);
-    if (Staking_contract.staking_contract_exists_($.copy(owner_address), $.copy(old_operator), $c)) {
-        current_commission_percentage = Staking_contract.commission_percentage_($.copy(owner_address), $.copy(old_operator), $c);
-        Staking_contract.switch_operator_(owner, $.copy(old_operator), $.copy(new_operator), $.copy(current_commission_percentage), $c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let current_commission_percentage, owner_address;
+        owner_address = yield Signer.address_of_(owner, $c);
+        if (yield Staking_contract.staking_contract_exists_($.copy(owner_address), $.copy(old_operator), $c)) {
+            current_commission_percentage = yield Staking_contract.commission_percentage_($.copy(owner_address), $.copy(old_operator), $c);
+            yield Staking_contract.switch_operator_(owner, $.copy(old_operator), $.copy(new_operator), $.copy(current_commission_percentage), $c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.set_staking_contract_operator_ = set_staking_contract_operator_;
 function buildPayload_set_staking_contract_operator(old_operator, new_operator, isJSON = false) {
@@ -115,14 +123,16 @@ function buildPayload_set_staking_contract_operator(old_operator, new_operator, 
 }
 exports.buildPayload_set_staking_contract_operator = buildPayload_set_staking_contract_operator;
 function set_staking_contract_voter_(owner, operator, new_voter, $c) {
-    let owner_address;
-    owner_address = Signer.address_of_(owner, $c);
-    if (Staking_contract.staking_contract_exists_($.copy(owner_address), $.copy(operator), $c)) {
-        Staking_contract.update_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let owner_address;
+        owner_address = yield Signer.address_of_(owner, $c);
+        if (yield Staking_contract.staking_contract_exists_($.copy(owner_address), $.copy(operator), $c)) {
+            yield Staking_contract.update_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.set_staking_contract_voter_ = set_staking_contract_voter_;
 function buildPayload_set_staking_contract_voter(operator, new_voter, isJSON = false) {
@@ -134,25 +144,27 @@ function buildPayload_set_staking_contract_voter(operator, new_voter, isJSON = f
 }
 exports.buildPayload_set_staking_contract_voter = buildPayload_set_staking_contract_voter;
 function set_vesting_contract_operator_(owner, old_operator, new_operator, $c) {
-    let temp$1, current_commission_percentage, i, len, owner_address, vesting_contract, vesting_contracts;
-    owner_address = Signer.address_of_(owner, $c);
-    temp$1 = Vesting.vesting_contracts_($.copy(owner_address), $c);
-    vesting_contracts = temp$1;
-    i = (0, move_to_ts_1.u64)("0");
-    len = Vector.length_(vesting_contracts, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            vesting_contract = $.copy(Vector.borrow_(vesting_contracts, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            if (((Vesting.operator_($.copy(vesting_contract), $c)).hex() === ($.copy(old_operator)).hex())) {
-                current_commission_percentage = Vesting.operator_commission_percentage_($.copy(vesting_contract), $c);
-                Vesting.update_operator_(owner, $.copy(vesting_contract), $.copy(new_operator), $.copy(current_commission_percentage), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, current_commission_percentage, i, len, owner_address, vesting_contract, vesting_contracts;
+        owner_address = yield Signer.address_of_(owner, $c);
+        temp$1 = yield Vesting.vesting_contracts_($.copy(owner_address), $c);
+        vesting_contracts = temp$1;
+        i = (0, move_to_ts_1.u64)("0");
+        len = yield Vector.length_(vesting_contracts, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                vesting_contract = $.copy(yield Vector.borrow_(vesting_contracts, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                if (((yield Vesting.operator_($.copy(vesting_contract), $c)).hex() === ($.copy(old_operator)).hex())) {
+                    current_commission_percentage = yield Vesting.operator_commission_percentage_($.copy(vesting_contract), $c);
+                    yield Vesting.update_operator_(owner, $.copy(vesting_contract), $.copy(new_operator), $.copy(current_commission_percentage), $c);
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return;
+        return;
+    });
 }
 exports.set_vesting_contract_operator_ = set_vesting_contract_operator_;
 function buildPayload_set_vesting_contract_operator(old_operator, new_operator, isJSON = false) {
@@ -164,24 +176,26 @@ function buildPayload_set_vesting_contract_operator(old_operator, new_operator, 
 }
 exports.buildPayload_set_vesting_contract_operator = buildPayload_set_vesting_contract_operator;
 function set_vesting_contract_voter_(owner, operator, new_voter, $c) {
-    let temp$1, i, len, owner_address, vesting_contract, vesting_contracts;
-    owner_address = Signer.address_of_(owner, $c);
-    temp$1 = Vesting.vesting_contracts_($.copy(owner_address), $c);
-    vesting_contracts = temp$1;
-    i = (0, move_to_ts_1.u64)("0");
-    len = Vector.length_(vesting_contracts, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            vesting_contract = $.copy(Vector.borrow_(vesting_contracts, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            if (((Vesting.operator_($.copy(vesting_contract), $c)).hex() === ($.copy(operator)).hex())) {
-                Vesting.update_voter_(owner, $.copy(vesting_contract), $.copy(new_voter), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, i, len, owner_address, vesting_contract, vesting_contracts;
+        owner_address = yield Signer.address_of_(owner, $c);
+        temp$1 = yield Vesting.vesting_contracts_($.copy(owner_address), $c);
+        vesting_contracts = temp$1;
+        i = (0, move_to_ts_1.u64)("0");
+        len = yield Vector.length_(vesting_contracts, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                vesting_contract = $.copy(yield Vector.borrow_(vesting_contracts, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                if (((yield Vesting.operator_($.copy(vesting_contract), $c)).hex() === ($.copy(operator)).hex())) {
+                    yield Vesting.update_voter_(owner, $.copy(vesting_contract), $.copy(new_voter), $c);
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return;
+        return;
+    });
 }
 exports.set_vesting_contract_voter_ = set_vesting_contract_voter_;
 function buildPayload_set_vesting_contract_voter(operator, new_voter, isJSON = false) {
@@ -193,10 +207,12 @@ function buildPayload_set_vesting_contract_voter(operator, new_voter, isJSON = f
 }
 exports.buildPayload_set_vesting_contract_voter = buildPayload_set_vesting_contract_voter;
 function set_voter_(owner, operator, new_voter, $c) {
-    set_vesting_contract_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
-    set_staking_contract_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
-    set_stake_pool_voter_(owner, $.copy(new_voter), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield set_vesting_contract_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
+        yield set_staking_contract_voter_(owner, $.copy(operator), $.copy(new_voter), $c);
+        yield set_stake_pool_voter_(owner, $.copy(new_voter), $c);
+        return;
+    });
 }
 exports.set_voter_ = set_voter_;
 function buildPayload_set_voter(operator, new_voter, isJSON = false) {
@@ -225,73 +241,73 @@ class App {
     payload_set_operator(old_operator, new_operator, isJSON = false) {
         return buildPayload_set_operator(old_operator, new_operator, isJSON);
     }
-    set_operator(_account, old_operator, new_operator, _maxGas = 1000, _isJSON = false) {
+    set_operator(_account, old_operator, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_operator(old_operator, new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_operator(old_operator, new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_stake_pool_operator(new_operator, isJSON = false) {
         return buildPayload_set_stake_pool_operator(new_operator, isJSON);
     }
-    set_stake_pool_operator(_account, new_operator, _maxGas = 1000, _isJSON = false) {
+    set_stake_pool_operator(_account, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_stake_pool_operator(new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_stake_pool_operator(new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_stake_pool_voter(new_voter, isJSON = false) {
         return buildPayload_set_stake_pool_voter(new_voter, isJSON);
     }
-    set_stake_pool_voter(_account, new_voter, _maxGas = 1000, _isJSON = false) {
+    set_stake_pool_voter(_account, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_stake_pool_voter(new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_stake_pool_voter(new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_staking_contract_operator(old_operator, new_operator, isJSON = false) {
         return buildPayload_set_staking_contract_operator(old_operator, new_operator, isJSON);
     }
-    set_staking_contract_operator(_account, old_operator, new_operator, _maxGas = 1000, _isJSON = false) {
+    set_staking_contract_operator(_account, old_operator, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_staking_contract_operator(old_operator, new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_staking_contract_operator(old_operator, new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_staking_contract_voter(operator, new_voter, isJSON = false) {
         return buildPayload_set_staking_contract_voter(operator, new_voter, isJSON);
     }
-    set_staking_contract_voter(_account, operator, new_voter, _maxGas = 1000, _isJSON = false) {
+    set_staking_contract_voter(_account, operator, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_staking_contract_voter(operator, new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_staking_contract_voter(operator, new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_vesting_contract_operator(old_operator, new_operator, isJSON = false) {
         return buildPayload_set_vesting_contract_operator(old_operator, new_operator, isJSON);
     }
-    set_vesting_contract_operator(_account, old_operator, new_operator, _maxGas = 1000, _isJSON = false) {
+    set_vesting_contract_operator(_account, old_operator, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_vesting_contract_operator(old_operator, new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_vesting_contract_operator(old_operator, new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_vesting_contract_voter(operator, new_voter, isJSON = false) {
         return buildPayload_set_vesting_contract_voter(operator, new_voter, isJSON);
     }
-    set_vesting_contract_voter(_account, operator, new_voter, _maxGas = 1000, _isJSON = false) {
+    set_vesting_contract_voter(_account, operator, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_vesting_contract_voter(operator, new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_vesting_contract_voter(operator, new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_voter(operator, new_voter, isJSON = false) {
         return buildPayload_set_voter(operator, new_voter, isJSON);
     }
-    set_voter(_account, operator, new_voter, _maxGas = 1000, _isJSON = false) {
+    set_voter(_account, operator, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_voter(operator, new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_voter(operator, new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

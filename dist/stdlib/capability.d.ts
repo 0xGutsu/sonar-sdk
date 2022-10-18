@@ -70,16 +70,16 @@ export declare class LinearCap {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function acquire_(requester: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Cap;
-export declare function acquire_linear_(requester: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): LinearCap;
-export declare function add_element_(v: any[], x: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function create_(owner: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function delegate_(cap: Cap, _feature_witness: any, to: HexString, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function linear_root_addr_(cap: LinearCap, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): HexString;
-export declare function remove_element_(v: any[], x: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function revoke_(cap: Cap, _feature_witness: any, from: HexString, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function root_addr_(cap: Cap, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): HexString;
-export declare function validate_acquire_(requester: HexString, $c: AptosDataCache, $p: TypeTag[]): HexString;
+export declare function acquire_(requester: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Cap>;
+export declare function acquire_linear_(requester: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Promise<LinearCap>;
+export declare function add_element_(v: any[], x: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function create_(owner: HexString, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function delegate_(cap: Cap, _feature_witness: any, to: HexString, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function linear_root_addr_(cap: LinearCap, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Promise<HexString>;
+export declare function remove_element_(v: any[], x: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function revoke_(cap: Cap, _feature_witness: any, from: HexString, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function root_addr_(cap: Cap, _feature_witness: any, $c: AptosDataCache, $p: TypeTag[]): Promise<HexString>;
+export declare function validate_acquire_(requester: HexString, $c: AptosDataCache, $p: TypeTag[]): Promise<HexString>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -90,9 +90,9 @@ export declare class App {
     get moduleName(): string;
     get Cap(): typeof Cap;
     get CapDelegateState(): typeof CapDelegateState;
-    loadCapDelegateState(owner: HexString, $p: TypeTag[], /* <Feature> */ loadFull?: boolean): Promise<CapDelegateState>;
+    loadCapDelegateState(owner: HexString, $p: TypeTag[], /* <Feature> */ loadFull?: boolean, fillCache?: boolean): Promise<CapDelegateState>;
     get CapState(): typeof CapState;
-    loadCapState(owner: HexString, $p: TypeTag[], /* <Feature> */ loadFull?: boolean): Promise<CapState>;
+    loadCapState(owner: HexString, $p: TypeTag[], /* <Feature> */ loadFull?: boolean, fillCache?: boolean): Promise<CapState>;
     get LinearCap(): typeof LinearCap;
 }
 //# sourceMappingURL=capability.d.ts.map

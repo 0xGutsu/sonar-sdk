@@ -64,11 +64,15 @@ GovernanceProposal.structName = "GovernanceProposal";
 GovernanceProposal.typeParameters = [];
 GovernanceProposal.fields = [];
 function create_empty_proposal_($c) {
-    return create_proposal_($c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield create_proposal_($c);
+    });
 }
 exports.create_empty_proposal_ = create_empty_proposal_;
 function create_proposal_($c) {
-    return new GovernanceProposal({}, new move_to_ts_1.SimpleStructTag(GovernanceProposal));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new GovernanceProposal({}, new move_to_ts_1.SimpleStructTag(GovernanceProposal));
+    });
 }
 exports.create_proposal_ = create_proposal_;
 function loadParsers(repo) {

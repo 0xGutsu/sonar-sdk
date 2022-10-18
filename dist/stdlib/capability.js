@@ -189,98 +189,118 @@ LinearCap.fields = [
     { name: "root", typeTag: move_to_ts_2.AtomicTypeTag.Address }
 ];
 function acquire_(requester, _feature_witness, $c, $p) {
-    return new Cap({ root: validate_acquire_(requester, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(Cap, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Cap({ root: yield validate_acquire_(requester, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(Cap, [$p[0]]));
+    });
 }
 exports.acquire_ = acquire_;
 function acquire_linear_(requester, _feature_witness, $c, $p) {
-    return new LinearCap({ root: validate_acquire_(requester, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(LinearCap, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new LinearCap({ root: yield validate_acquire_(requester, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(LinearCap, [$p[0]]));
+    });
 }
 exports.acquire_linear_ = acquire_linear_;
 function add_element_(v, x, $c, $p) {
-    let temp$1, temp$2;
-    [temp$1, temp$2] = [v, x];
-    if (!Vector.contains_(temp$1, temp$2, $c, [$p[0]])) {
-        Vector.push_back_(v, x, $c, [$p[0]]);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        [temp$1, temp$2] = [v, x];
+        if (!(yield Vector.contains_(temp$1, temp$2, $c, [$p[0]]))) {
+            yield Vector.push_back_(v, x, $c, [$p[0]]);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.add_element_ = add_element_;
 function create_(owner, _feature_witness, $c, $p) {
-    let addr;
-    addr = Signer.address_of_(owner, $c);
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(addr))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ECAPABILITY_ALREADY_EXISTS), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), owner, new CapState({ delegates: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapState, [$p[0]])));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let addr;
+        addr = yield Signer.address_of_(owner, $c);
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(addr)))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ECAPABILITY_ALREADY_EXISTS), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), owner, new CapState({ delegates: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapState, [$p[0]])));
+        return;
+    });
 }
 exports.create_ = create_;
 function delegate_(cap, _feature_witness, to, $c, $p) {
-    let addr;
-    addr = Signer.address_of_(to, $c);
-    if ($c.exists(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let addr;
+        addr = yield Signer.address_of_(to, $c);
+        if (yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr))) {
+            return;
+        }
+        else {
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), to, new CapDelegateState({ root: $.copy((cap).root) }, new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]])));
+        yield add_element_((yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy((cap).root))).delegates, $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address]);
         return;
-    }
-    else {
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), to, new CapDelegateState({ root: $.copy(cap.root) }, new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]])));
-    add_element_($c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(cap.root)).delegates, $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+    });
 }
 exports.delegate_ = delegate_;
 function linear_root_addr_(cap, _feature_witness, $c, $p) {
-    return $.copy(cap.root);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((cap).root);
+    });
 }
 exports.linear_root_addr_ = linear_root_addr_;
 function remove_element_(v, x, $c, $p) {
-    let temp$1, temp$2, found, index;
-    [temp$1, temp$2] = [v, x];
-    [found, index] = Vector.index_of_(temp$1, temp$2, $c, [$p[0]]);
-    if (found) {
-        Vector.remove_(v, $.copy(index), $c, [$p[0]]);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, found, index;
+        [temp$1, temp$2] = [v, x];
+        [found, index] = yield Vector.index_of_(temp$1, temp$2, $c, [$p[0]]);
+        if (found) {
+            yield Vector.remove_(v, $.copy(index), $c, [$p[0]]);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.remove_element_ = remove_element_;
 function revoke_(cap, _feature_witness, from, $c, $p) {
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(from))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(from)))) {
+            return;
+        }
+        else {
+        }
+        let { root: _root } = yield $c.move_from_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(from));
+        yield remove_element_((yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy((cap).root))).delegates, from, $c, [move_to_ts_2.AtomicTypeTag.Address]);
         return;
-    }
-    else {
-    }
-    let { root: _root } = $c.move_from(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(from));
-    remove_element_($c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(cap.root)).delegates, from, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+    });
 }
 exports.revoke_ = revoke_;
 function root_addr_(cap, _feature_witness, $c, $p) {
-    return $.copy(cap.root);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((cap).root);
+    });
 }
 exports.root_addr_ = root_addr_;
 function validate_acquire_(requester, $c, $p) {
-    let temp$1, addr, root_addr;
-    addr = Signer.address_of_(requester, $c);
-    if ($c.exists(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr))) {
-        root_addr = $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr)).root);
-        if (!$c.exists(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(root_addr))) {
-            throw $.abortCode(Error.invalid_state_($.copy(exports.EDELEGATE), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, addr, root_addr;
+        addr = yield Signer.address_of_(requester, $c);
+        if (yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr))) {
+            root_addr = $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CapDelegateState, [$p[0]]), $.copy(addr))).root);
+            if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(root_addr)))) {
+                throw $.abortCode(yield Error.invalid_state_($.copy(exports.EDELEGATE), $c));
+            }
+            if (!(yield Vector.contains_((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(root_addr))).delegates, addr, $c, [move_to_ts_2.AtomicTypeTag.Address]))) {
+                throw $.abortCode(yield Error.invalid_state_($.copy(exports.EDELEGATE), $c));
+            }
+            temp$1 = $.copy(root_addr);
         }
-        if (!Vector.contains_($c.borrow_global(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(root_addr)).delegates, addr, $c, [move_to_ts_2.AtomicTypeTag.Address])) {
-            throw $.abortCode(Error.invalid_state_($.copy(exports.EDELEGATE), $c));
+        else {
+            if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(addr)))) {
+                throw $.abortCode(yield Error.not_found_($.copy(exports.ECAPABILITY_NOT_FOUND), $c));
+            }
+            temp$1 = $.copy(addr);
         }
-        temp$1 = $.copy(root_addr);
-    }
-    else {
-        if (!$c.exists(new move_to_ts_2.SimpleStructTag(CapState, [$p[0]]), $.copy(addr))) {
-            throw $.abortCode(Error.not_found_($.copy(exports.ECAPABILITY_NOT_FOUND), $c));
-        }
-        temp$1 = $.copy(addr);
-    }
-    return temp$1;
+        return temp$1;
+    });
 }
 exports.validate_acquire_ = validate_acquire_;
 function loadParsers(repo) {
@@ -304,21 +324,27 @@ class App {
     } }
     get Cap() { return Cap; }
     get CapDelegateState() { return CapDelegateState; }
-    loadCapDelegateState(owner, $p, /* <Feature> */ loadFull = true) {
+    loadCapDelegateState(owner, $p, /* <Feature> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield CapDelegateState.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get CapState() { return CapState; }
-    loadCapState(owner, $p, /* <Feature> */ loadFull = true) {
+    loadCapState(owner, $p, /* <Feature> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield CapState.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

@@ -460,28 +460,32 @@ UpdateVoterEvent.fields = [
     { name: "new_voter", typeTag: move_to_ts_2.AtomicTypeTag.Address }
 ];
 function add_distribution_(operator, staking_contract, recipient, coins_amount, add_distribution_events, $c) {
-    let distribution_pool, pool_address, total_distribution_amount;
-    distribution_pool = staking_contract.distribution_pool;
-    [, , , total_distribution_amount] = Stake.get_stake_($.copy(staking_contract.pool_address), $c);
-    update_distribution_pool_(distribution_pool, $.copy(total_distribution_amount), $.copy(operator), $.copy(staking_contract.commission_percentage), $c);
-    Pool_u64.buy_in_(distribution_pool, $.copy(recipient), $.copy(coins_amount), $c);
-    pool_address = $.copy(staking_contract.pool_address);
-    Event.emit_event_(add_distribution_events, new AddDistributionEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), amount: $.copy(coins_amount) }, new move_to_ts_2.SimpleStructTag(AddDistributionEvent)), $c, [new move_to_ts_2.SimpleStructTag(AddDistributionEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let distribution_pool, pool_address, total_distribution_amount;
+        distribution_pool = (staking_contract).distribution_pool;
+        [, , , total_distribution_amount] = yield Stake.get_stake_($.copy((staking_contract).pool_address), $c);
+        yield update_distribution_pool_(distribution_pool, $.copy(total_distribution_amount), $.copy(operator), $.copy((staking_contract).commission_percentage), $c);
+        yield Pool_u64.buy_in_(distribution_pool, $.copy(recipient), $.copy(coins_amount), $c);
+        pool_address = $.copy((staking_contract).pool_address);
+        yield Event.emit_event_(add_distribution_events, new AddDistributionEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), amount: $.copy(coins_amount) }, new move_to_ts_2.SimpleStructTag(AddDistributionEvent)), $c, [new move_to_ts_2.SimpleStructTag(AddDistributionEvent)]);
+        return;
+    });
 }
 exports.add_distribution_ = add_distribution_;
 function add_stake_(staker, operator, amount, $c) {
-    let pool_address, staked_coins, staker_address, staking_contract, store;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    staked_coins = Coin.withdraw_(staker, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    Stake.add_stake_with_cap_(staking_contract.owner_cap, staked_coins, $c);
-    staking_contract.principal = ($.copy(staking_contract.principal)).add($.copy(amount));
-    pool_address = $.copy(staking_contract.pool_address);
-    Event.emit_event_(store.add_stake_events, new AddStakeEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(AddStakeEvent)), $c, [new move_to_ts_2.SimpleStructTag(AddStakeEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let pool_address, staked_coins, staker_address, staking_contract, store;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        staked_coins = yield Coin.withdraw_(staker, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        yield Stake.add_stake_with_cap_((staking_contract).owner_cap, staked_coins, $c);
+        (staking_contract).principal = ($.copy((staking_contract).principal)).add($.copy(amount));
+        pool_address = $.copy((staking_contract).pool_address);
+        yield Event.emit_event_((store).add_stake_events, new AddStakeEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(AddStakeEvent)), $c, [new move_to_ts_2.SimpleStructTag(AddStakeEvent)]);
+        return;
+    });
 }
 exports.add_stake_ = add_stake_;
 function buildPayload_add_stake(operator, amount, isJSON = false) {
@@ -493,43 +497,51 @@ function buildPayload_add_stake(operator, amount, isJSON = false) {
 }
 exports.buildPayload_add_stake = buildPayload_add_stake;
 function assert_staking_contract_exists_(staker, operator, $c) {
-    let temp$1, temp$2, staking_contracts;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_STAKING_CONTRACT_FOUND_FOR_STAKER), $c));
-    }
-    staking_contracts = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    [temp$1, temp$2] = [staking_contracts, operator];
-    if (!Simple_map.contains_key_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_STAKING_CONTRACT_FOUND_FOR_OPERATOR), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, staking_contracts;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_STAKING_CONTRACT_FOUND_FOR_STAKER), $c));
+        }
+        staking_contracts = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        [temp$1, temp$2] = [staking_contracts, operator];
+        if (!(yield Simple_map.contains_key_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_STAKING_CONTRACT_FOUND_FOR_OPERATOR), $c));
+        }
+        return;
+    });
 }
 exports.assert_staking_contract_exists_ = assert_staking_contract_exists_;
 function commission_percentage_(staker, operator, $c) {
-    let staking_contracts;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    staking_contracts = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    return $.copy(Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]).commission_percentage);
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contracts;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        staking_contracts = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        return $.copy((yield Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])).commission_percentage);
+    });
 }
 exports.commission_percentage_ = commission_percentage_;
 function create_stake_pool_(staker, operator, voter, contract_creation_seed, $c) {
-    let temp$1, owner_cap, seed, stake_pool_signer, stake_pool_signer_cap;
-    temp$1 = Signer.address_of_(staker, $c);
-    seed = Bcs.to_bytes_(temp$1, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    Vector.append_(seed, Bcs.to_bytes_(operator, $c, [move_to_ts_2.AtomicTypeTag.Address]), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    Vector.append_(seed, $.copy(exports.SALT), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    Vector.append_(seed, $.copy(contract_creation_seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    [stake_pool_signer, stake_pool_signer_cap] = Account.create_resource_account_(staker, $.copy(seed), $c);
-    Stake.initialize_stake_owner_(stake_pool_signer, (0, move_to_ts_1.u64)("0"), $.copy(operator), $.copy(voter), $c);
-    owner_cap = Stake.extract_owner_cap_(stake_pool_signer, $c);
-    return [stake_pool_signer, stake_pool_signer_cap, owner_cap];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, owner_cap, seed, stake_pool_signer, stake_pool_signer_cap;
+        temp$1 = yield Signer.address_of_(staker, $c);
+        seed = yield Bcs.to_bytes_(temp$1, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        yield Vector.append_(seed, yield Bcs.to_bytes_(operator, $c, [move_to_ts_2.AtomicTypeTag.Address]), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        yield Vector.append_(seed, $.copy(exports.SALT), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        yield Vector.append_(seed, $.copy(contract_creation_seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        [stake_pool_signer, stake_pool_signer_cap] = yield Account.create_resource_account_(staker, $.copy(seed), $c);
+        yield Stake.initialize_stake_owner_(stake_pool_signer, (0, move_to_ts_1.u64)("0"), $.copy(operator), $.copy(voter), $c);
+        owner_cap = yield Stake.extract_owner_cap_(stake_pool_signer, $c);
+        return [stake_pool_signer, stake_pool_signer_cap, owner_cap];
+    });
 }
 exports.create_stake_pool_ = create_stake_pool_;
 function create_staking_contract_(staker, operator, voter, amount, commission_percentage, contract_creation_seed, $c) {
-    let staked_coins;
-    staked_coins = Coin.withdraw_(staker, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    create_staking_contract_with_coins_(staker, $.copy(operator), $.copy(voter), staked_coins, $.copy(commission_percentage), $.copy(contract_creation_seed), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let staked_coins;
+        staked_coins = yield Coin.withdraw_(staker, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        yield create_staking_contract_with_coins_(staker, $.copy(operator), $.copy(voter), staked_coins, $.copy(commission_percentage), $.copy(contract_creation_seed), $c);
+        return;
+    });
 }
 exports.create_staking_contract_ = create_staking_contract_;
 function buildPayload_create_staking_contract(operator, voter, amount, commission_percentage, contract_creation_seed, isJSON = false) {
@@ -544,49 +556,53 @@ function buildPayload_create_staking_contract(operator, voter, amount, commissio
 }
 exports.buildPayload_create_staking_contract = buildPayload_create_staking_contract;
 function create_staking_contract_with_coins_(staker, operator, voter, coins, commission_percentage, contract_creation_seed, $c) {
-    let temp$1, temp$2, temp$3, temp$4, min_stake_required, owner_cap, pool_address, principal, stake_pool_signer, stake_pool_signer_cap, staker_address, staking_contracts, store;
-    if (($.copy(commission_percentage)).ge((0, move_to_ts_1.u64)("0"))) {
-        temp$1 = ($.copy(commission_percentage)).le((0, move_to_ts_1.u64)("100"));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_COMMISSION_PERCENTAGE), $c));
-    }
-    temp$2 = Staking_config.get_($c);
-    [min_stake_required,] = Staking_config.get_required_stake_(temp$2, $c);
-    principal = Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    if (!($.copy(principal)).ge($.copy(min_stake_required))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINSUFFICIENT_STAKE_AMOUNT), $c));
-    }
-    staker_address = Signer.address_of_(staker, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address))) {
-        $c.move_to(new move_to_ts_2.SimpleStructTag(Store), staker, new_staking_contracts_holder_(staker, $c));
-    }
-    else {
-    }
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contracts = store.staking_contracts;
-    [temp$3, temp$4] = [staking_contracts, operator];
-    if (!!Simple_map.contains_key_(temp$3, temp$4, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ESTAKING_CONTRACT_ALREADY_EXISTS), $c));
-    }
-    [stake_pool_signer, stake_pool_signer_cap, owner_cap] = create_stake_pool_(staker, $.copy(operator), $.copy(voter), $.copy(contract_creation_seed), $c);
-    Stake.add_stake_with_cap_(owner_cap, coins, $c);
-    pool_address = Signer.address_of_(stake_pool_signer, $c);
-    Simple_map.add_(staking_contracts, $.copy(operator), new StakingContract({ principal: $.copy(principal), pool_address: $.copy(pool_address), owner_cap: owner_cap, commission_percentage: $.copy(commission_percentage), distribution_pool: Pool_u64.create_($.copy(exports.MAXIMUM_PENDING_DISTRIBUTIONS), $c), signer_cap: stake_pool_signer_cap }, new move_to_ts_2.SimpleStructTag(StakingContract)), $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    Event.emit_event_(store.create_staking_contract_events, new CreateStakingContractEvent({ operator: $.copy(operator), voter: $.copy(voter), pool_address: $.copy(pool_address), principal: $.copy(principal), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)]);
-    return $.copy(pool_address);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, min_stake_required, owner_cap, pool_address, principal, stake_pool_signer, stake_pool_signer_cap, staker_address, staking_contracts, store;
+        if (($.copy(commission_percentage)).ge((0, move_to_ts_1.u64)("0"))) {
+            temp$1 = ($.copy(commission_percentage)).le((0, move_to_ts_1.u64)("100"));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_COMMISSION_PERCENTAGE), $c));
+        }
+        temp$2 = yield Staking_config.get_($c);
+        [min_stake_required,] = yield Staking_config.get_required_stake_(temp$2, $c);
+        principal = yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        if (!($.copy(principal)).ge($.copy(min_stake_required))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINSUFFICIENT_STAKE_AMOUNT), $c));
+        }
+        staker_address = yield Signer.address_of_(staker, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address)))) {
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Store), staker, yield new_staking_contracts_holder_(staker, $c));
+        }
+        else {
+        }
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contracts = (store).staking_contracts;
+        [temp$3, temp$4] = [staking_contracts, operator];
+        if (!!(yield Simple_map.contains_key_(temp$3, temp$4, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ESTAKING_CONTRACT_ALREADY_EXISTS), $c));
+        }
+        [stake_pool_signer, stake_pool_signer_cap, owner_cap] = yield create_stake_pool_(staker, $.copy(operator), $.copy(voter), $.copy(contract_creation_seed), $c);
+        yield Stake.add_stake_with_cap_(owner_cap, coins, $c);
+        pool_address = yield Signer.address_of_(stake_pool_signer, $c);
+        yield Simple_map.add_(staking_contracts, $.copy(operator), new StakingContract({ principal: $.copy(principal), pool_address: $.copy(pool_address), owner_cap: owner_cap, commission_percentage: $.copy(commission_percentage), distribution_pool: yield Pool_u64.create_($.copy(exports.MAXIMUM_PENDING_DISTRIBUTIONS), $c), signer_cap: stake_pool_signer_cap }, new move_to_ts_2.SimpleStructTag(StakingContract)), $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        yield Event.emit_event_((store).create_staking_contract_events, new CreateStakingContractEvent({ operator: $.copy(operator), voter: $.copy(voter), pool_address: $.copy(pool_address), principal: $.copy(principal), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)]);
+        return $.copy(pool_address);
+    });
 }
 exports.create_staking_contract_with_coins_ = create_staking_contract_with_coins_;
 function distribute_(staker, operator, $c) {
-    let staking_contract, store;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    distribute_internal_($.copy(staker), $.copy(operator), staking_contract, store.distribute_events, $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contract, store;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        yield distribute_internal_($.copy(staker), $.copy(operator), staking_contract, (store).distribute_events, $c);
+        return;
+    });
 }
 exports.distribute_ = distribute_;
 function buildPayload_distribute(staker, operator, isJSON = false) {
@@ -598,92 +614,103 @@ function buildPayload_distribute(staker, operator, isJSON = false) {
 }
 exports.buildPayload_distribute = buildPayload_distribute;
 function distribute_internal_(staker, operator, staking_contract, distribute_events, $c) {
-    let temp$1, temp$2, temp$3, temp$4, amount_to_distribute, coins, current_shares, distribution_amount, distribution_pool, inactive, pending_inactive, pool_address, recipient, recipients, total_potential_withdrawable;
-    pool_address = $.copy(staking_contract.pool_address);
-    [, inactive, , pending_inactive] = Stake.get_stake_($.copy(pool_address), $c);
-    total_potential_withdrawable = ($.copy(inactive)).add($.copy(pending_inactive));
-    coins = Stake.withdraw_with_cap_(staking_contract.owner_cap, $.copy(total_potential_withdrawable), $c);
-    distribution_amount = Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    if (($.copy(distribution_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-        return;
-    }
-    else {
-    }
-    distribution_pool = staking_contract.distribution_pool;
-    update_distribution_pool_(distribution_pool, $.copy(distribution_amount), $.copy(operator), $.copy(staking_contract.commission_percentage), $c);
-    while ((Pool_u64.shareholders_count_(distribution_pool, $c)).gt((0, move_to_ts_1.u64)("0"))) {
-        {
-            recipients = Pool_u64.shareholders_(distribution_pool, $c);
-            [temp$1, temp$2] = [recipients, (0, move_to_ts_1.u64)("0")];
-            recipient = $.copy(Vector.borrow_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            [temp$3, temp$4] = [distribution_pool, $.copy(recipient)];
-            current_shares = Pool_u64.shares_(temp$3, temp$4, $c);
-            amount_to_distribute = Pool_u64.redeem_shares_(distribution_pool, $.copy(recipient), $.copy(current_shares), $c);
-            Coin.deposit_($.copy(recipient), Coin.extract_(coins, $.copy(amount_to_distribute), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-            Event.emit_event_(distribute_events, new DistributeEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), recipient: $.copy(recipient), amount: $.copy(amount_to_distribute) }, new move_to_ts_2.SimpleStructTag(DistributeEvent)), $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, amount_to_distribute, coins, current_shares, distribution_amount, distribution_pool, inactive, pending_inactive, pool_address, recipient, recipients, total_potential_withdrawable;
+        pool_address = $.copy((staking_contract).pool_address);
+        [, inactive, , pending_inactive] = yield Stake.get_stake_($.copy(pool_address), $c);
+        total_potential_withdrawable = ($.copy(inactive)).add($.copy(pending_inactive));
+        coins = yield Stake.withdraw_with_cap_((staking_contract).owner_cap, $.copy(total_potential_withdrawable), $c);
+        distribution_amount = yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        if (($.copy(distribution_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            yield Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+            return;
         }
-    }
-    if ((Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])).gt((0, move_to_ts_1.u64)("0"))) {
-        Coin.deposit_($.copy(staker), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-        Pool_u64.update_total_coins_(distribution_pool, (0, move_to_ts_1.u64)("0"), $c);
-    }
-    else {
-        Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    }
-    return;
+        else {
+        }
+        distribution_pool = (staking_contract).distribution_pool;
+        yield update_distribution_pool_(distribution_pool, $.copy(distribution_amount), $.copy(operator), $.copy((staking_contract).commission_percentage), $c);
+        while ((yield Pool_u64.shareholders_count_(distribution_pool, $c)).gt((0, move_to_ts_1.u64)("0"))) {
+            {
+                recipients = yield Pool_u64.shareholders_(distribution_pool, $c);
+                [temp$1, temp$2] = [recipients, (0, move_to_ts_1.u64)("0")];
+                recipient = $.copy(yield Vector.borrow_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                [temp$3, temp$4] = [distribution_pool, $.copy(recipient)];
+                current_shares = yield Pool_u64.shares_(temp$3, temp$4, $c);
+                amount_to_distribute = yield Pool_u64.redeem_shares_(distribution_pool, $.copy(recipient), $.copy(current_shares), $c);
+                yield Coin.deposit_($.copy(recipient), yield Coin.extract_(coins, $.copy(amount_to_distribute), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+                yield Event.emit_event_(distribute_events, new DistributeEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), recipient: $.copy(recipient), amount: $.copy(amount_to_distribute) }, new move_to_ts_2.SimpleStructTag(DistributeEvent)), $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]);
+            }
+        }
+        if ((yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])).gt((0, move_to_ts_1.u64)("0"))) {
+            yield Coin.deposit_($.copy(staker), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        }
+        else {
+            yield Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        }
+        return;
+    });
 }
 exports.distribute_internal_ = distribute_internal_;
 function get_staking_contract_amounts_internal_(staking_contract, $c) {
-    let accumulated_rewards, active, commission_amount, pending_active, total_active_stake;
-    [active, , pending_active,] = Stake.get_stake_($.copy(staking_contract.pool_address), $c);
-    total_active_stake = ($.copy(active)).add($.copy(pending_active));
-    accumulated_rewards = ($.copy(total_active_stake)).sub($.copy(staking_contract.principal));
-    commission_amount = (($.copy(accumulated_rewards)).mul($.copy(staking_contract.commission_percentage))).div((0, move_to_ts_1.u64)("100"));
-    return [$.copy(total_active_stake), $.copy(accumulated_rewards), $.copy(commission_amount)];
+    return __awaiter(this, void 0, void 0, function* () {
+        let accumulated_rewards, active, commission_amount, pending_active, total_active_stake;
+        [active, , pending_active,] = yield Stake.get_stake_($.copy((staking_contract).pool_address), $c);
+        total_active_stake = ($.copy(active)).add($.copy(pending_active));
+        accumulated_rewards = ($.copy(total_active_stake)).sub($.copy((staking_contract).principal));
+        commission_amount = (($.copy(accumulated_rewards)).mul($.copy((staking_contract).commission_percentage))).div((0, move_to_ts_1.u64)("100"));
+        return [$.copy(total_active_stake), $.copy(accumulated_rewards), $.copy(commission_amount)];
+    });
 }
 exports.get_staking_contract_amounts_internal_ = get_staking_contract_amounts_internal_;
 function last_recorded_principal_(staker, operator, $c) {
-    let staking_contracts;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    staking_contracts = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    return $.copy(Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]).principal);
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contracts;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        staking_contracts = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        return $.copy((yield Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])).principal);
+    });
 }
 exports.last_recorded_principal_ = last_recorded_principal_;
 function new_staking_contracts_holder_(staker, $c) {
-    return new Store({ staking_contracts: Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]), create_staking_contract_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)]), update_voter_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]), reset_lockup_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]), add_stake_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(AddStakeEvent)]), request_commission_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)]), unlock_stake_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)]), switch_operator_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)]), add_distribution_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(AddDistributionEvent)]), distribute_events: Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]) }, new move_to_ts_2.SimpleStructTag(Store));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Store({ staking_contracts: yield Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]), create_staking_contract_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(CreateStakingContractEvent)]), update_voter_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]), reset_lockup_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]), add_stake_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(AddStakeEvent)]), request_commission_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)]), unlock_stake_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)]), switch_operator_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)]), add_distribution_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(AddDistributionEvent)]), distribute_events: yield Account.new_event_handle_(staker, $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]) }, new move_to_ts_2.SimpleStructTag(Store));
+    });
 }
 exports.new_staking_contracts_holder_ = new_staking_contracts_holder_;
 function pending_distribution_counts_(staker, operator, $c) {
-    let staking_contracts;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    staking_contracts = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    return Pool_u64.shareholders_count_(Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]).distribution_pool, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contracts;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        staking_contracts = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        return yield Pool_u64.shareholders_count_((yield Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])).distribution_pool, $c);
+    });
 }
 exports.pending_distribution_counts_ = pending_distribution_counts_;
 function request_commission_(account, staker, operator, $c) {
-    let temp$1, account_addr, staking_contract, store;
-    account_addr = Signer.address_of_(account, $c);
-    if ((($.copy(account_addr)).hex() === ($.copy(staker)).hex())) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (($.copy(account_addr)).hex() === ($.copy(operator)).hex());
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.unauthenticated_($.copy(exports.ENOT_STAKER_OR_OPERATOR), $c));
-    }
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    if (($.copy(staking_contract.commission_percentage)).eq(((0, move_to_ts_1.u64)("0")))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, account_addr, staking_contract, store;
+        account_addr = yield Signer.address_of_(account, $c);
+        if ((($.copy(account_addr)).hex() === ($.copy(staker)).hex())) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (($.copy(account_addr)).hex() === ($.copy(operator)).hex());
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.unauthenticated_($.copy(exports.ENOT_STAKER_OR_OPERATOR), $c));
+        }
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        if (($.copy((staking_contract).commission_percentage)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return;
+        }
+        else {
+        }
+        yield distribute_internal_($.copy(staker), $.copy(operator), staking_contract, (store).distribute_events, $c);
+        yield request_commission_internal_($.copy(operator), staking_contract, (store).add_distribution_events, (store).request_commission_events, $c);
         return;
-    }
-    else {
-    }
-    distribute_internal_($.copy(staker), $.copy(operator), staking_contract, store.distribute_events, $c);
-    request_commission_internal_($.copy(operator), staking_contract, store.add_distribution_events, store.request_commission_events, $c);
-    return;
+    });
 }
 exports.request_commission_ = request_commission_;
 function buildPayload_request_commission(staker, operator, isJSON = false) {
@@ -695,31 +722,35 @@ function buildPayload_request_commission(staker, operator, isJSON = false) {
 }
 exports.buildPayload_request_commission = buildPayload_request_commission;
 function request_commission_internal_(operator, staking_contract, add_distribution_events, request_commission_events, $c) {
-    let accumulated_rewards, commission_amount, pool_address, total_active_stake;
-    [total_active_stake, accumulated_rewards, commission_amount] = get_staking_contract_amounts_internal_(staking_contract, $c);
-    staking_contract.principal = ($.copy(total_active_stake)).sub($.copy(commission_amount));
-    if (($.copy(commission_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return (0, move_to_ts_1.u64)("0");
-    }
-    else {
-    }
-    add_distribution_($.copy(operator), staking_contract, $.copy(operator), $.copy(commission_amount), add_distribution_events, $c);
-    Stake.unlock_with_cap_($.copy(commission_amount), staking_contract.owner_cap, $c);
-    pool_address = $.copy(staking_contract.pool_address);
-    Event.emit_event_(request_commission_events, new RequestCommissionEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), accumulated_rewards: $.copy(accumulated_rewards), commission_amount: $.copy(commission_amount) }, new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)), $c, [new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)]);
-    return $.copy(commission_amount);
+    return __awaiter(this, void 0, void 0, function* () {
+        let accumulated_rewards, commission_amount, pool_address, total_active_stake;
+        [total_active_stake, accumulated_rewards, commission_amount] = yield get_staking_contract_amounts_internal_(staking_contract, $c);
+        (staking_contract).principal = ($.copy(total_active_stake)).sub($.copy(commission_amount));
+        if (($.copy(commission_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return (0, move_to_ts_1.u64)("0");
+        }
+        else {
+        }
+        yield add_distribution_($.copy(operator), staking_contract, $.copy(operator), $.copy(commission_amount), add_distribution_events, $c);
+        yield Stake.unlock_with_cap_($.copy(commission_amount), (staking_contract).owner_cap, $c);
+        pool_address = $.copy((staking_contract).pool_address);
+        yield Event.emit_event_(request_commission_events, new RequestCommissionEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), accumulated_rewards: $.copy(accumulated_rewards), commission_amount: $.copy(commission_amount) }, new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)), $c, [new move_to_ts_2.SimpleStructTag(RequestCommissionEvent)]);
+        return $.copy(commission_amount);
+    });
 }
 exports.request_commission_internal_ = request_commission_internal_;
 function reset_lockup_(staker, operator, $c) {
-    let pool_address, staker_address, staking_contract, store;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    pool_address = $.copy(staking_contract.pool_address);
-    Stake.increase_lockup_with_cap_(staking_contract.owner_cap, $c);
-    Event.emit_event_(store.reset_lockup_events, new ResetLockupEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address) }, new move_to_ts_2.SimpleStructTag(ResetLockupEvent)), $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let pool_address, staker_address, staking_contract, store;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        pool_address = $.copy((staking_contract).pool_address);
+        yield Stake.increase_lockup_with_cap_((staking_contract).owner_cap, $c);
+        yield Event.emit_event_((store).reset_lockup_events, new ResetLockupEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address) }, new move_to_ts_2.SimpleStructTag(ResetLockupEvent)), $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]);
+        return;
+    });
 }
 exports.reset_lockup_ = reset_lockup_;
 function buildPayload_reset_lockup(operator, isJSON = false) {
@@ -730,54 +761,62 @@ function buildPayload_reset_lockup(operator, isJSON = false) {
 }
 exports.buildPayload_reset_lockup = buildPayload_reset_lockup;
 function stake_pool_address_(staker, operator, $c) {
-    let staking_contracts;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    staking_contracts = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    return $.copy(Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]).pool_address);
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contracts;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        staking_contracts = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        return $.copy((yield Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])).pool_address);
+    });
 }
 exports.stake_pool_address_ = stake_pool_address_;
 function staking_contract_amounts_(staker, operator, $c) {
-    let staking_contract, staking_contracts;
-    assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
-    staking_contracts = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)).staking_contracts;
-    staking_contract = Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    return get_staking_contract_amounts_internal_(staking_contract, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_contract, staking_contracts;
+        yield assert_staking_contract_exists_($.copy(staker), $.copy(operator), $c);
+        staking_contracts = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))).staking_contracts;
+        staking_contract = yield Simple_map.borrow_(staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        return yield get_staking_contract_amounts_internal_(staking_contract, $c);
+    });
 }
 exports.staking_contract_amounts_ = staking_contract_amounts_;
 function staking_contract_exists_(staker, operator, $c) {
-    let store;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker))) {
-        return false;
-    }
-    else {
-    }
-    store = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
-    return Simple_map.contains_key_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let store;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker)))) {
+            return false;
+        }
+        else {
+        }
+        store = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker));
+        return yield Simple_map.contains_key_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+    });
 }
 exports.staking_contract_exists_ = staking_contract_exists_;
 function switch_operator_(staker, old_operator, new_operator, new_commission_percentage, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, pool_address, staker_address, staking_contract, staking_contracts, store;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(old_operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contracts = store.staking_contracts;
-    [temp$1, temp$2] = [staking_contracts, new_operator];
-    if (!!Simple_map.contains_key_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)])) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ECANT_MERGE_STAKING_CONTRACTS), $c));
-    }
-    [, staking_contract] = Simple_map.remove_(staking_contracts, old_operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    distribute_internal_($.copy(staker_address), $.copy(old_operator), staking_contract, store.distribute_events, $c);
-    request_commission_internal_($.copy(old_operator), staking_contract, store.add_distribution_events, store.request_commission_events, $c);
-    Stake.set_operator_with_cap_(staking_contract.owner_cap, $.copy(new_operator), $c);
-    staking_contract.commission_percentage = $.copy(new_commission_percentage);
-    pool_address = $.copy(staking_contract.pool_address);
-    Simple_map.add_(staking_contracts, $.copy(new_operator), staking_contract, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    temp$6 = store.switch_operator_events;
-    temp$3 = $.copy(pool_address);
-    temp$4 = $.copy(old_operator);
-    temp$5 = $.copy(new_operator);
-    Event.emit_event_(temp$6, new SwitchOperatorEvent({ old_operator: temp$4, new_operator: temp$5, pool_address: temp$3 }, new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)), $c, [new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, pool_address, staker_address, staking_contract, staking_contracts, store;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(old_operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contracts = (store).staking_contracts;
+        [temp$1, temp$2] = [staking_contracts, new_operator];
+        if (!!(yield Simple_map.contains_key_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ECANT_MERGE_STAKING_CONTRACTS), $c));
+        }
+        [, staking_contract] = yield Simple_map.remove_(staking_contracts, old_operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        yield distribute_internal_($.copy(staker_address), $.copy(old_operator), staking_contract, (store).distribute_events, $c);
+        yield request_commission_internal_($.copy(old_operator), staking_contract, (store).add_distribution_events, (store).request_commission_events, $c);
+        yield Stake.set_operator_with_cap_((staking_contract).owner_cap, $.copy(new_operator), $c);
+        (staking_contract).commission_percentage = $.copy(new_commission_percentage);
+        pool_address = $.copy((staking_contract).pool_address);
+        yield Simple_map.add_(staking_contracts, $.copy(new_operator), staking_contract, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        temp$6 = (store).switch_operator_events;
+        temp$3 = $.copy(pool_address);
+        temp$4 = $.copy(old_operator);
+        temp$5 = $.copy(new_operator);
+        yield Event.emit_event_(temp$6, new SwitchOperatorEvent({ old_operator: temp$4, new_operator: temp$5, pool_address: temp$3 }, new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)), $c, [new move_to_ts_2.SimpleStructTag(SwitchOperatorEvent)]);
+        return;
+    });
 }
 exports.switch_operator_ = switch_operator_;
 function buildPayload_switch_operator(old_operator, new_operator, new_commission_percentage, isJSON = false) {
@@ -790,12 +829,14 @@ function buildPayload_switch_operator(old_operator, new_operator, new_commission
 }
 exports.buildPayload_switch_operator = buildPayload_switch_operator;
 function switch_operator_with_same_commission_(staker, old_operator, new_operator, $c) {
-    let commission_percentage, staker_address;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(old_operator), $c);
-    commission_percentage = commission_percentage_($.copy(staker_address), $.copy(old_operator), $c);
-    switch_operator_(staker, $.copy(old_operator), $.copy(new_operator), $.copy(commission_percentage), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let commission_percentage, staker_address;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(old_operator), $c);
+        commission_percentage = yield commission_percentage_($.copy(staker_address), $.copy(old_operator), $c);
+        yield switch_operator_(staker, $.copy(old_operator), $.copy(new_operator), $.copy(commission_percentage), $c);
+        return;
+    });
 }
 exports.switch_operator_with_same_commission_ = switch_operator_with_same_commission_;
 function buildPayload_switch_operator_with_same_commission(old_operator, new_operator, isJSON = false) {
@@ -807,13 +848,15 @@ function buildPayload_switch_operator_with_same_commission(old_operator, new_ope
 }
 exports.buildPayload_switch_operator_with_same_commission = buildPayload_switch_operator_with_same_commission;
 function unlock_rewards_(staker, operator, $c) {
-    let accumulated_rewards, staker_address, staker_rewards, unpaid_commission;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
-    [, accumulated_rewards, unpaid_commission] = staking_contract_amounts_($.copy(staker_address), $.copy(operator), $c);
-    staker_rewards = ($.copy(accumulated_rewards)).sub($.copy(unpaid_commission));
-    unlock_stake_(staker, $.copy(operator), $.copy(staker_rewards), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let accumulated_rewards, staker_address, staker_rewards, unpaid_commission;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
+        [, accumulated_rewards, unpaid_commission] = yield staking_contract_amounts_($.copy(staker_address), $.copy(operator), $c);
+        staker_rewards = ($.copy(accumulated_rewards)).sub($.copy(unpaid_commission));
+        yield unlock_stake_(staker, $.copy(operator), $.copy(staker_rewards), $c);
+        return;
+    });
 }
 exports.unlock_rewards_ = unlock_rewards_;
 function buildPayload_unlock_rewards(operator, isJSON = false) {
@@ -824,35 +867,37 @@ function buildPayload_unlock_rewards(operator, isJSON = false) {
 }
 exports.buildPayload_unlock_rewards = buildPayload_unlock_rewards;
 function unlock_stake_(staker, operator, amount, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, active, commission_paid, pool_address, staker_address, staking_contract, store;
-    if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, active, commission_paid, pool_address, staker_address, staking_contract, store;
+        if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return;
+        }
+        else {
+        }
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        yield distribute_internal_($.copy(staker_address), $.copy(operator), staking_contract, (store).distribute_events, $c);
+        commission_paid = yield request_commission_internal_($.copy(operator), staking_contract, (store).add_distribution_events, (store).request_commission_events, $c);
+        [active, , ,] = yield Stake.get_stake_($.copy((staking_contract).pool_address), $c);
+        if (($.copy(active)).lt($.copy(amount))) {
+            amount = $.copy(active);
+        }
+        else {
+        }
+        (staking_contract).principal = ($.copy((staking_contract).principal)).sub($.copy(amount));
+        yield add_distribution_($.copy(operator), staking_contract, $.copy(staker_address), $.copy(amount), (store).add_distribution_events, $c);
+        yield Stake.unlock_with_cap_($.copy(amount), (staking_contract).owner_cap, $c);
+        pool_address = $.copy((staking_contract).pool_address);
+        temp$5 = (store).unlock_stake_events;
+        temp$1 = $.copy(pool_address);
+        temp$2 = $.copy(operator);
+        temp$3 = $.copy(amount);
+        temp$4 = $.copy(commission_paid);
+        yield Event.emit_event_(temp$5, new UnlockStakeEvent({ operator: temp$2, pool_address: temp$1, amount: temp$3, commission_paid: temp$4 }, new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)), $c, [new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)]);
         return;
-    }
-    else {
-    }
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    distribute_internal_($.copy(staker_address), $.copy(operator), staking_contract, store.distribute_events, $c);
-    commission_paid = request_commission_internal_($.copy(operator), staking_contract, store.add_distribution_events, store.request_commission_events, $c);
-    [active, , ,] = Stake.get_stake_($.copy(staking_contract.pool_address), $c);
-    if (($.copy(active)).lt($.copy(amount))) {
-        amount = $.copy(active);
-    }
-    else {
-    }
-    staking_contract.principal = ($.copy(staking_contract.principal)).sub($.copy(amount));
-    add_distribution_($.copy(operator), staking_contract, $.copy(staker_address), $.copy(amount), store.add_distribution_events, $c);
-    Stake.unlock_with_cap_($.copy(amount), staking_contract.owner_cap, $c);
-    pool_address = $.copy(staking_contract.pool_address);
-    temp$5 = store.unlock_stake_events;
-    temp$1 = $.copy(pool_address);
-    temp$2 = $.copy(operator);
-    temp$3 = $.copy(amount);
-    temp$4 = $.copy(commission_paid);
-    Event.emit_event_(temp$5, new UnlockStakeEvent({ operator: temp$2, pool_address: temp$1, amount: temp$3, commission_paid: temp$4 }, new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)), $c, [new move_to_ts_2.SimpleStructTag(UnlockStakeEvent)]);
-    return;
+    });
 }
 exports.unlock_stake_ = unlock_stake_;
 function buildPayload_unlock_stake(operator, amount, isJSON = false) {
@@ -864,51 +909,55 @@ function buildPayload_unlock_stake(operator, amount, isJSON = false) {
 }
 exports.buildPayload_unlock_stake = buildPayload_unlock_stake;
 function update_distribution_pool_(distribution_pool, updated_total_coins, operator, commission_percentage, $c) {
-    let temp$1, temp$10, temp$11, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, current_worth, i, len, previous_worth, shareholder, shareholders, shares, shares_to_transfer, unpaid_commission;
-    if ((Pool_u64.total_coins_(distribution_pool, $c)).eq(($.copy(updated_total_coins)))) {
-        return;
-    }
-    else {
-    }
-    temp$1 = Pool_u64.shareholders_(distribution_pool, $c);
-    shareholders = temp$1;
-    len = Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            shareholder = $.copy(Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            if ((($.copy(shareholder)).hex() !== ($.copy(operator)).hex())) {
-                [temp$2, temp$3] = [distribution_pool, $.copy(shareholder)];
-                shares = Pool_u64.shares_(temp$2, temp$3, $c);
-                [temp$4, temp$5] = [distribution_pool, $.copy(shareholder)];
-                previous_worth = Pool_u64.balance_(temp$4, temp$5, $c);
-                [temp$6, temp$7, temp$8] = [distribution_pool, $.copy(shares), $.copy(updated_total_coins)];
-                current_worth = Pool_u64.shares_to_amount_with_total_coins_(temp$6, temp$7, temp$8, $c);
-                unpaid_commission = ((($.copy(current_worth)).sub($.copy(previous_worth))).mul($.copy(commission_percentage))).div((0, move_to_ts_1.u64)("100"));
-                [temp$9, temp$10, temp$11] = [distribution_pool, $.copy(unpaid_commission), $.copy(updated_total_coins)];
-                shares_to_transfer = Pool_u64.amount_to_shares_with_total_coins_(temp$9, temp$10, temp$11, $c);
-                Pool_u64.transfer_shares_(distribution_pool, $.copy(shareholder), $.copy(operator), $.copy(shares_to_transfer), $c);
-            }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$10, temp$11, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, current_worth, i, len, previous_worth, shareholder, shareholders, shares, shares_to_transfer, unpaid_commission;
+        if ((yield Pool_u64.total_coins_(distribution_pool, $c)).eq(($.copy(updated_total_coins)))) {
+            return;
         }
-    }
-    Pool_u64.update_total_coins_(distribution_pool, $.copy(updated_total_coins), $c);
-    return;
+        else {
+        }
+        temp$1 = yield Pool_u64.shareholders_(distribution_pool, $c);
+        shareholders = temp$1;
+        len = yield Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                shareholder = $.copy(yield Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                if ((($.copy(shareholder)).hex() !== ($.copy(operator)).hex())) {
+                    [temp$2, temp$3] = [distribution_pool, $.copy(shareholder)];
+                    shares = yield Pool_u64.shares_(temp$2, temp$3, $c);
+                    [temp$4, temp$5] = [distribution_pool, $.copy(shareholder)];
+                    previous_worth = yield Pool_u64.balance_(temp$4, temp$5, $c);
+                    [temp$6, temp$7, temp$8] = [distribution_pool, $.copy(shares), $.copy(updated_total_coins)];
+                    current_worth = yield Pool_u64.shares_to_amount_with_total_coins_(temp$6, temp$7, temp$8, $c);
+                    unpaid_commission = ((($.copy(current_worth)).sub($.copy(previous_worth))).mul($.copy(commission_percentage))).div((0, move_to_ts_1.u64)("100"));
+                    [temp$9, temp$10, temp$11] = [distribution_pool, $.copy(unpaid_commission), $.copy(updated_total_coins)];
+                    shares_to_transfer = yield Pool_u64.amount_to_shares_with_total_coins_(temp$9, temp$10, temp$11, $c);
+                    yield Pool_u64.transfer_shares_(distribution_pool, $.copy(shareholder), $.copy(operator), $.copy(shares_to_transfer), $c);
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        yield Pool_u64.update_total_coins_(distribution_pool, $.copy(updated_total_coins), $c);
+        return;
+    });
 }
 exports.update_distribution_pool_ = update_distribution_pool_;
 function update_voter_(staker, operator, new_voter, $c) {
-    let old_voter, pool_address, staker_address, staking_contract, store;
-    staker_address = Signer.address_of_(staker, $c);
-    assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
-    store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
-    staking_contract = Simple_map.borrow_mut_(store.staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
-    pool_address = $.copy(staking_contract.pool_address);
-    old_voter = Stake.get_delegated_voter_($.copy(pool_address), $c);
-    Stake.set_delegated_voter_with_cap_(staking_contract.owner_cap, $.copy(new_voter), $c);
-    Event.emit_event_(store.update_voter_events, new UpdateVoterEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), old_voter: $.copy(old_voter), new_voter: $.copy(new_voter) }, new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let old_voter, pool_address, staker_address, staking_contract, store;
+        staker_address = yield Signer.address_of_(staker, $c);
+        yield assert_staking_contract_exists_($.copy(staker_address), $.copy(operator), $c);
+        store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Store), $.copy(staker_address));
+        staking_contract = yield Simple_map.borrow_mut_((store).staking_contracts, operator, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.SimpleStructTag(StakingContract)]);
+        pool_address = $.copy((staking_contract).pool_address);
+        old_voter = yield Stake.get_delegated_voter_($.copy(pool_address), $c);
+        yield Stake.set_delegated_voter_with_cap_((staking_contract).owner_cap, $.copy(new_voter), $c);
+        yield Event.emit_event_((store).update_voter_events, new UpdateVoterEvent({ operator: $.copy(operator), pool_address: $.copy(pool_address), old_voter: $.copy(old_voter), new_voter: $.copy(new_voter) }, new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]);
+        return;
+    });
 }
 exports.update_voter_ = update_voter_;
 function buildPayload_update_voter(operator, new_voter, isJSON = false) {
@@ -953,11 +1002,14 @@ class App {
     get ResetLockupEvent() { return ResetLockupEvent; }
     get StakingContract() { return StakingContract; }
     get Store() { return Store; }
-    loadStore(owner, loadFull = true) {
+    loadStore(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Store.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -968,91 +1020,91 @@ class App {
     payload_add_stake(operator, amount, isJSON = false) {
         return buildPayload_add_stake(operator, amount, isJSON);
     }
-    add_stake(_account, operator, amount, _maxGas = 1000, _isJSON = false) {
+    add_stake(_account, operator, amount, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_add_stake(operator, amount, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_add_stake(operator, amount, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_create_staking_contract(operator, voter, amount, commission_percentage, contract_creation_seed, isJSON = false) {
         return buildPayload_create_staking_contract(operator, voter, amount, commission_percentage, contract_creation_seed, isJSON);
     }
-    create_staking_contract(_account, operator, voter, amount, commission_percentage, contract_creation_seed, _maxGas = 1000, _isJSON = false) {
+    create_staking_contract(_account, operator, voter, amount, commission_percentage, contract_creation_seed, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_create_staking_contract(operator, voter, amount, commission_percentage, contract_creation_seed, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_create_staking_contract(operator, voter, amount, commission_percentage, contract_creation_seed, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_distribute(staker, operator, isJSON = false) {
         return buildPayload_distribute(staker, operator, isJSON);
     }
-    distribute(_account, staker, operator, _maxGas = 1000, _isJSON = false) {
+    distribute(_account, staker, operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_distribute(staker, operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_distribute(staker, operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_request_commission(staker, operator, isJSON = false) {
         return buildPayload_request_commission(staker, operator, isJSON);
     }
-    request_commission(_account, staker, operator, _maxGas = 1000, _isJSON = false) {
+    request_commission(_account, staker, operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_request_commission(staker, operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_request_commission(staker, operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_reset_lockup(operator, isJSON = false) {
         return buildPayload_reset_lockup(operator, isJSON);
     }
-    reset_lockup(_account, operator, _maxGas = 1000, _isJSON = false) {
+    reset_lockup(_account, operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_reset_lockup(operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_reset_lockup(operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_switch_operator(old_operator, new_operator, new_commission_percentage, isJSON = false) {
         return buildPayload_switch_operator(old_operator, new_operator, new_commission_percentage, isJSON);
     }
-    switch_operator(_account, old_operator, new_operator, new_commission_percentage, _maxGas = 1000, _isJSON = false) {
+    switch_operator(_account, old_operator, new_operator, new_commission_percentage, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_switch_operator(old_operator, new_operator, new_commission_percentage, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_switch_operator(old_operator, new_operator, new_commission_percentage, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_switch_operator_with_same_commission(old_operator, new_operator, isJSON = false) {
         return buildPayload_switch_operator_with_same_commission(old_operator, new_operator, isJSON);
     }
-    switch_operator_with_same_commission(_account, old_operator, new_operator, _maxGas = 1000, _isJSON = false) {
+    switch_operator_with_same_commission(_account, old_operator, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_switch_operator_with_same_commission(old_operator, new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_switch_operator_with_same_commission(old_operator, new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_unlock_rewards(operator, isJSON = false) {
         return buildPayload_unlock_rewards(operator, isJSON);
     }
-    unlock_rewards(_account, operator, _maxGas = 1000, _isJSON = false) {
+    unlock_rewards(_account, operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_unlock_rewards(operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_unlock_rewards(operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_unlock_stake(operator, amount, isJSON = false) {
         return buildPayload_unlock_stake(operator, amount, isJSON);
     }
-    unlock_stake(_account, operator, amount, _maxGas = 1000, _isJSON = false) {
+    unlock_stake(_account, operator, amount, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_unlock_stake(operator, amount, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_unlock_stake(operator, amount, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_update_voter(operator, new_voter, isJSON = false) {
         return buildPayload_update_voter(operator, new_voter, isJSON);
     }
-    update_voter(_account, operator, new_voter, _maxGas = 1000, _isJSON = false) {
+    update_voter(_account, operator, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_update_voter(operator, new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_update_voter(operator, new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

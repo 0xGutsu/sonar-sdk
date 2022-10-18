@@ -77,23 +77,33 @@ TypeInfo.fields = [
     { name: "struct_name", typeTag: new move_to_ts_1.VectorTag(move_to_ts_1.AtomicTypeTag.U8) }
 ];
 function account_address_(type_info, $c) {
-    return $.copy(type_info.account_address);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((type_info).account_address);
+    });
 }
 exports.account_address_ = account_address_;
 function module_name_(type_info, $c) {
-    return $.copy(type_info.module_name);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((type_info).module_name);
+    });
 }
 exports.module_name_ = module_name_;
 function struct_name_(type_info, $c) {
-    return $.copy(type_info.struct_name);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((type_info).struct_name);
+    });
 }
 exports.struct_name_ = struct_name_;
 function type_name_($c, $p) {
-    return $.aptos_std_type_info_type_name($c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_type_info_type_name($c, [$p[0]]);
+    });
 }
 exports.type_name_ = type_name_;
 function type_of_($c, $p) {
-    return $.aptos_std_type_info_type_of($c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_type_info_type_of($c, [$p[0]]);
+    });
 }
 exports.type_of_ = type_of_;
 function loadParsers(repo) {

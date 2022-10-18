@@ -26,10 +26,10 @@ export declare class CurrentTimeMicroseconds {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function now_microseconds_($c: AptosDataCache): U64;
-export declare function now_seconds_($c: AptosDataCache): U64;
-export declare function set_time_has_started_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function update_global_time_(account: HexString, proposer: HexString, timestamp: U64, $c: AptosDataCache): void;
+export declare function now_microseconds_($c: AptosDataCache): Promise<U64>;
+export declare function now_seconds_($c: AptosDataCache): Promise<U64>;
+export declare function set_time_has_started_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function update_global_time_(account: HexString, proposer: HexString, timestamp: U64, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -39,6 +39,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get CurrentTimeMicroseconds(): typeof CurrentTimeMicroseconds;
-    loadCurrentTimeMicroseconds(owner: HexString, loadFull?: boolean): Promise<CurrentTimeMicroseconds>;
+    loadCurrentTimeMicroseconds(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<CurrentTimeMicroseconds>;
 }
 //# sourceMappingURL=timestamp.d.ts.map

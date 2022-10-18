@@ -173,91 +173,107 @@ UpdateEpochIntervalEvent.fields = [
     { name: "new_epoch_interval", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function block_prologue_(vm, hash, epoch, round, proposer, failed_proposer_indices, previous_block_votes_bitvec, timestamp, $c) {
-    let temp$1, block_metadata_ref, new_block_event, proposer_index;
-    System_addresses.assert_vm_(vm, $c);
-    if ((($.copy(proposer)).hex() === (new aptos_1.HexString("0x0")).hex())) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = Stake.is_current_epoch_validator_($.copy(proposer), $c);
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.EINVALID_PROPOSER), $c));
-    }
-    proposer_index = Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]);
-    if ((($.copy(proposer)).hex() !== (new aptos_1.HexString("0x0")).hex())) {
-        proposer_index = Option.some_(Stake.get_validator_index_($.copy(proposer), $c), $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    }
-    else {
-    }
-    block_metadata_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
-    block_metadata_ref.height = Event.counter_(block_metadata_ref.new_block_events, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
-    new_block_event = new NewBlockEvent({ hash: $.copy(hash), epoch: $.copy(epoch), round: $.copy(round), height: $.copy(block_metadata_ref.height), previous_block_votes_bitvec: $.copy(previous_block_votes_bitvec), proposer: $.copy(proposer), failed_proposer_indices: $.copy(failed_proposer_indices), time_microseconds: $.copy(timestamp) }, new move_to_ts_2.SimpleStructTag(NewBlockEvent));
-    emit_new_block_event_(vm, block_metadata_ref.new_block_events, new_block_event, $c);
-    Stake.update_performance_statistics_($.copy(proposer_index), $.copy(failed_proposer_indices), $c);
-    State_storage.on_new_block_(Reconfiguration.current_epoch_($c), $c);
-    if ((($.copy(timestamp)).sub(Reconfiguration.last_reconfiguration_time_($c))).ge($.copy(block_metadata_ref.epoch_interval))) {
-        Reconfiguration.reconfigure_($c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, block_metadata_ref, new_block_event, proposer_index;
+        yield System_addresses.assert_vm_(vm, $c);
+        if ((($.copy(proposer)).hex() === (new aptos_1.HexString("0x0")).hex())) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = yield Stake.is_current_epoch_validator_($.copy(proposer), $c);
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.EINVALID_PROPOSER), $c));
+        }
+        proposer_index = yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]);
+        if ((($.copy(proposer)).hex() !== (new aptos_1.HexString("0x0")).hex())) {
+            proposer_index = yield Option.some_(yield Stake.get_validator_index_($.copy(proposer), $c), $c, [move_to_ts_2.AtomicTypeTag.U64]);
+        }
+        else {
+        }
+        block_metadata_ref = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
+        (block_metadata_ref).height = yield Event.counter_((block_metadata_ref).new_block_events, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
+        new_block_event = new NewBlockEvent({ hash: $.copy(hash), epoch: $.copy(epoch), round: $.copy(round), height: $.copy((block_metadata_ref).height), previous_block_votes_bitvec: $.copy(previous_block_votes_bitvec), proposer: $.copy(proposer), failed_proposer_indices: $.copy(failed_proposer_indices), time_microseconds: $.copy(timestamp) }, new move_to_ts_2.SimpleStructTag(NewBlockEvent));
+        yield emit_new_block_event_(vm, (block_metadata_ref).new_block_events, new_block_event, $c);
+        yield Stake.update_performance_statistics_($.copy(proposer_index), $.copy(failed_proposer_indices), $c);
+        yield State_storage.on_new_block_(yield Reconfiguration.current_epoch_($c), $c);
+        if ((($.copy(timestamp)).sub(yield Reconfiguration.last_reconfiguration_time_($c))).ge($.copy((block_metadata_ref).epoch_interval))) {
+            yield Reconfiguration.reconfigure_($c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.block_prologue_ = block_prologue_;
 function emit_genesis_block_event_(vm, $c) {
-    let block_metadata_ref, genesis_id;
-    block_metadata_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
-    genesis_id = new aptos_1.HexString("0x0");
-    emit_new_block_event_(vm, block_metadata_ref.new_block_events, new NewBlockEvent({ hash: $.copy(genesis_id), epoch: (0, move_to_ts_1.u64)("0"), round: (0, move_to_ts_1.u64)("0"), height: (0, move_to_ts_1.u64)("0"), previous_block_votes_bitvec: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U8]), proposer: new aptos_1.HexString("0x0"), failed_proposer_indices: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U64]), time_microseconds: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(NewBlockEvent)), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let block_metadata_ref, genesis_id;
+        block_metadata_ref = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
+        genesis_id = new aptos_1.HexString("0x0");
+        yield emit_new_block_event_(vm, (block_metadata_ref).new_block_events, new NewBlockEvent({ hash: $.copy(genesis_id), epoch: (0, move_to_ts_1.u64)("0"), round: (0, move_to_ts_1.u64)("0"), height: (0, move_to_ts_1.u64)("0"), previous_block_votes_bitvec: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U8]), proposer: new aptos_1.HexString("0x0"), failed_proposer_indices: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U64]), time_microseconds: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(NewBlockEvent)), $c);
+        return;
+    });
 }
 exports.emit_genesis_block_event_ = emit_genesis_block_event_;
 function emit_new_block_event_(vm, event_handle, new_block_event, $c) {
-    Timestamp.update_global_time_(vm, $.copy(new_block_event.proposer), $.copy(new_block_event.time_microseconds), $c);
-    if (!(Event.counter_(event_handle, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)])).eq(($.copy(new_block_event.height)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT), $c));
-    }
-    Event.emit_event_(event_handle, new_block_event, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Timestamp.update_global_time_(vm, $.copy((new_block_event).proposer), $.copy((new_block_event).time_microseconds), $c);
+        if (!(yield Event.counter_(event_handle, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)])).eq(($.copy((new_block_event).height)))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT), $c));
+        }
+        yield Event.emit_event_(event_handle, new_block_event, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
+        return;
+    });
 }
 exports.emit_new_block_event_ = emit_new_block_event_;
 function emit_writeset_block_event_(vm_signer, fake_block_hash, $c) {
-    let block_metadata_ref;
-    System_addresses.assert_vm_(vm_signer, $c);
-    block_metadata_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
-    block_metadata_ref.height = Event.counter_(block_metadata_ref.new_block_events, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
-    Event.emit_event_(block_metadata_ref.new_block_events, new NewBlockEvent({ hash: $.copy(fake_block_hash), epoch: Reconfiguration.current_epoch_($c), round: $.copy(exports.MAX_U64), height: $.copy(block_metadata_ref.height), previous_block_votes_bitvec: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U8]), proposer: new aptos_1.HexString("0x0"), failed_proposer_indices: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U64]), time_microseconds: Timestamp.now_microseconds_($c) }, new move_to_ts_2.SimpleStructTag(NewBlockEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let block_metadata_ref;
+        yield System_addresses.assert_vm_(vm_signer, $c);
+        block_metadata_ref = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
+        (block_metadata_ref).height = yield Event.counter_((block_metadata_ref).new_block_events, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
+        yield Event.emit_event_((block_metadata_ref).new_block_events, new NewBlockEvent({ hash: $.copy(fake_block_hash), epoch: yield Reconfiguration.current_epoch_($c), round: $.copy(exports.MAX_U64), height: $.copy((block_metadata_ref).height), previous_block_votes_bitvec: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U8]), proposer: new aptos_1.HexString("0x0"), failed_proposer_indices: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.U64]), time_microseconds: yield Timestamp.now_microseconds_($c) }, new move_to_ts_2.SimpleStructTag(NewBlockEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]);
+        return;
+    });
 }
 exports.emit_writeset_block_event_ = emit_writeset_block_event_;
 function get_current_block_height_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1")).height);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"))).height);
+    });
 }
 exports.get_current_block_height_ = get_current_block_height_;
 function get_epoch_interval_secs_($c) {
-    return ($.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1")).epoch_interval)).div((0, move_to_ts_1.u64)("1000000"));
+    return __awaiter(this, void 0, void 0, function* () {
+        return ($.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"))).epoch_interval)).div((0, move_to_ts_1.u64)("1000000"));
+    });
 }
 exports.get_epoch_interval_secs_ = get_epoch_interval_secs_;
 function initialize_(aptos_framework, epoch_interval_microsecs, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!($.copy(epoch_interval_microsecs)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_EPOCH_INTERVAL), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(BlockResource), aptos_framework, new BlockResource({ height: (0, move_to_ts_1.u64)("0"), epoch_interval: $.copy(epoch_interval_microsecs), new_block_events: Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]), update_epoch_interval_events: Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)]) }, new move_to_ts_2.SimpleStructTag(BlockResource)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!($.copy(epoch_interval_microsecs)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_EPOCH_INTERVAL), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(BlockResource), aptos_framework, new BlockResource({ height: (0, move_to_ts_1.u64)("0"), epoch_interval: $.copy(epoch_interval_microsecs), new_block_events: yield Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(NewBlockEvent)]), update_epoch_interval_events: yield Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)]) }, new move_to_ts_2.SimpleStructTag(BlockResource)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function update_epoch_interval_microsecs_(aptos_framework, new_epoch_interval, $c) {
-    let block_resource, old_epoch_interval;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!($.copy(new_epoch_interval)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_EPOCH_INTERVAL), $c));
-    }
-    block_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
-    old_epoch_interval = $.copy(block_resource.epoch_interval);
-    block_resource.epoch_interval = $.copy(new_epoch_interval);
-    Event.emit_event_(block_resource.update_epoch_interval_events, new UpdateEpochIntervalEvent({ old_epoch_interval: $.copy(old_epoch_interval), new_epoch_interval: $.copy(new_epoch_interval) }, new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let block_resource, old_epoch_interval;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!($.copy(new_epoch_interval)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_EPOCH_INTERVAL), $c));
+        }
+        block_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(BlockResource), new aptos_1.HexString("0x1"));
+        old_epoch_interval = $.copy((block_resource).epoch_interval);
+        (block_resource).epoch_interval = $.copy(new_epoch_interval);
+        yield Event.emit_event_((block_resource).update_epoch_interval_events, new UpdateEpochIntervalEvent({ old_epoch_interval: $.copy(old_epoch_interval), new_epoch_interval: $.copy(new_epoch_interval) }, new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateEpochIntervalEvent)]);
+        return;
+    });
 }
 exports.update_epoch_interval_microsecs_ = update_epoch_interval_microsecs_;
 function loadParsers(repo) {
@@ -279,11 +295,14 @@ class App {
         return exports.moduleName;
     } }
     get BlockResource() { return BlockResource; }
-    loadBlockResource(owner, loadFull = true) {
+    loadBlockResource(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield BlockResource.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

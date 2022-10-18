@@ -26,13 +26,13 @@ export declare class BitVector {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function is_index_set_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): boolean;
-export declare function length_(bitvector: BitVector, $c: AptosDataCache): U64;
-export declare function longest_set_sequence_starting_at_(bitvector: BitVector, start_index: U64, $c: AptosDataCache): U64;
-export declare function new___(length: U64, $c: AptosDataCache): BitVector;
-export declare function set_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): void;
-export declare function shift_left_(bitvector: BitVector, amount: U64, $c: AptosDataCache): void;
-export declare function unset_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): void;
+export declare function is_index_set_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): Promise<boolean>;
+export declare function length_(bitvector: BitVector, $c: AptosDataCache): Promise<U64>;
+export declare function longest_set_sequence_starting_at_(bitvector: BitVector, start_index: U64, $c: AptosDataCache): Promise<U64>;
+export declare function new___(length: U64, $c: AptosDataCache): Promise<BitVector>;
+export declare function set_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): Promise<void>;
+export declare function shift_left_(bitvector: BitVector, amount: U64, $c: AptosDataCache): Promise<void>;
+export declare function unset_(bitvector: BitVector, bit_index: U64, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

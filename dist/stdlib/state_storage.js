@@ -157,44 +157,54 @@ Usage.fields = [
     { name: "bytes", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function current_items_and_bytes_($c) {
-    let usage;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
-    }
-    usage = $c.borrow_global(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"));
-    return [$.copy(usage.usage.items), $.copy(usage.usage.bytes)];
+    return __awaiter(this, void 0, void 0, function* () {
+        let usage;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
+        }
+        usage = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"));
+        return [$.copy(((usage).usage).items), $.copy(((usage).usage).bytes)];
+    });
 }
 exports.current_items_and_bytes_ = current_items_and_bytes_;
 function get_state_storage_usage_only_at_epoch_beginning_($c) {
-    return $.aptos_framework_state_storage_get_state_storage_usage_only_at_epoch_beginning($c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_state_storage_get_state_storage_usage_only_at_epoch_beginning($c);
+    });
 }
 exports.get_state_storage_usage_only_at_epoch_beginning_ = get_state_storage_usage_only_at_epoch_beginning_;
 function initialize_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(StateStorageUsage), aptos_framework, new StateStorageUsage({ epoch: (0, move_to_ts_1.u64)("0"), usage: new Usage({ items: (0, move_to_ts_1.u64)("0"), bytes: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Usage)) }, new move_to_ts_2.SimpleStructTag(StateStorageUsage)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), aptos_framework, new StateStorageUsage({ epoch: (0, move_to_ts_1.u64)("0"), usage: new Usage({ items: (0, move_to_ts_1.u64)("0"), bytes: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Usage)) }, new move_to_ts_2.SimpleStructTag(StateStorageUsage)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function on_new_block_(epoch, $c) {
-    let usage;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
-    }
-    usage = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"));
-    if (($.copy(epoch)).neq($.copy(usage.epoch))) {
-        usage.epoch = $.copy(epoch);
-        usage.usage = get_state_storage_usage_only_at_epoch_beginning_($c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let usage;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ESTATE_STORAGE_USAGE), $c));
+        }
+        usage = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StateStorageUsage), new aptos_1.HexString("0x1"));
+        if (($.copy(epoch)).neq($.copy((usage).epoch))) {
+            (usage).epoch = $.copy(epoch);
+            (usage).usage = yield get_state_storage_usage_only_at_epoch_beginning_($c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.on_new_block_ = on_new_block_;
 function on_reconfig_($c) {
-    throw $.abortCode((0, move_to_ts_1.u64)("0"));
+    return __awaiter(this, void 0, void 0, function* () {
+        throw $.abortCode((0, move_to_ts_1.u64)("0"));
+    });
 }
 exports.on_reconfig_ = on_reconfig_;
 function loadParsers(repo) {
@@ -216,21 +226,27 @@ class App {
         return exports.moduleName;
     } }
     get GasParameter() { return GasParameter; }
-    loadGasParameter(owner, loadFull = true) {
+    loadGasParameter(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield GasParameter.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get StateStorageUsage() { return StateStorageUsage; }
-    loadStateStorageUsage(owner, loadFull = true) {
+    loadStateStorageUsage(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield StateStorageUsage.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

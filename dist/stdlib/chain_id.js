@@ -81,12 +81,16 @@ ChainId.fields = [
     { name: "id", typeTag: move_to_ts_1.AtomicTypeTag.U8 }
 ];
 function get_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_1.SimpleStructTag(ChainId), new aptos_1.HexString("0x1")).id);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_1.SimpleStructTag(ChainId), new aptos_1.HexString("0x1"))).id);
+    });
 }
 exports.get_ = get_;
 function initialize_(aptos_framework, id, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    return $c.move_to(new move_to_ts_1.SimpleStructTag(ChainId), aptos_framework, new ChainId({ id: $.copy(id) }, new move_to_ts_1.SimpleStructTag(ChainId)));
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        return yield $c.move_to_async(new move_to_ts_1.SimpleStructTag(ChainId), aptos_framework, new ChainId({ id: $.copy(id) }, new move_to_ts_1.SimpleStructTag(ChainId)));
+    });
 }
 exports.initialize_ = initialize_;
 function loadParsers(repo) {
@@ -106,11 +110,14 @@ class App {
         return exports.moduleName;
     } }
     get ChainId() { return ChainId; }
-    loadChainId(owner, loadFull = true) {
+    loadChainId(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield ChainId.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

@@ -28,11 +28,11 @@ export declare class TypeInfo {
     structName(): string;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function account_address_(type_info: TypeInfo, $c: AptosDataCache): HexString;
-export declare function module_name_(type_info: TypeInfo, $c: AptosDataCache): U8[];
-export declare function struct_name_(type_info: TypeInfo, $c: AptosDataCache): U8[];
-export declare function type_name_($c: AptosDataCache, $p: TypeTag[]): String.String;
-export declare function type_of_($c: AptosDataCache, $p: TypeTag[]): TypeInfo;
+export declare function account_address_(type_info: TypeInfo, $c: AptosDataCache): Promise<HexString>;
+export declare function module_name_(type_info: TypeInfo, $c: AptosDataCache): Promise<U8[]>;
+export declare function struct_name_(type_info: TypeInfo, $c: AptosDataCache): Promise<U8[]>;
+export declare function type_name_($c: AptosDataCache, $p: TypeTag[]): Promise<String.String>;
+export declare function type_of_($c: AptosDataCache, $p: TypeTag[]): Promise<TypeInfo>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

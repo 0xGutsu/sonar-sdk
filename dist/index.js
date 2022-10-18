@@ -23,15 +23,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.getProjectRepo = exports.stdlib = exports.nexus = void 0;
+exports.App = exports.getProjectRepo = exports.u128 = exports.u64 = exports.u8 = exports.stdlib = exports.sonar = exports.nexus = exports.aptos_token = void 0;
 const move_to_ts_1 = require("@manahippo/move-to-ts");
+Object.defineProperty(exports, "u8", { enumerable: true, get: function () { return move_to_ts_1.u8; } });
+Object.defineProperty(exports, "u64", { enumerable: true, get: function () { return move_to_ts_1.u64; } });
+Object.defineProperty(exports, "u128", { enumerable: true, get: function () { return move_to_ts_1.u128; } });
+const aptos_token = __importStar(require("./aptos_token"));
 const nexus = __importStar(require("./nexus"));
+const sonar = __importStar(require("./sonar"));
 const stdlib = __importStar(require("./stdlib"));
+exports.aptos_token = __importStar(require("./aptos_token"));
 exports.nexus = __importStar(require("./nexus"));
+exports.sonar = __importStar(require("./sonar"));
 exports.stdlib = __importStar(require("./stdlib"));
 function getProjectRepo() {
     const repo = new move_to_ts_1.AptosParserRepo();
+    aptos_token.loadParsers(repo);
     nexus.loadParsers(repo);
+    sonar.loadParsers(repo);
     stdlib.loadParsers(repo);
     repo.addDefaultParsers();
     return repo;
@@ -41,8 +50,10 @@ class App {
     constructor(client) {
         this.client = client;
         this.parserRepo = getProjectRepo();
-        this.cache = new move_to_ts_1.AptosLocalCache();
+        this.cache = new move_to_ts_1.AptosSyncedCache(this.parserRepo, client);
+        this.aptos_token = new aptos_token.App(client, this.parserRepo, this.cache);
         this.nexus = new nexus.App(client, this.parserRepo, this.cache);
+        this.sonar = new sonar.App(client, this.parserRepo, this.cache);
         this.stdlib = new stdlib.App(client, this.parserRepo, this.cache);
     }
 }

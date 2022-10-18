@@ -107,156 +107,192 @@ OptionalAggregator.fields = [
     { name: "integer", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "option", "Option", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "Integer", [])]) }
 ];
 function add_(optional_aggregator, value, $c) {
-    let aggregator, integer;
-    if (Option.is_some_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
-        aggregator = Option.borrow_mut_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-        Aggregator.add_(aggregator, $.copy(value), $c);
-    }
-    else {
-        integer = Option.borrow_mut_(optional_aggregator.integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-        add_integer_(integer, $.copy(value), $c);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator, integer;
+        if (yield Option.is_some_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
+            aggregator = yield Option.borrow_mut_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+            yield Aggregator.add_(aggregator, $.copy(value), $c);
+        }
+        else {
+            integer = yield Option.borrow_mut_((optional_aggregator).integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+            yield add_integer_(integer, $.copy(value), $c);
+        }
+        return;
+    });
 }
 exports.add_ = add_;
 function add_integer_(integer, value, $c) {
-    if (!($.copy(value)).le(($.copy(integer.limit)).sub($.copy(integer.value)))) {
-        throw $.abortCode(Error.out_of_range_($.copy(exports.EAGGREGATOR_OVERFLOW), $c));
-    }
-    integer.value = ($.copy(integer.value)).add($.copy(value));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy(value)).le(($.copy((integer).limit)).sub($.copy((integer).value)))) {
+            throw $.abortCode(yield Error.out_of_range_($.copy(exports.EAGGREGATOR_OVERFLOW), $c));
+        }
+        (integer).value = ($.copy((integer).value)).add($.copy(value));
+        return;
+    });
 }
 exports.add_integer_ = add_integer_;
 function destroy_(optional_aggregator, $c) {
-    if (is_parallelizable_(optional_aggregator, $c)) {
-        destroy_optional_aggregator_(optional_aggregator, $c);
-    }
-    else {
-        destroy_optional_integer_(optional_aggregator, $c);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield is_parallelizable_(optional_aggregator, $c)) {
+            yield destroy_optional_aggregator_(optional_aggregator, $c);
+        }
+        else {
+            yield destroy_optional_integer_(optional_aggregator, $c);
+        }
+        return;
+    });
 }
 exports.destroy_ = destroy_;
 function destroy_integer_(integer, $c) {
-    integer;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        integer;
+        return;
+    });
 }
 exports.destroy_integer_ = destroy_integer_;
 function destroy_optional_aggregator_(optional_aggregator, $c) {
-    let limit;
-    let { aggregator: aggregator, integer: integer } = optional_aggregator;
-    limit = Aggregator.limit_(Option.borrow_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), $c);
-    Aggregator.destroy_(Option.destroy_some_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), $c);
-    Option.destroy_none_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-    return $.copy(limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        let limit;
+        let { aggregator: aggregator, integer: integer } = optional_aggregator;
+        limit = yield Aggregator.limit_(yield Option.borrow_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), $c);
+        yield Aggregator.destroy_(yield Option.destroy_some_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), $c);
+        yield Option.destroy_none_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+        return $.copy(limit);
+    });
 }
 exports.destroy_optional_aggregator_ = destroy_optional_aggregator_;
 function destroy_optional_integer_(optional_aggregator, $c) {
-    let limit;
-    let { aggregator: aggregator, integer: integer } = optional_aggregator;
-    limit = limit_(Option.borrow_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]), $c);
-    destroy_integer_(Option.destroy_some_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]), $c);
-    Option.destroy_none_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-    return $.copy(limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        let limit;
+        let { aggregator: aggregator, integer: integer } = optional_aggregator;
+        limit = yield limit_(yield Option.borrow_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]), $c);
+        yield destroy_integer_(yield Option.destroy_some_(integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]), $c);
+        yield Option.destroy_none_(aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+        return $.copy(limit);
+    });
 }
 exports.destroy_optional_integer_ = destroy_optional_integer_;
 function is_parallelizable_(optional_aggregator, $c) {
-    return Option.is_some_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Option.is_some_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+    });
 }
 exports.is_parallelizable_ = is_parallelizable_;
 function limit_(integer, $c) {
-    return $.copy(integer.limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((integer).limit);
+    });
 }
 exports.limit_ = limit_;
 function new___(limit, parallelizable, $c) {
-    let temp$1;
-    if (parallelizable) {
-        temp$1 = new OptionalAggregator({ aggregator: Option.some_(Aggregator_factory.create_aggregator_internal_($.copy(limit), $c), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), integer: Option.none_($c, [new move_to_ts_2.SimpleStructTag(Integer)]) }, new move_to_ts_2.SimpleStructTag(OptionalAggregator));
-    }
-    else {
-        temp$1 = new OptionalAggregator({ aggregator: Option.none_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), integer: Option.some_(new_integer_($.copy(limit), $c), $c, [new move_to_ts_2.SimpleStructTag(Integer)]) }, new move_to_ts_2.SimpleStructTag(OptionalAggregator));
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (parallelizable) {
+            temp$1 = new OptionalAggregator({ aggregator: yield Option.some_(yield Aggregator_factory.create_aggregator_internal_($.copy(limit), $c), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), integer: yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(Integer)]) }, new move_to_ts_2.SimpleStructTag(OptionalAggregator));
+        }
+        else {
+            temp$1 = new OptionalAggregator({ aggregator: yield Option.none_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]), integer: yield Option.some_(yield new_integer_($.copy(limit), $c), $c, [new move_to_ts_2.SimpleStructTag(Integer)]) }, new move_to_ts_2.SimpleStructTag(OptionalAggregator));
+        }
+        return temp$1;
+    });
 }
 exports.new___ = new___;
 function new_integer_(limit, $c) {
-    return new Integer({ value: (0, move_to_ts_1.u128)("0"), limit: $.copy(limit) }, new move_to_ts_2.SimpleStructTag(Integer));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Integer({ value: (0, move_to_ts_1.u128)("0"), limit: $.copy(limit) }, new move_to_ts_2.SimpleStructTag(Integer));
+    });
 }
 exports.new_integer_ = new_integer_;
 function read_(optional_aggregator, $c) {
-    let temp$1, aggregator, integer;
-    if (Option.is_some_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
-        aggregator = Option.borrow_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-        temp$1 = Aggregator.read_(aggregator, $c);
-    }
-    else {
-        integer = Option.borrow_(optional_aggregator.integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-        temp$1 = read_integer_(integer, $c);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, aggregator, integer;
+        if (yield Option.is_some_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
+            aggregator = yield Option.borrow_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+            temp$1 = yield Aggregator.read_(aggregator, $c);
+        }
+        else {
+            integer = yield Option.borrow_((optional_aggregator).integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+            temp$1 = yield read_integer_(integer, $c);
+        }
+        return temp$1;
+    });
 }
 exports.read_ = read_;
 function read_integer_(integer, $c) {
-    return $.copy(integer.value);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((integer).value);
+    });
 }
 exports.read_integer_ = read_integer_;
 function sub_(optional_aggregator, value, $c) {
-    let aggregator, integer;
-    if (Option.is_some_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
-        aggregator = Option.borrow_mut_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-        Aggregator.sub_(aggregator, $.copy(value), $c);
-    }
-    else {
-        integer = Option.borrow_mut_(optional_aggregator.integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-        sub_integer_(integer, $.copy(value), $c);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator, integer;
+        if (yield Option.is_some_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])])) {
+            aggregator = yield Option.borrow_mut_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+            yield Aggregator.sub_(aggregator, $.copy(value), $c);
+        }
+        else {
+            integer = yield Option.borrow_mut_((optional_aggregator).integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+            yield sub_integer_(integer, $.copy(value), $c);
+        }
+        return;
+    });
 }
 exports.sub_ = sub_;
 function sub_integer_(integer, value, $c) {
-    if (!($.copy(value)).le($.copy(integer.value))) {
-        throw $.abortCode(Error.out_of_range_($.copy(exports.EAGGREGATOR_UNDERFLOW), $c));
-    }
-    integer.value = ($.copy(integer.value)).sub($.copy(value));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy(value)).le($.copy((integer).value))) {
+            throw $.abortCode(yield Error.out_of_range_($.copy(exports.EAGGREGATOR_UNDERFLOW), $c));
+        }
+        (integer).value = ($.copy((integer).value)).sub($.copy(value));
+        return;
+    });
 }
 exports.sub_integer_ = sub_integer_;
 function switch_(optional_aggregator, $c) {
-    let value;
-    value = read_(optional_aggregator, $c);
-    switch_and_zero_out_(optional_aggregator, $c);
-    add_(optional_aggregator, $.copy(value), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let value;
+        value = yield read_(optional_aggregator, $c);
+        yield switch_and_zero_out_(optional_aggregator, $c);
+        yield add_(optional_aggregator, $.copy(value), $c);
+        return;
+    });
 }
 exports.switch_ = switch_;
 function switch_and_zero_out_(optional_aggregator, $c) {
-    if (is_parallelizable_(optional_aggregator, $c)) {
-        switch_to_integer_and_zero_out_(optional_aggregator, $c);
-    }
-    else {
-        switch_to_aggregator_and_zero_out_(optional_aggregator, $c);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (yield is_parallelizable_(optional_aggregator, $c)) {
+            yield switch_to_integer_and_zero_out_(optional_aggregator, $c);
+        }
+        else {
+            yield switch_to_aggregator_and_zero_out_(optional_aggregator, $c);
+        }
+        return;
+    });
 }
 exports.switch_and_zero_out_ = switch_and_zero_out_;
 function switch_to_aggregator_and_zero_out_(optional_aggregator, $c) {
-    let aggregator, integer, limit;
-    integer = Option.extract_(optional_aggregator.integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-    limit = limit_(integer, $c);
-    destroy_integer_(integer, $c);
-    aggregator = Aggregator_factory.create_aggregator_internal_($.copy(limit), $c);
-    Option.fill_(optional_aggregator.aggregator, aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-    return $.copy(limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator, integer, limit;
+        integer = yield Option.extract_((optional_aggregator).integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+        limit = yield limit_(integer, $c);
+        yield destroy_integer_(integer, $c);
+        aggregator = yield Aggregator_factory.create_aggregator_internal_($.copy(limit), $c);
+        yield Option.fill_((optional_aggregator).aggregator, aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+        return $.copy(limit);
+    });
 }
 exports.switch_to_aggregator_and_zero_out_ = switch_to_aggregator_and_zero_out_;
 function switch_to_integer_and_zero_out_(optional_aggregator, $c) {
-    let aggregator, integer, limit;
-    aggregator = Option.extract_(optional_aggregator.aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
-    limit = Aggregator.limit_(aggregator, $c);
-    Aggregator.destroy_(aggregator, $c);
-    integer = new_integer_($.copy(limit), $c);
-    Option.fill_(optional_aggregator.integer, integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
-    return $.copy(limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator, integer, limit;
+        aggregator = yield Option.extract_((optional_aggregator).aggregator, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aggregator", "Aggregator", [])]);
+        limit = yield Aggregator.limit_(aggregator, $c);
+        yield Aggregator.destroy_(aggregator, $c);
+        integer = yield new_integer_($.copy(limit), $c);
+        yield Option.fill_((optional_aggregator).integer, integer, $c, [new move_to_ts_2.SimpleStructTag(Integer)]);
+        return $.copy(limit);
+    });
 }
 exports.switch_to_integer_and_zero_out_ = switch_to_integer_and_zero_out_;
 function loadParsers(repo) {

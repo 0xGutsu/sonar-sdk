@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.getPackageRepo = exports.loadParsers = exports.User = exports.Registry = exports.Order_id = exports.Open_table = exports.Market = exports.Critbit = exports.Assets = void 0;
+exports.App = exports.getPackageRepo = exports.loadParsers = exports.User = exports.Test = exports.Registry = exports.Order_id = exports.Open_table = exports.Market = exports.Critbit = exports.Assets = void 0;
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const Assets = __importStar(require("./assets"));
 const Critbit = __importStar(require("./critbit"));
@@ -31,6 +31,7 @@ const Market = __importStar(require("./market"));
 const Open_table = __importStar(require("./open_table"));
 const Order_id = __importStar(require("./order_id"));
 const Registry = __importStar(require("./registry"));
+const Test = __importStar(require("./test"));
 const User = __importStar(require("./user"));
 exports.Assets = __importStar(require("./assets"));
 exports.Critbit = __importStar(require("./critbit"));
@@ -38,6 +39,7 @@ exports.Market = __importStar(require("./market"));
 exports.Open_table = __importStar(require("./open_table"));
 exports.Order_id = __importStar(require("./order_id"));
 exports.Registry = __importStar(require("./registry"));
+exports.Test = __importStar(require("./test"));
 exports.User = __importStar(require("./user"));
 function loadParsers(repo) {
     Assets.loadParsers(repo);
@@ -46,6 +48,7 @@ function loadParsers(repo) {
     Open_table.loadParsers(repo);
     Order_id.loadParsers(repo);
     Registry.loadParsers(repo);
+    Test.loadParsers(repo);
     User.loadParsers(repo);
 }
 exports.loadParsers = loadParsers;
@@ -67,6 +70,7 @@ class App {
         this.open_table = new Open_table.App(client, repo, cache);
         this.order_id = new Order_id.App(client, repo, cache);
         this.registry = new Registry.App(client, repo, cache);
+        this.test = new Test.App(client, repo, cache);
         this.user = new User.App(client, repo, cache);
     }
 }

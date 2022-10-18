@@ -3,8 +3,8 @@ import { HexString, AptosClient } from "aptos";
 export declare const packageName = "MoveStdlib";
 export declare const moduleAddress: HexString;
 export declare const moduleName = "signer";
-export declare function address_of_(s: HexString, $c: AptosDataCache): HexString;
-export declare function borrow_address_(s: HexString, $c: AptosDataCache): HexString;
+export declare function address_of_(s: HexString, $c: AptosDataCache): Promise<HexString>;
+export declare function borrow_address_(s: HexString, $c: AptosDataCache): Promise<HexString>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

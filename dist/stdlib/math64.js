@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.pow_ = exports.min_ = exports.max_ = exports.average_ = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -31,59 +40,67 @@ exports.packageName = "AptosStdlib";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "math64";
 function average_(a, b, $c) {
-    let temp$1;
-    if (($.copy(a)).lt($.copy(b))) {
-        temp$1 = ($.copy(a)).add((($.copy(b)).sub($.copy(a))).div((0, move_to_ts_1.u64)("2")));
-    }
-    else {
-        temp$1 = ($.copy(b)).add((($.copy(a)).sub($.copy(b))).div((0, move_to_ts_1.u64)("2")));
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (($.copy(a)).lt($.copy(b))) {
+            temp$1 = ($.copy(a)).add((($.copy(b)).sub($.copy(a))).div((0, move_to_ts_1.u64)("2")));
+        }
+        else {
+            temp$1 = ($.copy(b)).add((($.copy(a)).sub($.copy(b))).div((0, move_to_ts_1.u64)("2")));
+        }
+        return temp$1;
+    });
 }
 exports.average_ = average_;
 function max_(a, b, $c) {
-    let temp$1;
-    if (($.copy(a)).ge($.copy(b))) {
-        temp$1 = $.copy(a);
-    }
-    else {
-        temp$1 = $.copy(b);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (($.copy(a)).ge($.copy(b))) {
+            temp$1 = $.copy(a);
+        }
+        else {
+            temp$1 = $.copy(b);
+        }
+        return temp$1;
+    });
 }
 exports.max_ = max_;
 function min_(a, b, $c) {
-    let temp$1;
-    if (($.copy(a)).lt($.copy(b))) {
-        temp$1 = $.copy(a);
-    }
-    else {
-        temp$1 = $.copy(b);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (($.copy(a)).lt($.copy(b))) {
+            temp$1 = $.copy(a);
+        }
+        else {
+            temp$1 = $.copy(b);
+        }
+        return temp$1;
+    });
 }
 exports.min_ = min_;
 function pow_(n, e, $c) {
-    let temp$1, p;
-    if (($.copy(e)).eq(((0, move_to_ts_1.u64)("0")))) {
-        temp$1 = (0, move_to_ts_1.u64)("1");
-    }
-    else {
-        p = (0, move_to_ts_1.u64)("1");
-        while (($.copy(e)).gt((0, move_to_ts_1.u64)("1"))) {
-            {
-                if ((($.copy(e)).mod((0, move_to_ts_1.u64)("2"))).eq(((0, move_to_ts_1.u64)("1")))) {
-                    p = ($.copy(p)).mul($.copy(n));
-                }
-                else {
-                }
-                e = ($.copy(e)).div((0, move_to_ts_1.u64)("2"));
-                n = ($.copy(n)).mul($.copy(n));
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, p;
+        if (($.copy(e)).eq(((0, move_to_ts_1.u64)("0")))) {
+            temp$1 = (0, move_to_ts_1.u64)("1");
         }
-        temp$1 = ($.copy(p)).mul($.copy(n));
-    }
-    return temp$1;
+        else {
+            p = (0, move_to_ts_1.u64)("1");
+            while (($.copy(e)).gt((0, move_to_ts_1.u64)("1"))) {
+                {
+                    if ((($.copy(e)).mod((0, move_to_ts_1.u64)("2"))).eq(((0, move_to_ts_1.u64)("1")))) {
+                        p = ($.copy(p)).mul($.copy(n));
+                    }
+                    else {
+                    }
+                    e = ($.copy(e)).div((0, move_to_ts_1.u64)("2"));
+                    n = ($.copy(n)).mul($.copy(n));
+                }
+            }
+            temp$1 = ($.copy(p)).mul($.copy(n));
+        }
+        return temp$1;
+    });
 }
 exports.pow_ = pow_;
 function loadParsers(repo) {

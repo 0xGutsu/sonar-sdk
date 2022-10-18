@@ -90,229 +90,273 @@ Pool.fields = [
     { name: "scaling_factor", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function add_shares_(pool, shareholder, new_shares, $c) {
-    let temp$1, temp$2, temp$3, temp$4, current_shares, existing_shares;
-    [temp$1, temp$2] = [pool, $.copy(shareholder)];
-    if (contains_(temp$1, temp$2, $c)) {
-        existing_shares = Simple_map.borrow_mut_(pool.shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
-        current_shares = $.copy(existing_shares);
-        if (!(($.copy(exports.MAX_U64)).sub($.copy(current_shares))).ge($.copy(new_shares))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.ESHAREHOLDER_SHARES_OVERFLOW), $c));
-        }
-        $.set(existing_shares, ($.copy(current_shares)).add($.copy(new_shares)));
-        temp$4 = $.copy(existing_shares);
-    }
-    else {
-        if (($.copy(new_shares)).gt((0, move_to_ts_1.u64)("0"))) {
-            if (!(Vector.length_(pool.shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])).lt($.copy(pool.shareholders_limit))) {
-                throw $.abortCode(Error.invalid_state_($.copy(exports.ETOO_MANY_SHAREHOLDERS), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, current_shares, existing_shares;
+        [temp$1, temp$2] = [pool, $.copy(shareholder)];
+        if (yield contains_(temp$1, temp$2, $c)) {
+            existing_shares = yield Simple_map.borrow_mut_((pool).shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+            current_shares = $.copy(existing_shares);
+            if (!(($.copy(exports.MAX_U64)).sub($.copy(current_shares))).ge($.copy(new_shares))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ESHAREHOLDER_SHARES_OVERFLOW), $c));
             }
-            Vector.push_back_(pool.shareholders, $.copy(shareholder), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-            Simple_map.add_(pool.shares, $.copy(shareholder), $.copy(new_shares), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
-            temp$3 = $.copy(new_shares);
+            $.set(existing_shares, ($.copy(current_shares)).add($.copy(new_shares)));
+            temp$4 = $.copy(existing_shares);
         }
         else {
-            temp$3 = $.copy(new_shares);
+            if (($.copy(new_shares)).gt((0, move_to_ts_1.u64)("0"))) {
+                if (!(yield Vector.length_((pool).shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])).lt($.copy((pool).shareholders_limit))) {
+                    throw $.abortCode(yield Error.invalid_state_($.copy(exports.ETOO_MANY_SHAREHOLDERS), $c));
+                }
+                yield Vector.push_back_((pool).shareholders, $.copy(shareholder), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+                yield Simple_map.add_((pool).shares, $.copy(shareholder), $.copy(new_shares), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+                temp$3 = $.copy(new_shares);
+            }
+            else {
+                temp$3 = $.copy(new_shares);
+            }
+            temp$4 = temp$3;
         }
-        temp$4 = temp$3;
-    }
-    return temp$4;
+        return temp$4;
+    });
 }
 exports.add_shares_ = add_shares_;
 function amount_to_shares_(pool, coins_amount, $c) {
-    return amount_to_shares_with_total_coins_(pool, $.copy(coins_amount), $.copy(pool.total_coins), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield amount_to_shares_with_total_coins_(pool, $.copy(coins_amount), $.copy((pool).total_coins), $c);
+    });
 }
 exports.amount_to_shares_ = amount_to_shares_;
 function amount_to_shares_with_total_coins_(pool, coins_amount, total_coins, $c) {
-    let temp$1, temp$2;
-    if (($.copy(pool.total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = ($.copy(pool.total_shares)).eq(((0, move_to_ts_1.u64)("0")));
-    }
-    if (temp$1) {
-        temp$2 = ($.copy(coins_amount)).mul($.copy(pool.scaling_factor));
-    }
-    else {
-        temp$2 = multiply_then_divide_(pool, $.copy(coins_amount), $.copy(pool.total_shares), $.copy(total_coins), $c);
-    }
-    return temp$2;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        if (($.copy((pool).total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = ($.copy((pool).total_shares)).eq(((0, move_to_ts_1.u64)("0")));
+        }
+        if (temp$1) {
+            temp$2 = ($.copy(coins_amount)).mul($.copy((pool).scaling_factor));
+        }
+        else {
+            temp$2 = yield multiply_then_divide_(pool, $.copy(coins_amount), $.copy((pool).total_shares), $.copy(total_coins), $c);
+        }
+        return temp$2;
+    });
 }
 exports.amount_to_shares_with_total_coins_ = amount_to_shares_with_total_coins_;
 function balance_(pool, shareholder, $c) {
-    let num_shares;
-    num_shares = shares_(pool, $.copy(shareholder), $c);
-    return shares_to_amount_(pool, $.copy(num_shares), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let num_shares;
+        num_shares = yield shares_(pool, $.copy(shareholder), $c);
+        return yield shares_to_amount_(pool, $.copy(num_shares), $c);
+    });
 }
 exports.balance_ = balance_;
 function buy_in_(pool, shareholder, coins_amount, $c) {
-    let temp$1, temp$2, new_shares;
-    if (($.copy(coins_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return (0, move_to_ts_1.u64)("0");
-    }
-    else {
-    }
-    [temp$1, temp$2] = [pool, $.copy(coins_amount)];
-    new_shares = amount_to_shares_(temp$1, temp$2, $c);
-    if (!(($.copy(exports.MAX_U64)).sub($.copy(pool.total_coins))).ge($.copy(coins_amount))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EPOOL_TOTAL_COINS_OVERFLOW), $c));
-    }
-    if (!(($.copy(exports.MAX_U64)).sub($.copy(pool.total_shares))).ge($.copy(new_shares))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EPOOL_TOTAL_COINS_OVERFLOW), $c));
-    }
-    pool.total_coins = ($.copy(pool.total_coins)).add($.copy(coins_amount));
-    pool.total_shares = ($.copy(pool.total_shares)).add($.copy(new_shares));
-    add_shares_(pool, $.copy(shareholder), $.copy(new_shares), $c);
-    return $.copy(new_shares);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, new_shares;
+        if (($.copy(coins_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return (0, move_to_ts_1.u64)("0");
+        }
+        else {
+        }
+        [temp$1, temp$2] = [pool, $.copy(coins_amount)];
+        new_shares = yield amount_to_shares_(temp$1, temp$2, $c);
+        if (!(($.copy(exports.MAX_U64)).sub($.copy((pool).total_coins))).ge($.copy(coins_amount))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EPOOL_TOTAL_COINS_OVERFLOW), $c));
+        }
+        if (!(($.copy(exports.MAX_U64)).sub($.copy((pool).total_shares))).ge($.copy(new_shares))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EPOOL_TOTAL_COINS_OVERFLOW), $c));
+        }
+        (pool).total_coins = ($.copy((pool).total_coins)).add($.copy(coins_amount));
+        (pool).total_shares = ($.copy((pool).total_shares)).add($.copy(new_shares));
+        yield add_shares_(pool, $.copy(shareholder), $.copy(new_shares), $c);
+        return $.copy(new_shares);
+    });
 }
 exports.buy_in_ = buy_in_;
 function contains_(pool, shareholder, $c) {
-    return Simple_map.contains_key_(pool.shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Simple_map.contains_key_((pool).shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+    });
 }
 exports.contains_ = contains_;
 function create_(shareholders_limit, $c) {
-    return create_with_scaling_factor_($.copy(shareholders_limit), (0, move_to_ts_1.u64)("1"), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield create_with_scaling_factor_($.copy(shareholders_limit), (0, move_to_ts_1.u64)("1"), $c);
+    });
 }
 exports.create_ = create_;
 function create_with_scaling_factor_(shareholders_limit, scaling_factor, $c) {
-    return new Pool({ shareholders_limit: $.copy(shareholders_limit), total_coins: (0, move_to_ts_1.u64)("0"), total_shares: (0, move_to_ts_1.u64)("0"), shares: Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]), shareholders: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]), scaling_factor: $.copy(scaling_factor) }, new move_to_ts_2.SimpleStructTag(Pool));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Pool({ shareholders_limit: $.copy(shareholders_limit), total_coins: (0, move_to_ts_1.u64)("0"), total_shares: (0, move_to_ts_1.u64)("0"), shares: yield Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]), shareholders: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]), scaling_factor: $.copy(scaling_factor) }, new move_to_ts_2.SimpleStructTag(Pool));
+    });
 }
 exports.create_with_scaling_factor_ = create_with_scaling_factor_;
 function deduct_shares_(pool, shareholder, num_shares, $c) {
-    let temp$1, temp$2, temp$3, temp$4, existing_shares, remaining_shares, shareholder_index;
-    [temp$1, temp$2] = [pool, $.copy(shareholder)];
-    if (!contains_(temp$1, temp$2, $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
-    }
-    [temp$3, temp$4] = [pool, $.copy(shareholder)];
-    if (!(shares_(temp$3, temp$4, $c)).ge($.copy(num_shares))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
-    }
-    existing_shares = Simple_map.borrow_mut_(pool.shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
-    $.set(existing_shares, ($.copy(existing_shares)).sub($.copy(num_shares)));
-    remaining_shares = $.copy(existing_shares);
-    if (($.copy(remaining_shares)).eq(((0, move_to_ts_1.u64)("0")))) {
-        [, shareholder_index] = Vector.index_of_(pool.shareholders, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-        Vector.remove_(pool.shareholders, $.copy(shareholder_index), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-        Simple_map.remove_(pool.shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
-    }
-    else {
-    }
-    return $.copy(remaining_shares);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, existing_shares, remaining_shares, shareholder_index;
+        [temp$1, temp$2] = [pool, $.copy(shareholder)];
+        if (!(yield contains_(temp$1, temp$2, $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
+        }
+        [temp$3, temp$4] = [pool, $.copy(shareholder)];
+        if (!(yield shares_(temp$3, temp$4, $c)).ge($.copy(num_shares))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
+        }
+        existing_shares = yield Simple_map.borrow_mut_((pool).shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+        $.set(existing_shares, ($.copy(existing_shares)).sub($.copy(num_shares)));
+        remaining_shares = $.copy(existing_shares);
+        if (($.copy(remaining_shares)).eq(((0, move_to_ts_1.u64)("0")))) {
+            [, shareholder_index] = yield Vector.index_of_((pool).shareholders, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+            yield Vector.remove_((pool).shareholders, $.copy(shareholder_index), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+            yield Simple_map.remove_((pool).shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]);
+        }
+        else {
+        }
+        return $.copy(remaining_shares);
+    });
 }
 exports.deduct_shares_ = deduct_shares_;
 function destroy_empty_(pool, $c) {
-    if (!($.copy(pool.total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPOOL_IS_NOT_EMPTY), $c));
-    }
-    pool;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy((pool).total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPOOL_IS_NOT_EMPTY), $c));
+        }
+        pool;
+        return;
+    });
 }
 exports.destroy_empty_ = destroy_empty_;
 function multiply_then_divide_(_pool, x, y, z, $c) {
-    let result;
-    result = ((to_u128_($.copy(x), $c)).mul(to_u128_($.copy(y), $c))).div(to_u128_($.copy(z), $c));
-    return (0, move_to_ts_1.u64)($.copy(result));
+    return __awaiter(this, void 0, void 0, function* () {
+        let result;
+        result = ((yield to_u128_($.copy(x), $c)).mul(yield to_u128_($.copy(y), $c))).div(yield to_u128_($.copy(z), $c));
+        return (0, move_to_ts_1.u64)($.copy(result));
+    });
 }
 exports.multiply_then_divide_ = multiply_then_divide_;
 function redeem_shares_(pool, shareholder, shares_to_redeem, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, redeemed_coins;
-    [temp$1, temp$2] = [pool, $.copy(shareholder)];
-    if (!contains_(temp$1, temp$2, $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
-    }
-    [temp$3, temp$4] = [pool, $.copy(shareholder)];
-    if (!(shares_(temp$3, temp$4, $c)).ge($.copy(shares_to_redeem))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
-    }
-    if (($.copy(shares_to_redeem)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return (0, move_to_ts_1.u64)("0");
-    }
-    else {
-    }
-    [temp$5, temp$6] = [pool, $.copy(shares_to_redeem)];
-    redeemed_coins = shares_to_amount_(temp$5, temp$6, $c);
-    pool.total_coins = ($.copy(pool.total_coins)).sub($.copy(redeemed_coins));
-    pool.total_shares = ($.copy(pool.total_shares)).sub($.copy(shares_to_redeem));
-    deduct_shares_(pool, $.copy(shareholder), $.copy(shares_to_redeem), $c);
-    return $.copy(redeemed_coins);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, redeemed_coins;
+        [temp$1, temp$2] = [pool, $.copy(shareholder)];
+        if (!(yield contains_(temp$1, temp$2, $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
+        }
+        [temp$3, temp$4] = [pool, $.copy(shareholder)];
+        if (!(yield shares_(temp$3, temp$4, $c)).ge($.copy(shares_to_redeem))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
+        }
+        if (($.copy(shares_to_redeem)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return (0, move_to_ts_1.u64)("0");
+        }
+        else {
+        }
+        [temp$5, temp$6] = [pool, $.copy(shares_to_redeem)];
+        redeemed_coins = yield shares_to_amount_(temp$5, temp$6, $c);
+        (pool).total_coins = ($.copy((pool).total_coins)).sub($.copy(redeemed_coins));
+        (pool).total_shares = ($.copy((pool).total_shares)).sub($.copy(shares_to_redeem));
+        yield deduct_shares_(pool, $.copy(shareholder), $.copy(shares_to_redeem), $c);
+        return $.copy(redeemed_coins);
+    });
 }
 exports.redeem_shares_ = redeem_shares_;
 function shareholders_(pool, $c) {
-    return $.copy(pool.shareholders);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pool).shareholders);
+    });
 }
 exports.shareholders_ = shareholders_;
 function shareholders_count_(pool, $c) {
-    return Vector.length_(pool.shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Vector.length_((pool).shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    });
 }
 exports.shareholders_count_ = shareholders_count_;
 function shares_(pool, shareholder, $c) {
-    let temp$1;
-    if (contains_(pool, $.copy(shareholder), $c)) {
-        temp$1 = $.copy(Simple_map.borrow_(pool.shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]));
-    }
-    else {
-        temp$1 = (0, move_to_ts_1.u64)("0");
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield contains_(pool, $.copy(shareholder), $c)) {
+            temp$1 = $.copy(yield Simple_map.borrow_((pool).shares, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U64]));
+        }
+        else {
+            temp$1 = (0, move_to_ts_1.u64)("0");
+        }
+        return temp$1;
+    });
 }
 exports.shares_ = shares_;
 function shares_to_amount_(pool, shares, $c) {
-    return shares_to_amount_with_total_coins_(pool, $.copy(shares), $.copy(pool.total_coins), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield shares_to_amount_with_total_coins_(pool, $.copy(shares), $.copy((pool).total_coins), $c);
+    });
 }
 exports.shares_to_amount_ = shares_to_amount_;
 function shares_to_amount_with_total_coins_(pool, shares, total_coins, $c) {
-    let temp$1, temp$2;
-    if (($.copy(pool.total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = ($.copy(pool.total_shares)).eq(((0, move_to_ts_1.u64)("0")));
-    }
-    if (temp$1) {
-        temp$2 = (0, move_to_ts_1.u64)("0");
-    }
-    else {
-        temp$2 = multiply_then_divide_(pool, $.copy(shares), $.copy(total_coins), $.copy(pool.total_shares), $c);
-    }
-    return temp$2;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        if (($.copy((pool).total_coins)).eq(((0, move_to_ts_1.u64)("0")))) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = ($.copy((pool).total_shares)).eq(((0, move_to_ts_1.u64)("0")));
+        }
+        if (temp$1) {
+            temp$2 = (0, move_to_ts_1.u64)("0");
+        }
+        else {
+            temp$2 = yield multiply_then_divide_(pool, $.copy(shares), $.copy(total_coins), $.copy((pool).total_shares), $c);
+        }
+        return temp$2;
+    });
 }
 exports.shares_to_amount_with_total_coins_ = shares_to_amount_with_total_coins_;
 function to_u128_(num, $c) {
-    return (0, move_to_ts_1.u128)($.copy(num));
+    return __awaiter(this, void 0, void 0, function* () {
+        return (0, move_to_ts_1.u128)($.copy(num));
+    });
 }
 exports.to_u128_ = to_u128_;
 function total_coins_(pool, $c) {
-    return $.copy(pool.total_coins);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pool).total_coins);
+    });
 }
 exports.total_coins_ = total_coins_;
 function total_shares_(pool, $c) {
-    return $.copy(pool.total_shares);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pool).total_shares);
+    });
 }
 exports.total_shares_ = total_shares_;
 function transfer_shares_(pool, shareholder_1, shareholder_2, shares_to_transfer, $c) {
-    let temp$1, temp$2, temp$3, temp$4;
-    [temp$1, temp$2] = [pool, $.copy(shareholder_1)];
-    if (!contains_(temp$1, temp$2, $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
-    }
-    [temp$3, temp$4] = [pool, $.copy(shareholder_1)];
-    if (!(shares_(temp$3, temp$4, $c)).ge($.copy(shares_to_transfer))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
-    }
-    if (($.copy(shares_to_transfer)).eq(((0, move_to_ts_1.u64)("0")))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4;
+        [temp$1, temp$2] = [pool, $.copy(shareholder_1)];
+        if (!(yield contains_(temp$1, temp$2, $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ESHAREHOLDER_NOT_FOUND), $c));
+        }
+        [temp$3, temp$4] = [pool, $.copy(shareholder_1)];
+        if (!(yield shares_(temp$3, temp$4, $c)).ge($.copy(shares_to_transfer))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINSUFFICIENT_SHARES), $c));
+        }
+        if (($.copy(shares_to_transfer)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return;
+        }
+        else {
+        }
+        yield deduct_shares_(pool, $.copy(shareholder_1), $.copy(shares_to_transfer), $c);
+        yield add_shares_(pool, $.copy(shareholder_2), $.copy(shares_to_transfer), $c);
         return;
-    }
-    else {
-    }
-    deduct_shares_(pool, $.copy(shareholder_1), $.copy(shares_to_transfer), $c);
-    add_shares_(pool, $.copy(shareholder_2), $.copy(shares_to_transfer), $c);
-    return;
+    });
 }
 exports.transfer_shares_ = transfer_shares_;
 function update_total_coins_(pool, new_total_coins, $c) {
-    pool.total_coins = $.copy(new_total_coins);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        (pool).total_coins = $.copy(new_total_coins);
+        return;
+    });
 }
 exports.update_total_coins_ = update_total_coins_;
 function loadParsers(repo) {

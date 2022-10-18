@@ -37,14 +37,14 @@ export declare class ID {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_(addr: HexString, creation_num_ref: U64, $c: AptosDataCache): GUID;
-export declare function create_id_(addr: HexString, creation_num: U64, $c: AptosDataCache): ID;
-export declare function creation_num_(guid: GUID, $c: AptosDataCache): U64;
-export declare function creator_address_(guid: GUID, $c: AptosDataCache): HexString;
-export declare function eq_id_(guid: GUID, id: ID, $c: AptosDataCache): boolean;
-export declare function id_(guid: GUID, $c: AptosDataCache): ID;
-export declare function id_creation_num_(id: ID, $c: AptosDataCache): U64;
-export declare function id_creator_address_(id: ID, $c: AptosDataCache): HexString;
+export declare function create_(addr: HexString, creation_num_ref: U64, $c: AptosDataCache): Promise<GUID>;
+export declare function create_id_(addr: HexString, creation_num: U64, $c: AptosDataCache): Promise<ID>;
+export declare function creation_num_(guid: GUID, $c: AptosDataCache): Promise<U64>;
+export declare function creator_address_(guid: GUID, $c: AptosDataCache): Promise<HexString>;
+export declare function eq_id_(guid: GUID, id: ID, $c: AptosDataCache): Promise<boolean>;
+export declare function id_(guid: GUID, $c: AptosDataCache): Promise<ID>;
+export declare function id_creation_num_(id: ID, $c: AptosDataCache): Promise<U64>;
+export declare function id_creator_address_(id: ID, $c: AptosDataCache): Promise<HexString>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

@@ -5,7 +5,7 @@ import { HexString, AptosClient } from "aptos";
 export declare const packageName = "MoveStdlib";
 export declare const moduleAddress: HexString;
 export declare const moduleName = "bcs";
-export declare function to_bytes_(v: any, $c: AptosDataCache, $p: TypeTag[]): U8[];
+export declare function to_bytes_(v: any, $c: AptosDataCache, $p: TypeTag[]): Promise<U8[]>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

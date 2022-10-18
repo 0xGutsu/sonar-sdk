@@ -26,17 +26,17 @@ export declare class TableWithLength {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(table: TableWithLength, key: any, val: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function borrow_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_mut_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_mut_with_default_(table: TableWithLength, key: any, default__: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function contains_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function destroy_empty_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function empty_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function length_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function new___($c: AptosDataCache, $p: TypeTag[]): TableWithLength;
-export declare function remove_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function upsert_(table: TableWithLength, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): void;
+export declare function add_(table: TableWithLength, key: any, val: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function borrow_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_mut_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_mut_with_default_(table: TableWithLength, key: any, default__: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function contains_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function destroy_empty_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function empty_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function length_(table: TableWithLength, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function new___($c: AptosDataCache, $p: TypeTag[]): Promise<TableWithLength>;
+export declare function remove_(table: TableWithLength, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function upsert_(table: TableWithLength, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

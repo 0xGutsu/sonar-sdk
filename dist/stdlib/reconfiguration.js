@@ -164,96 +164,112 @@ NewEpochEvent.fields = [
     { name: "epoch", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function current_epoch_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1")).epoch);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"))).epoch);
+    });
 }
 exports.current_epoch_ = current_epoch_;
 function disable_reconfiguration_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!reconfiguration_enabled_($c)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
-    }
-    return $c.move_to(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), aptos_framework, new DisableReconfiguration({}, new move_to_ts_2.SimpleStructTag(DisableReconfiguration)));
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!(yield reconfiguration_enabled_($c))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
+        }
+        return yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), aptos_framework, new DisableReconfiguration({}, new move_to_ts_2.SimpleStructTag(DisableReconfiguration)));
+    });
 }
 exports.disable_reconfiguration_ = disable_reconfiguration_;
 function emit_genesis_reconfiguration_event_($c) {
-    let temp$1, config_ref;
-    config_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"));
-    if (($.copy(config_ref.epoch)).eq(((0, move_to_ts_1.u64)("0")))) {
-        temp$1 = ($.copy(config_ref.last_reconfiguration_time)).eq(((0, move_to_ts_1.u64)("0")));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
-    }
-    config_ref.epoch = (0, move_to_ts_1.u64)("1");
-    Event.emit_event_(config_ref.events, new NewEpochEvent({ epoch: $.copy(config_ref.epoch) }, new move_to_ts_2.SimpleStructTag(NewEpochEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, config_ref;
+        config_ref = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"));
+        if (($.copy((config_ref).epoch)).eq(((0, move_to_ts_1.u64)("0")))) {
+            temp$1 = ($.copy((config_ref).last_reconfiguration_time)).eq(((0, move_to_ts_1.u64)("0")));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
+        }
+        (config_ref).epoch = (0, move_to_ts_1.u64)("1");
+        yield Event.emit_event_((config_ref).events, new NewEpochEvent({ epoch: $.copy((config_ref).epoch) }, new move_to_ts_2.SimpleStructTag(NewEpochEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]);
+        return;
+    });
 }
 exports.emit_genesis_reconfiguration_event_ = emit_genesis_reconfiguration_event_;
 function enable_reconfiguration_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!!reconfiguration_enabled_($c)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
-    }
-    $c.move_from(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), Signer.address_of_(aptos_framework, $c));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!!(yield reconfiguration_enabled_($c))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ECONFIGURATION), $c));
+        }
+        yield $c.move_from_async(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), yield Signer.address_of_(aptos_framework, $c));
+        return;
+    });
 }
 exports.enable_reconfiguration_ = enable_reconfiguration_;
 function initialize_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!(Account.get_guid_next_creation_num_(Signer.address_of_(aptos_framework, $c), $c)).eq(((0, move_to_ts_1.u64)("2")))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EINVALID_GUID_FOR_EVENT), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(Configuration), aptos_framework, new Configuration({ epoch: (0, move_to_ts_1.u64)("0"), last_reconfiguration_time: (0, move_to_ts_1.u64)("0"), events: Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]) }, new move_to_ts_2.SimpleStructTag(Configuration)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!(yield Account.get_guid_next_creation_num_(yield Signer.address_of_(aptos_framework, $c), $c)).eq(((0, move_to_ts_1.u64)("2")))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EINVALID_GUID_FOR_EVENT), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Configuration), aptos_framework, new Configuration({ epoch: (0, move_to_ts_1.u64)("0"), last_reconfiguration_time: (0, move_to_ts_1.u64)("0"), events: yield Account.new_event_handle_(aptos_framework, $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]) }, new move_to_ts_2.SimpleStructTag(Configuration)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function last_reconfiguration_time_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1")).last_reconfiguration_time);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"))).last_reconfiguration_time);
+    });
 }
 exports.last_reconfiguration_time_ = last_reconfiguration_time_;
 function reconfiguration_enabled_($c) {
-    return !$c.exists(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), new aptos_1.HexString("0x1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        return !(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(DisableReconfiguration), new aptos_1.HexString("0x1")));
+    });
 }
 exports.reconfiguration_enabled_ = reconfiguration_enabled_;
 function reconfigure_($c) {
-    let temp$1, temp$2, config_ref, current_time;
-    if (Chain_status.is_genesis_($c)) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (Timestamp.now_microseconds_($c)).eq(((0, move_to_ts_1.u64)("0")));
-    }
-    if (temp$1) {
-        temp$2 = true;
-    }
-    else {
-        temp$2 = !reconfiguration_enabled_($c);
-    }
-    if (temp$2) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, config_ref, current_time;
+        if (yield Chain_status.is_genesis_($c)) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (yield Timestamp.now_microseconds_($c)).eq(((0, move_to_ts_1.u64)("0")));
+        }
+        if (temp$1) {
+            temp$2 = true;
+        }
+        else {
+            temp$2 = !(yield reconfiguration_enabled_($c));
+        }
+        if (temp$2) {
+            return;
+        }
+        else {
+        }
+        config_ref = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"));
+        current_time = yield Timestamp.now_microseconds_($c);
+        if (($.copy(current_time)).eq(($.copy((config_ref).last_reconfiguration_time)))) {
+            return;
+        }
+        else {
+        }
+        yield Stake.on_new_epoch_($c);
+        yield Storage_gas.on_reconfig_($c);
+        if (!($.copy(current_time)).gt($.copy((config_ref).last_reconfiguration_time))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EINVALID_BLOCK_TIME), $c));
+        }
+        (config_ref).last_reconfiguration_time = $.copy(current_time);
+        ;
+        (config_ref).epoch = ($.copy((config_ref).epoch)).add((0, move_to_ts_1.u64)("1"));
+        yield Event.emit_event_((config_ref).events, new NewEpochEvent({ epoch: $.copy((config_ref).epoch) }, new move_to_ts_2.SimpleStructTag(NewEpochEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]);
         return;
-    }
-    else {
-    }
-    config_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Configuration), new aptos_1.HexString("0x1"));
-    current_time = Timestamp.now_microseconds_($c);
-    if (($.copy(current_time)).eq(($.copy(config_ref.last_reconfiguration_time)))) {
-        return;
-    }
-    else {
-    }
-    Stake.on_new_epoch_($c);
-    Storage_gas.on_reconfig_($c);
-    if (!($.copy(current_time)).gt($.copy(config_ref.last_reconfiguration_time))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EINVALID_BLOCK_TIME), $c));
-    }
-    config_ref.last_reconfiguration_time = $.copy(current_time);
-    ;
-    config_ref.epoch = ($.copy(config_ref.epoch)).add((0, move_to_ts_1.u64)("1"));
-    Event.emit_event_(config_ref.events, new NewEpochEvent({ epoch: $.copy(config_ref.epoch) }, new move_to_ts_2.SimpleStructTag(NewEpochEvent)), $c, [new move_to_ts_2.SimpleStructTag(NewEpochEvent)]);
-    return;
+    });
 }
 exports.reconfigure_ = reconfigure_;
 function loadParsers(repo) {
@@ -275,21 +291,27 @@ class App {
         return exports.moduleName;
     } }
     get Configuration() { return Configuration; }
-    loadConfiguration(owner, loadFull = true) {
+    loadConfiguration(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Configuration.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get DisableReconfiguration() { return DisableReconfiguration; }
-    loadDisableReconfiguration(owner, loadFull = true) {
+    loadDisableReconfiguration(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield DisableReconfiguration.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

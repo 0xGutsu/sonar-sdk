@@ -74,61 +74,73 @@ FixedPoint32.fields = [
     { name: "value", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function create_from_rational_(numerator, denominator, $c) {
-    let temp$1, quotient, scaled_denominator, scaled_numerator;
-    scaled_numerator = ((0, move_to_ts_1.u128)($.copy(numerator))).shl((0, move_to_ts_1.u8)("64"));
-    scaled_denominator = ((0, move_to_ts_1.u128)($.copy(denominator))).shl((0, move_to_ts_1.u8)("32"));
-    if (!($.copy(scaled_denominator)).neq((0, move_to_ts_1.u128)("0"))) {
-        throw $.abortCode($.copy(exports.EDENOMINATOR));
-    }
-    quotient = ($.copy(scaled_numerator)).div($.copy(scaled_denominator));
-    if (($.copy(quotient)).neq((0, move_to_ts_1.u128)("0"))) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = ($.copy(numerator)).eq(((0, move_to_ts_1.u64)("0")));
-    }
-    if (!temp$1) {
-        throw $.abortCode($.copy(exports.ERATIO_OUT_OF_RANGE));
-    }
-    if (!($.copy(quotient)).le($.copy(exports.MAX_U64))) {
-        throw $.abortCode($.copy(exports.ERATIO_OUT_OF_RANGE));
-    }
-    return new FixedPoint32({ value: (0, move_to_ts_1.u64)($.copy(quotient)) }, new move_to_ts_2.SimpleStructTag(FixedPoint32));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, quotient, scaled_denominator, scaled_numerator;
+        scaled_numerator = ((0, move_to_ts_1.u128)($.copy(numerator))).shl((0, move_to_ts_1.u8)("64"));
+        scaled_denominator = ((0, move_to_ts_1.u128)($.copy(denominator))).shl((0, move_to_ts_1.u8)("32"));
+        if (!($.copy(scaled_denominator)).neq((0, move_to_ts_1.u128)("0"))) {
+            throw $.abortCode($.copy(exports.EDENOMINATOR));
+        }
+        quotient = ($.copy(scaled_numerator)).div($.copy(scaled_denominator));
+        if (($.copy(quotient)).neq((0, move_to_ts_1.u128)("0"))) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = ($.copy(numerator)).eq(((0, move_to_ts_1.u64)("0")));
+        }
+        if (!temp$1) {
+            throw $.abortCode($.copy(exports.ERATIO_OUT_OF_RANGE));
+        }
+        if (!($.copy(quotient)).le($.copy(exports.MAX_U64))) {
+            throw $.abortCode($.copy(exports.ERATIO_OUT_OF_RANGE));
+        }
+        return new FixedPoint32({ value: (0, move_to_ts_1.u64)($.copy(quotient)) }, new move_to_ts_2.SimpleStructTag(FixedPoint32));
+    });
 }
 exports.create_from_rational_ = create_from_rational_;
 function create_from_raw_value_(value, $c) {
-    return new FixedPoint32({ value: $.copy(value) }, new move_to_ts_2.SimpleStructTag(FixedPoint32));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new FixedPoint32({ value: $.copy(value) }, new move_to_ts_2.SimpleStructTag(FixedPoint32));
+    });
 }
 exports.create_from_raw_value_ = create_from_raw_value_;
 function divide_u64_(val, divisor, $c) {
-    let quotient, scaled_value;
-    if (!($.copy(divisor.value)).neq((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode($.copy(exports.EDIVISION_BY_ZERO));
-    }
-    scaled_value = ((0, move_to_ts_1.u128)($.copy(val))).shl((0, move_to_ts_1.u8)("32"));
-    quotient = ($.copy(scaled_value)).div((0, move_to_ts_1.u128)($.copy(divisor.value)));
-    if (!($.copy(quotient)).le($.copy(exports.MAX_U64))) {
-        throw $.abortCode($.copy(exports.EDIVISION));
-    }
-    return (0, move_to_ts_1.u64)($.copy(quotient));
+    return __awaiter(this, void 0, void 0, function* () {
+        let quotient, scaled_value;
+        if (!($.copy((divisor).value)).neq((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode($.copy(exports.EDIVISION_BY_ZERO));
+        }
+        scaled_value = ((0, move_to_ts_1.u128)($.copy(val))).shl((0, move_to_ts_1.u8)("32"));
+        quotient = ($.copy(scaled_value)).div((0, move_to_ts_1.u128)($.copy((divisor).value)));
+        if (!($.copy(quotient)).le($.copy(exports.MAX_U64))) {
+            throw $.abortCode($.copy(exports.EDIVISION));
+        }
+        return (0, move_to_ts_1.u64)($.copy(quotient));
+    });
 }
 exports.divide_u64_ = divide_u64_;
 function get_raw_value_(num, $c) {
-    return $.copy(num.value);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((num).value);
+    });
 }
 exports.get_raw_value_ = get_raw_value_;
 function is_zero_(num, $c) {
-    return ($.copy(num.value)).eq(((0, move_to_ts_1.u64)("0")));
+    return __awaiter(this, void 0, void 0, function* () {
+        return ($.copy((num).value)).eq(((0, move_to_ts_1.u64)("0")));
+    });
 }
 exports.is_zero_ = is_zero_;
 function multiply_u64_(val, multiplier, $c) {
-    let product, unscaled_product;
-    unscaled_product = ((0, move_to_ts_1.u128)($.copy(val))).mul((0, move_to_ts_1.u128)($.copy(multiplier.value)));
-    product = ($.copy(unscaled_product)).shr((0, move_to_ts_1.u8)("32"));
-    if (!($.copy(product)).le($.copy(exports.MAX_U64))) {
-        throw $.abortCode($.copy(exports.EMULTIPLICATION));
-    }
-    return (0, move_to_ts_1.u64)($.copy(product));
+    return __awaiter(this, void 0, void 0, function* () {
+        let product, unscaled_product;
+        unscaled_product = ((0, move_to_ts_1.u128)($.copy(val))).mul((0, move_to_ts_1.u128)($.copy((multiplier).value)));
+        product = ($.copy(unscaled_product)).shr((0, move_to_ts_1.u8)("32"));
+        if (!($.copy(product)).le($.copy(exports.MAX_U64))) {
+            throw $.abortCode($.copy(exports.EMULTIPLICATION));
+        }
+        return (0, move_to_ts_1.u64)($.copy(product));
+    });
 }
 exports.multiply_u64_ = multiply_u64_;
 function loadParsers(repo) {

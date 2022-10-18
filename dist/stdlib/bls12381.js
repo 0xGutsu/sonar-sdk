@@ -32,18 +32,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.loadParsers = exports.verify_signature_share_internal_ = exports.verify_signature_share_ = exports.verify_proof_of_possession_internal_ = exports.verify_normal_signature_internal_ = exports.verify_normal_signature_ = exports.verify_multisignature_internal_ = exports.verify_multisignature_ = exports.verify_aggregate_signature_internal_ = exports.verify_aggregate_signature_ = exports.validate_pubkey_internal_ = exports.signature_to_bytes_ = exports.signature_subgroup_check_internal_ = exports.signature_subgroup_check_ = exports.signature_from_bytes_ = exports.public_key_with_pop_to_bytes_ = exports.public_key_to_bytes_ = exports.public_key_from_bytes_with_pop_ = exports.public_key_from_bytes_ = exports.proof_of_possession_to_bytes_ = exports.proof_of_possession_from_bytes_ = exports.aggregate_signatures_internal_ = exports.aggregate_signatures_ = exports.aggregate_pubkeys_internal_ = exports.aggregate_pubkeys_ = exports.aggregate_pubkey_to_bytes_ = exports.aggr_or_multi_signature_to_bytes_ = exports.aggr_or_multi_signature_subgroup_check_ = exports.aggr_or_multi_signature_from_bytes_ = exports.Signature = exports.PublicKeyWithPoP = exports.PublicKey = exports.ProofOfPossession = exports.AggrPublicKeysWithPoP = exports.AggrOrMultiSignature = exports.SIGNATURE_SIZE = exports.RANDOM_SIGNATURE = exports.RANDOM_PK = exports.PUBLIC_KEY_NUM_BYTES = exports.EZERO_PUBKEYS = exports.EWRONG_SIZE = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
+exports.App = exports.loadParsers = exports.verify_signature_share_internal_ = exports.verify_signature_share_ = exports.verify_proof_of_possession_internal_ = exports.verify_normal_signature_internal_ = exports.verify_normal_signature_ = exports.verify_multisignature_internal_ = exports.verify_multisignature_ = exports.verify_aggregate_signature_internal_ = exports.verify_aggregate_signature_ = exports.validate_pubkey_internal_ = exports.signature_to_bytes_ = exports.signature_subgroup_check_internal_ = exports.signature_subgroup_check_ = exports.signature_from_bytes_ = exports.public_key_with_pop_to_bytes_ = exports.public_key_to_bytes_ = exports.public_key_from_bytes_with_pop_ = exports.public_key_from_bytes_ = exports.proof_of_possession_to_bytes_ = exports.proof_of_possession_from_bytes_ = exports.aggregate_signatures_internal_ = exports.aggregate_signatures_ = exports.aggregate_pubkeys_internal_ = exports.aggregate_pubkeys_ = exports.aggregate_pubkey_to_bytes_ = exports.aggr_or_multi_signature_to_bytes_ = exports.aggr_or_multi_signature_subgroup_check_ = exports.Signature = exports.PublicKeyWithPoP = exports.PublicKey = exports.ProofOfPossession = exports.AggrPublicKeysWithPoP = exports.AggrOrMultiSignature = exports.SIGNATURE_SIZE = exports.RANDOM_SIGNATURE = exports.RANDOM_PK = exports.PUBLIC_KEY_NUM_BYTES = exports.EZERO_PUBKEYS = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const move_to_ts_2 = require("@manahippo/move-to-ts");
 const aptos_1 = require("aptos");
 const Error = __importStar(require("./error"));
 const Option = __importStar(require("./option"));
-const Vector = __importStar(require("./vector"));
 exports.packageName = "AptosStdlib";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "bls12381";
-exports.EWRONG_SIZE = (0, move_to_ts_1.u64)("2");
 exports.EZERO_PUBKEYS = (0, move_to_ts_1.u64)("1");
 exports.PUBLIC_KEY_NUM_BYTES = (0, move_to_ts_1.u64)("48");
 exports.RANDOM_PK = [(0, move_to_ts_1.u8)("138"), (0, move_to_ts_1.u8)("83"), (0, move_to_ts_1.u8)("231"), (0, move_to_ts_1.u8)("174"), (0, move_to_ts_1.u8)("82"), (0, move_to_ts_1.u8)("112"), (0, move_to_ts_1.u8)("227"), (0, move_to_ts_1.u8)("231"), (0, move_to_ts_1.u8)("101"), (0, move_to_ts_1.u8)("205"), (0, move_to_ts_1.u8)("138"), (0, move_to_ts_1.u8)("64"), (0, move_to_ts_1.u8)("50"), (0, move_to_ts_1.u8)("194"), (0, move_to_ts_1.u8)("231"), (0, move_to_ts_1.u8)("124"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("126"), (0, move_to_ts_1.u8)("135"), (0, move_to_ts_1.u8)("164"), (0, move_to_ts_1.u8)("78"), (0, move_to_ts_1.u8)("187"), (0, move_to_ts_1.u8)("133"), (0, move_to_ts_1.u8)("191"), (0, move_to_ts_1.u8)("40"), (0, move_to_ts_1.u8)("164"), (0, move_to_ts_1.u8)("215"), (0, move_to_ts_1.u8)("134"), (0, move_to_ts_1.u8)("85"), (0, move_to_ts_1.u8)("101"), (0, move_to_ts_1.u8)("105"), (0, move_to_ts_1.u8)("143"), (0, move_to_ts_1.u8)("151"), (0, move_to_ts_1.u8)("83"), (0, move_to_ts_1.u8)("70"), (0, move_to_ts_1.u8)("113"), (0, move_to_ts_1.u8)("66"), (0, move_to_ts_1.u8)("98"), (0, move_to_ts_1.u8)("249"), (0, move_to_ts_1.u8)("228"), (0, move_to_ts_1.u8)("124"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("62"), (0, move_to_ts_1.u8)("13"), (0, move_to_ts_1.u8)("93"), (0, move_to_ts_1.u8)("149"), (0, move_to_ts_1.u8)("22"), (0, move_to_ts_1.u8)("96")];
@@ -211,146 +209,193 @@ Signature.typeParameters = [];
 Signature.fields = [
     { name: "bytes", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8) }
 ];
-function aggr_or_multi_signature_from_bytes_(bytes, $c) {
-    if (!(Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(($.copy(exports.SIGNATURE_SIZE)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EWRONG_SIZE), $c));
-    }
-    return new AggrOrMultiSignature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature));
-}
-exports.aggr_or_multi_signature_from_bytes_ = aggr_or_multi_signature_from_bytes_;
 function aggr_or_multi_signature_subgroup_check_(signature, $c) {
-    return signature_subgroup_check_internal_($.copy(signature.bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield signature_subgroup_check_internal_($.copy((signature).bytes), $c);
+    });
 }
 exports.aggr_or_multi_signature_subgroup_check_ = aggr_or_multi_signature_subgroup_check_;
 function aggr_or_multi_signature_to_bytes_(sig, $c) {
-    return $.copy(sig.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((sig).bytes);
+    });
 }
 exports.aggr_or_multi_signature_to_bytes_ = aggr_or_multi_signature_to_bytes_;
 function aggregate_pubkey_to_bytes_(apk, $c) {
-    return $.copy(apk.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((apk).bytes);
+    });
 }
 exports.aggregate_pubkey_to_bytes_ = aggregate_pubkey_to_bytes_;
 function aggregate_pubkeys_(public_keys, $c) {
-    let bytes, success;
-    [bytes, success] = aggregate_pubkeys_internal_($.copy(public_keys), $c);
-    if (!success) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_PUBKEYS), $c));
-    }
-    return new AggrPublicKeysWithPoP({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(AggrPublicKeysWithPoP));
+    return __awaiter(this, void 0, void 0, function* () {
+        let bytes, success;
+        [bytes, success] = yield aggregate_pubkeys_internal_($.copy(public_keys), $c);
+        if (!success) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_PUBKEYS), $c));
+        }
+        return new AggrPublicKeysWithPoP({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(AggrPublicKeysWithPoP));
+    });
 }
 exports.aggregate_pubkeys_ = aggregate_pubkeys_;
 function aggregate_pubkeys_internal_(public_keys, $c) {
-    return $.aptos_std_bls12381_aggregate_pubkeys_internal(public_keys, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_aggregate_pubkeys_internal(public_keys, $c);
+    });
 }
 exports.aggregate_pubkeys_internal_ = aggregate_pubkeys_internal_;
 function aggregate_signatures_(signatures, $c) {
-    let temp$1, bytes, success;
-    [bytes, success] = aggregate_signatures_internal_($.copy(signatures), $c);
-    if (success) {
-        temp$1 = Option.some_(new AggrOrMultiSignature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)), $c, [new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, bytes, success;
+        [bytes, success] = yield aggregate_signatures_internal_($.copy(signatures), $c);
+        if (success) {
+            temp$1 = yield Option.some_(new AggrOrMultiSignature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)), $c, [new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(AggrOrMultiSignature)]);
+        }
+        return temp$1;
+    });
 }
 exports.aggregate_signatures_ = aggregate_signatures_;
 function aggregate_signatures_internal_(signatures, $c) {
-    return $.aptos_std_bls12381_aggregate_signatures_internal(signatures, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_aggregate_signatures_internal(signatures, $c);
+    });
 }
 exports.aggregate_signatures_internal_ = aggregate_signatures_internal_;
 function proof_of_possession_from_bytes_(bytes, $c) {
-    return new ProofOfPossession({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(ProofOfPossession));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new ProofOfPossession({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(ProofOfPossession));
+    });
 }
 exports.proof_of_possession_from_bytes_ = proof_of_possession_from_bytes_;
 function proof_of_possession_to_bytes_(pop, $c) {
-    return $.copy(pop.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pop).bytes);
+    });
 }
 exports.proof_of_possession_to_bytes_ = proof_of_possession_to_bytes_;
 function public_key_from_bytes_(bytes, $c) {
-    let temp$1;
-    if (validate_pubkey_internal_($.copy(bytes), $c)) {
-        temp$1 = Option.some_(new PublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(PublicKey)), $c, [new move_to_ts_2.SimpleStructTag(PublicKey)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(PublicKey)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield validate_pubkey_internal_($.copy(bytes), $c)) {
+            temp$1 = yield Option.some_(new PublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(PublicKey)), $c, [new move_to_ts_2.SimpleStructTag(PublicKey)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(PublicKey)]);
+        }
+        return temp$1;
+    });
 }
 exports.public_key_from_bytes_ = public_key_from_bytes_;
 function public_key_from_bytes_with_pop_(pk_bytes, pop, $c) {
-    let temp$1;
-    if (verify_proof_of_possession_internal_($.copy(pk_bytes), $.copy(pop.bytes), $c)) {
-        temp$1 = Option.some_(new PublicKeyWithPoP({ bytes: $.copy(pk_bytes) }, new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)), $c, [new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield verify_proof_of_possession_internal_($.copy(pk_bytes), $.copy((pop).bytes), $c)) {
+            temp$1 = yield Option.some_(new PublicKeyWithPoP({ bytes: $.copy(pk_bytes) }, new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)), $c, [new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(PublicKeyWithPoP)]);
+        }
+        return temp$1;
+    });
 }
 exports.public_key_from_bytes_with_pop_ = public_key_from_bytes_with_pop_;
 function public_key_to_bytes_(pk, $c) {
-    return $.copy(pk.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pk).bytes);
+    });
 }
 exports.public_key_to_bytes_ = public_key_to_bytes_;
 function public_key_with_pop_to_bytes_(pk, $c) {
-    return $.copy(pk.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pk).bytes);
+    });
 }
 exports.public_key_with_pop_to_bytes_ = public_key_with_pop_to_bytes_;
 function signature_from_bytes_(bytes, $c) {
-    return new Signature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Signature));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Signature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Signature));
+    });
 }
 exports.signature_from_bytes_ = signature_from_bytes_;
 function signature_subgroup_check_(signature, $c) {
-    return signature_subgroup_check_internal_($.copy(signature.bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield signature_subgroup_check_internal_($.copy((signature).bytes), $c);
+    });
 }
 exports.signature_subgroup_check_ = signature_subgroup_check_;
 function signature_subgroup_check_internal_(signature, $c) {
-    return $.aptos_std_bls12381_signature_subgroup_check_internal(signature, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_signature_subgroup_check_internal(signature, $c);
+    });
 }
 exports.signature_subgroup_check_internal_ = signature_subgroup_check_internal_;
 function signature_to_bytes_(sig, $c) {
-    return $.copy(sig.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((sig).bytes);
+    });
 }
 exports.signature_to_bytes_ = signature_to_bytes_;
 function validate_pubkey_internal_(public_key, $c) {
-    return $.aptos_std_bls12381_validate_pubkey_internal(public_key, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_validate_pubkey_internal(public_key, $c);
+    });
 }
 exports.validate_pubkey_internal_ = validate_pubkey_internal_;
 function verify_aggregate_signature_(aggr_sig, public_keys, messages, $c) {
-    return verify_aggregate_signature_internal_($.copy(aggr_sig.bytes), $.copy(public_keys), $.copy(messages), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield verify_aggregate_signature_internal_($.copy((aggr_sig).bytes), $.copy(public_keys), $.copy(messages), $c);
+    });
 }
 exports.verify_aggregate_signature_ = verify_aggregate_signature_;
 function verify_aggregate_signature_internal_(aggsig, public_keys, messages, $c) {
-    return $.aptos_std_bls12381_verify_aggregate_signature_internal(aggsig, public_keys, messages, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_verify_aggregate_signature_internal(aggsig, public_keys, messages, $c);
+    });
 }
 exports.verify_aggregate_signature_internal_ = verify_aggregate_signature_internal_;
 function verify_multisignature_(multisig, aggr_public_key, message, $c) {
-    return verify_multisignature_internal_($.copy(multisig.bytes), $.copy(aggr_public_key.bytes), $.copy(message), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield verify_multisignature_internal_($.copy((multisig).bytes), $.copy((aggr_public_key).bytes), $.copy(message), $c);
+    });
 }
 exports.verify_multisignature_ = verify_multisignature_;
 function verify_multisignature_internal_(multisignature, agg_public_key, message, $c) {
-    return $.aptos_std_bls12381_verify_multisignature_internal(multisignature, agg_public_key, message, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_verify_multisignature_internal(multisignature, agg_public_key, message, $c);
+    });
 }
 exports.verify_multisignature_internal_ = verify_multisignature_internal_;
 function verify_normal_signature_(signature, public_key, message, $c) {
-    return verify_normal_signature_internal_($.copy(signature.bytes), $.copy(public_key.bytes), $.copy(message), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield verify_normal_signature_internal_($.copy((signature).bytes), $.copy((public_key).bytes), $.copy(message), $c);
+    });
 }
 exports.verify_normal_signature_ = verify_normal_signature_;
 function verify_normal_signature_internal_(signature, public_key, message, $c) {
-    return $.aptos_std_bls12381_verify_normal_signature_internal(signature, public_key, message, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_verify_normal_signature_internal(signature, public_key, message, $c);
+    });
 }
 exports.verify_normal_signature_internal_ = verify_normal_signature_internal_;
 function verify_proof_of_possession_internal_(public_key, proof_of_possesion, $c) {
-    return $.aptos_std_bls12381_verify_proof_of_possession_internal(public_key, proof_of_possesion, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_verify_proof_of_possession_internal(public_key, proof_of_possesion, $c);
+    });
 }
 exports.verify_proof_of_possession_internal_ = verify_proof_of_possession_internal_;
 function verify_signature_share_(signature_share, public_key, message, $c) {
-    return verify_signature_share_internal_($.copy(signature_share.bytes), $.copy(public_key.bytes), $.copy(message), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield verify_signature_share_internal_($.copy((signature_share).bytes), $.copy((public_key).bytes), $.copy(message), $c);
+    });
 }
 exports.verify_signature_share_ = verify_signature_share_;
 function verify_signature_share_internal_(signature_share, public_key, message, $c) {
-    return $.aptos_std_bls12381_verify_signature_share_internal(signature_share, public_key, message, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_bls12381_verify_signature_share_internal(signature_share, public_key, message, $c);
+    });
 }
 exports.verify_signature_share_internal_ = verify_signature_share_internal_;
 function loadParsers(repo) {

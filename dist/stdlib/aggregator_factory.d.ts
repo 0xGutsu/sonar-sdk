@@ -26,10 +26,10 @@ export declare class AggregatorFactory {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_aggregator_(account: HexString, limit: U128, $c: AptosDataCache): Aggregator.Aggregator;
-export declare function create_aggregator_internal_(limit: U128, $c: AptosDataCache): Aggregator.Aggregator;
-export declare function initialize_aggregator_factory_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function new_aggregator_(aggregator_factory: AggregatorFactory, limit: U128, $c: AptosDataCache): Aggregator.Aggregator;
+export declare function create_aggregator_(account: HexString, limit: U128, $c: AptosDataCache): Promise<Aggregator.Aggregator>;
+export declare function create_aggregator_internal_(limit: U128, $c: AptosDataCache): Promise<Aggregator.Aggregator>;
+export declare function initialize_aggregator_factory_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function new_aggregator_(aggregator_factory: AggregatorFactory, limit: U128, $c: AptosDataCache): Promise<Aggregator.Aggregator>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -39,6 +39,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get AggregatorFactory(): typeof AggregatorFactory;
-    loadAggregatorFactory(owner: HexString, loadFull?: boolean): Promise<AggregatorFactory>;
+    loadAggregatorFactory(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<AggregatorFactory>;
 }
 //# sourceMappingURL=aggregator_factory.d.ts.map

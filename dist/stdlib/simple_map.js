@@ -115,120 +115,138 @@ SimpleMap.fields = [
     { name: "data", typeTag: new move_to_ts_2.VectorTag(new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "simple_map", "Element", [new $.TypeParamIdx(0), new $.TypeParamIdx(1)])) }
 ];
 function add_(map, key, value, $c, $p) {
-    let temp$1, temp$2, end, maybe_idx, maybe_placement, placement;
-    [temp$1, temp$2] = [map, key];
-    [maybe_idx, maybe_placement] = find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
-    if (!Option.is_none_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EKEY_ALREADY_EXISTS), $c));
-    }
-    Vector.push_back_(map.data, new Element({ key: key, value: value }, new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-    placement = Option.extract_(maybe_placement, $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    end = (Vector.length_(map.data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).sub((0, move_to_ts_1.u64)("1"));
-    while (($.copy(placement)).lt($.copy(end))) {
-        {
-            Vector.swap_(map.data, $.copy(placement), $.copy(end), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-            placement = ($.copy(placement)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, end, maybe_idx, maybe_placement, placement;
+        [temp$1, temp$2] = [map, key];
+        [maybe_idx, maybe_placement] = yield find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
+        if (!(yield Option.is_none_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EKEY_ALREADY_EXISTS), $c));
         }
-    }
-    return;
+        yield Vector.push_back_((map).data, new Element({ key: key, value: value }, new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+        placement = yield Option.extract_(maybe_placement, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+        end = (yield Vector.length_((map).data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).sub((0, move_to_ts_1.u64)("1"));
+        while (($.copy(placement)).lt($.copy(end))) {
+            {
+                yield Vector.swap_((map).data, $.copy(placement), $.copy(end), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+                placement = ($.copy(placement)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        return;
+    });
 }
 exports.add_ = add_;
 function borrow_(map, key, $c, $p) {
-    let idx, maybe_idx;
-    [maybe_idx,] = find_(map, key, $c, [$p[0], $p[1]]);
-    if (!Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
-    }
-    idx = Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    return Vector.borrow_(map.data, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]).value;
+    return __awaiter(this, void 0, void 0, function* () {
+        let idx, maybe_idx;
+        [maybe_idx,] = yield find_(map, key, $c, [$p[0], $p[1]]);
+        if (!(yield Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
+        }
+        idx = yield Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+        return (yield Vector.borrow_((map).data, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).value;
+    });
 }
 exports.borrow_ = borrow_;
 function borrow_mut_(map, key, $c, $p) {
-    let temp$1, temp$2, idx, maybe_idx;
-    [temp$1, temp$2] = [map, key];
-    [maybe_idx,] = find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
-    if (!Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
-    }
-    idx = Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    return Vector.borrow_mut_(map.data, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]).value;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, idx, maybe_idx;
+        [temp$1, temp$2] = [map, key];
+        [maybe_idx,] = yield find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
+        if (!(yield Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
+        }
+        idx = yield Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+        return (yield Vector.borrow_mut_((map).data, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).value;
+    });
 }
 exports.borrow_mut_ = borrow_mut_;
 function contains_key_(map, key, $c, $p) {
-    let maybe_idx;
-    [maybe_idx,] = find_(map, key, $c, [$p[0], $p[1]]);
-    return Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let maybe_idx;
+        [maybe_idx,] = yield find_(map, key, $c, [$p[0], $p[1]]);
+        return yield Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+    });
 }
 exports.contains_key_ = contains_key_;
 function create_($c, $p) {
-    return new SimpleMap({ data: Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]) }, new move_to_ts_2.SimpleStructTag(SimpleMap, [$p[0], $p[1]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new SimpleMap({ data: yield Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]) }, new move_to_ts_2.SimpleStructTag(SimpleMap, [$p[0], $p[1]]));
+    });
 }
 exports.create_ = create_;
 function destroy_empty_(map, $c, $p) {
-    let { data: data } = map;
-    Vector.destroy_empty_(data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let { data: data } = map;
+        yield Vector.destroy_empty_(data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+        return;
+    });
 }
 exports.destroy_empty_ = destroy_empty_;
 function find_(map, key, $c, $p) {
-    let temp$1, temp$2, temp$3, temp$4, left, length, mid, potential_key, right;
-    length = Vector.length_(map.data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-    if (($.copy(length)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return [Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]), Option.some_((0, move_to_ts_1.u64)("0"), $c, [move_to_ts_2.AtomicTypeTag.U64])];
-    }
-    else {
-    }
-    left = (0, move_to_ts_1.u64)("0");
-    right = $.copy(length);
-    while (($.copy(left)).neq($.copy(right))) {
-        {
-            mid = ($.copy(left)).add((($.copy(right)).sub($.copy(left))).div((0, move_to_ts_1.u64)("2")));
-            potential_key = Vector.borrow_(map.data, $.copy(mid), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]).key;
-            temp$1 = Comparator.compare_(potential_key, key, $c, [$p[0]]);
-            if (Comparator.is_smaller_than_(temp$1, $c)) {
-                left = ($.copy(mid)).add((0, move_to_ts_1.u64)("1"));
-            }
-            else {
-                right = $.copy(mid);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, left, length, mid, potential_key, right;
+        length = yield Vector.length_((map).data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+        if (($.copy(length)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return [yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]), yield Option.some_((0, move_to_ts_1.u64)("0"), $c, [move_to_ts_2.AtomicTypeTag.U64])];
+        }
+        else {
+        }
+        left = (0, move_to_ts_1.u64)("0");
+        right = $.copy(length);
+        while (($.copy(left)).neq($.copy(right))) {
+            {
+                mid = ($.copy(left)).add((($.copy(right)).sub($.copy(left))).div((0, move_to_ts_1.u64)("2")));
+                potential_key = (yield Vector.borrow_((map).data, $.copy(mid), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).key;
+                temp$1 = yield Comparator.compare_(potential_key, key, $c, [$p[0]]);
+                if (yield Comparator.is_smaller_than_(temp$1, $c)) {
+                    left = ($.copy(mid)).add((0, move_to_ts_1.u64)("1"));
+                }
+                else {
+                    right = $.copy(mid);
+                }
             }
         }
-    }
-    if (($.copy(left)).neq($.copy(length))) {
-        temp$2 = $.dyn_eq($p[0], key, Vector.borrow_(map.data, $.copy(left), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]).key);
-    }
-    else {
-        temp$2 = false;
-    }
-    if (temp$2) {
-        [temp$3, temp$4] = [Option.some_($.copy(left), $c, [move_to_ts_2.AtomicTypeTag.U64]), Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64])];
-    }
-    else {
-        [temp$3, temp$4] = [Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]), Option.some_($.copy(left), $c, [move_to_ts_2.AtomicTypeTag.U64])];
-    }
-    return [temp$3, temp$4];
+        if (($.copy(left)).neq($.copy(length))) {
+            temp$2 = $.dyn_eq($p[0], key, (yield Vector.borrow_((map).data, $.copy(left), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).key);
+        }
+        else {
+            temp$2 = false;
+        }
+        if (temp$2) {
+            [temp$3, temp$4] = [yield Option.some_($.copy(left), $c, [move_to_ts_2.AtomicTypeTag.U64]), yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64])];
+        }
+        else {
+            [temp$3, temp$4] = [yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]), yield Option.some_($.copy(left), $c, [move_to_ts_2.AtomicTypeTag.U64])];
+        }
+        return [temp$3, temp$4];
+    });
 }
 exports.find_ = find_;
 function length_(map, $c, $p) {
-    return Vector.length_(map.data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Vector.length_((map).data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+    });
 }
 exports.length_ = length_;
 function remove_(map, key, $c, $p) {
-    let temp$1, temp$2, end, maybe_idx, placement;
-    [temp$1, temp$2] = [map, key];
-    [maybe_idx,] = find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
-    if (!Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
-    }
-    placement = Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    end = (Vector.length_(map.data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).sub((0, move_to_ts_1.u64)("1"));
-    while (($.copy(placement)).lt($.copy(end))) {
-        {
-            Vector.swap_(map.data, $.copy(placement), ($.copy(placement)).add((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-            placement = ($.copy(placement)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, end, maybe_idx, placement;
+        [temp$1, temp$2] = [map, key];
+        [maybe_idx,] = yield find_(temp$1, temp$2, $c, [$p[0], $p[1]]);
+        if (!(yield Option.is_some_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EKEY_NOT_FOUND), $c));
         }
-    }
-    let { key: key__3, value: value } = Vector.pop_back_(map.data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
-    return [key__3, value];
+        placement = yield Option.extract_(maybe_idx, $c, [move_to_ts_2.AtomicTypeTag.U64]);
+        end = (yield Vector.length_((map).data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])])).sub((0, move_to_ts_1.u64)("1"));
+        while (($.copy(placement)).lt($.copy(end))) {
+            {
+                yield Vector.swap_((map).data, $.copy(placement), ($.copy(placement)).add((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+                placement = ($.copy(placement)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        let { key: key__3, value: value } = yield Vector.pop_back_((map).data, $c, [new move_to_ts_2.SimpleStructTag(Element, [$p[0], $p[1]])]);
+        return [key__3, value];
+    });
 }
 exports.remove_ = remove_;
 function loadParsers(repo) {

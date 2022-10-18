@@ -263,257 +263,275 @@ UpgradePolicy.fields = [
     { name: "policy", typeTag: move_to_ts_2.AtomicTypeTag.U8 }
 ];
 function can_change_upgrade_policy_to_(from, to, $c) {
-    return ($.copy(from.policy)).le($.copy(to.policy));
+    return __awaiter(this, void 0, void 0, function* () {
+        return ($.copy((from).policy)).le($.copy((to).policy));
+    });
 }
 exports.can_change_upgrade_policy_to_ = can_change_upgrade_policy_to_;
 function check_coexistence_(old_pack, new_modules, $c) {
-    let i, j, name, old_mod;
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt(Vector.length_(old_pack.modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]))) {
-        {
-            old_mod = Vector.borrow_(old_pack.modules, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]);
-            j = (0, move_to_ts_1.u64)("0");
-            while (($.copy(j)).lt(Vector.length_(new_modules, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]))) {
-                {
-                    name = Vector.borrow_(new_modules, $.copy(j), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
-                    if (!!$.deep_eq(old_mod.name, name)) {
-                        throw $.abortCode(Error.already_exists_($.copy(exports.EMODULE_NAME_CLASH), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let i, j, name, old_mod;
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt(yield Vector.length_((old_pack).modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]))) {
+            {
+                old_mod = yield Vector.borrow_((old_pack).modules, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]);
+                j = (0, move_to_ts_1.u64)("0");
+                while (($.copy(j)).lt(yield Vector.length_(new_modules, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]))) {
+                    {
+                        name = yield Vector.borrow_(new_modules, $.copy(j), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
+                        if (!!$.deep_eq((old_mod).name, name)) {
+                            throw $.abortCode(yield Error.already_exists_($.copy(exports.EMODULE_NAME_CLASH), $c));
+                        }
+                        j = ($.copy(j)).add((0, move_to_ts_1.u64)("1"));
                     }
-                    j = ($.copy(j)).add((0, move_to_ts_1.u64)("1"));
                 }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return;
+        return;
+    });
 }
 exports.check_coexistence_ = check_coexistence_;
 function check_dependencies_(publish_address, pack, $c) {
-    let account, account__1, allowed_module_deps, dep, dep_pack, deps, found, i, j, k, m, module_name, module_name__2, n, r, registry;
-    allowed_module_deps = Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
-    deps = pack.deps;
-    i = (0, move_to_ts_1.u64)("0");
-    n = Vector.length_(deps, $c, [new move_to_ts_2.SimpleStructTag(PackageDep)]);
-    while (($.copy(i)).lt($.copy(n))) {
-        {
-            dep = Vector.borrow_(deps, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(PackageDep)]);
-            if (!$c.exists(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(dep.account))) {
-                throw $.abortCode(Error.not_found_($.copy(exports.EPACKAGE_DEP_MISSING), $c));
-            }
-            if (is_policy_exempted_address_($.copy(dep.account), $c)) {
-                account = $.copy(dep.account);
-                module_name = String.utf8_([], $c);
-                Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account), module_name: $.copy(module_name) }, new move_to_ts_2.SimpleStructTag(AllowedDep)), $c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
-                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
-                continue;
-            }
-            else {
-            }
-            registry = $c.borrow_global(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(dep.account));
-            j = (0, move_to_ts_1.u64)("0");
-            m = Vector.length_(registry.packages, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-            found = false;
-            while (($.copy(j)).lt($.copy(m))) {
-                {
-                    dep_pack = Vector.borrow_(registry.packages, $.copy(j), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-                    if ($.deep_eq($.copy(dep_pack.name), $.copy(dep.package_name))) {
-                        found = true;
-                        if (!($.copy(dep_pack.upgrade_policy.policy)).ge($.copy(pack.upgrade_policy.policy))) {
-                            throw $.abortCode(Error.invalid_argument_($.copy(exports.EDEP_WEAKER_POLICY), $c));
-                        }
-                        if ($.deep_eq($.copy(dep_pack.upgrade_policy), upgrade_policy_arbitrary_($c))) {
-                            if (!(($.copy(dep.account)).hex() === ($.copy(publish_address)).hex())) {
-                                throw $.abortCode(Error.invalid_argument_($.copy(exports.EDEP_ARBITRARY_NOT_SAME_ADDRESS), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let account, account__1, allowed_module_deps, dep, dep_pack, deps, found, i, j, k, m, module_name, module_name__2, n, r, registry;
+        allowed_module_deps = yield Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
+        deps = (pack).deps;
+        i = (0, move_to_ts_1.u64)("0");
+        n = yield Vector.length_(deps, $c, [new move_to_ts_2.SimpleStructTag(PackageDep)]);
+        while (($.copy(i)).lt($.copy(n))) {
+            {
+                dep = yield Vector.borrow_(deps, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(PackageDep)]);
+                if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy((dep).account)))) {
+                    throw $.abortCode(yield Error.not_found_($.copy(exports.EPACKAGE_DEP_MISSING), $c));
+                }
+                if (yield is_policy_exempted_address_($.copy((dep).account), $c)) {
+                    account = $.copy((dep).account);
+                    module_name = yield String.utf8_([], $c);
+                    yield Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account), module_name: $.copy(module_name) }, new move_to_ts_2.SimpleStructTag(AllowedDep)), $c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
+                    i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+                    continue;
+                }
+                else {
+                }
+                registry = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy((dep).account));
+                j = (0, move_to_ts_1.u64)("0");
+                m = yield Vector.length_((registry).packages, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+                found = false;
+                while (($.copy(j)).lt($.copy(m))) {
+                    {
+                        dep_pack = yield Vector.borrow_((registry).packages, $.copy(j), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+                        if ($.deep_eq($.copy((dep_pack).name), $.copy((dep).package_name))) {
+                            found = true;
+                            if (!($.copy(((dep_pack).upgrade_policy).policy)).ge($.copy(((pack).upgrade_policy).policy))) {
+                                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EDEP_WEAKER_POLICY), $c));
                             }
+                            if ($.deep_eq($.copy((dep_pack).upgrade_policy), yield upgrade_policy_arbitrary_($c))) {
+                                if (!(($.copy((dep).account)).hex() === ($.copy(publish_address)).hex())) {
+                                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EDEP_ARBITRARY_NOT_SAME_ADDRESS), $c));
+                                }
+                            }
+                            else {
+                            }
+                            k = (0, move_to_ts_1.u64)("0");
+                            r = yield Vector.length_((dep_pack).modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]);
+                            while (($.copy(k)).lt($.copy(r))) {
+                                {
+                                    account__1 = $.copy((dep).account);
+                                    module_name__2 = $.copy((yield Vector.borrow_((dep_pack).modules, $.copy(k), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)])).name);
+                                    yield Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account__1), module_name: $.copy(module_name__2) }, new move_to_ts_2.SimpleStructTag(AllowedDep)), $c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
+                                    k = ($.copy(k)).add((0, move_to_ts_1.u64)("1"));
+                                }
+                            }
+                            break;
                         }
                         else {
                         }
-                        k = (0, move_to_ts_1.u64)("0");
-                        r = Vector.length_(dep_pack.modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]);
-                        while (($.copy(k)).lt($.copy(r))) {
-                            {
-                                account__1 = $.copy(dep.account);
-                                module_name__2 = $.copy(Vector.borrow_(dep_pack.modules, $.copy(k), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]).name);
-                                Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account__1), module_name: $.copy(module_name__2) }, new move_to_ts_2.SimpleStructTag(AllowedDep)), $c, [new move_to_ts_2.SimpleStructTag(AllowedDep)]);
-                                k = ($.copy(k)).add((0, move_to_ts_1.u64)("1"));
-                            }
-                        }
-                        break;
+                        j = ($.copy(j)).add((0, move_to_ts_1.u64)("1"));
                     }
-                    else {
-                    }
-                    j = ($.copy(j)).add((0, move_to_ts_1.u64)("1"));
                 }
+                if (!found) {
+                    throw $.abortCode(yield Error.not_found_($.copy(exports.EPACKAGE_DEP_MISSING), $c));
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            if (!found) {
-                throw $.abortCode(Error.not_found_($.copy(exports.EPACKAGE_DEP_MISSING), $c));
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return allowed_module_deps;
+        return allowed_module_deps;
+    });
 }
 exports.check_dependencies_ = check_dependencies_;
 function check_upgradability_(old_pack, new_pack, new_modules, $c) {
-    let temp$1, i, old_modules;
-    temp$1 = upgrade_policy_immutable_($c);
-    if (!($.copy(old_pack.upgrade_policy.policy)).lt($.copy(temp$1.policy))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EUPGRADE_IMMUTABLE), $c));
-    }
-    if (!can_change_upgrade_policy_to_($.copy(old_pack.upgrade_policy), $.copy(new_pack.upgrade_policy), $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EUPGRADE_WEAKER_POLICY), $c));
-    }
-    old_modules = get_module_names_(old_pack, $c);
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt(Vector.length_(old_modules, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]))) {
-        {
-            if (!Vector.contains_(new_modules, Vector.borrow_(old_modules, $.copy(i), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])])) {
-                throw $.abortCode($.copy(exports.EMODULE_MISSING));
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, i, old_modules;
+        temp$1 = yield upgrade_policy_immutable_($c);
+        if (!($.copy(((old_pack).upgrade_policy).policy)).lt($.copy((temp$1).policy))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EUPGRADE_IMMUTABLE), $c));
         }
-    }
-    return;
+        if (!(yield can_change_upgrade_policy_to_($.copy((old_pack).upgrade_policy), $.copy((new_pack).upgrade_policy), $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EUPGRADE_WEAKER_POLICY), $c));
+        }
+        old_modules = yield get_module_names_(old_pack, $c);
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt(yield Vector.length_(old_modules, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]))) {
+            {
+                if (!(yield Vector.contains_(new_modules, yield Vector.borrow_(old_modules, $.copy(i), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]))) {
+                    throw $.abortCode($.copy(exports.EMODULE_MISSING));
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        return;
+    });
 }
 exports.check_upgradability_ = check_upgradability_;
 function get_module_names_(pack, $c) {
-    let i, module_names;
-    module_names = Vector.empty_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt(Vector.length_(pack.modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]))) {
-        {
-            Vector.push_back_(module_names, $.copy(Vector.borrow_(pack.modules, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]).name), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let i, module_names;
+        module_names = yield Vector.empty_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt(yield Vector.length_((pack).modules, $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)]))) {
+            {
+                yield Vector.push_back_(module_names, $.copy((yield Vector.borrow_((pack).modules, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(ModuleMetadata)])).name), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
         }
-    }
-    return $.copy(module_names);
+        return $.copy(module_names);
+    });
 }
 exports.get_module_names_ = get_module_names_;
 function initialize_(aptos_framework, package_owner, metadata, $c) {
-    let addr;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    addr = Signer.address_of_(package_owner, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr))) {
-        $c.move_to(new move_to_ts_2.SimpleStructTag(PackageRegistry), package_owner, new PackageRegistry({ packages: [metadata] }, new move_to_ts_2.SimpleStructTag(PackageRegistry)));
-    }
-    else {
-        Vector.push_back_($c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr)).packages, metadata, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let addr;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        addr = yield Signer.address_of_(package_owner, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr)))) {
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), package_owner, new PackageRegistry({ packages: [metadata] }, new move_to_ts_2.SimpleStructTag(PackageRegistry)));
+        }
+        else {
+            yield Vector.push_back_((yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr))).packages, metadata, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+        }
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function is_policy_exempted_address_(addr, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
-    if ((($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex())) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
-    }
-    if (temp$1) {
-        temp$2 = true;
-    }
-    else {
-        temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
-    }
-    if (temp$2) {
-        temp$3 = true;
-    }
-    else {
-        temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
-    }
-    if (temp$3) {
-        temp$4 = true;
-    }
-    else {
-        temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
-    }
-    if (temp$4) {
-        temp$5 = true;
-    }
-    else {
-        temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
-    }
-    if (temp$5) {
-        temp$6 = true;
-    }
-    else {
-        temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
-    }
-    if (temp$6) {
-        temp$7 = true;
-    }
-    else {
-        temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
-    }
-    if (temp$7) {
-        temp$8 = true;
-    }
-    else {
-        temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
-    }
-    if (temp$8) {
-        temp$9 = true;
-    }
-    else {
-        temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
-    }
-    return temp$9;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+        if ((($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex())) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
+        }
+        if (temp$1) {
+            temp$2 = true;
+        }
+        else {
+            temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
+        }
+        if (temp$2) {
+            temp$3 = true;
+        }
+        else {
+            temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
+        }
+        if (temp$3) {
+            temp$4 = true;
+        }
+        else {
+            temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
+        }
+        if (temp$4) {
+            temp$5 = true;
+        }
+        else {
+            temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
+        }
+        if (temp$5) {
+            temp$6 = true;
+        }
+        else {
+            temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
+        }
+        if (temp$6) {
+            temp$7 = true;
+        }
+        else {
+            temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
+        }
+        if (temp$7) {
+            temp$8 = true;
+        }
+        else {
+            temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
+        }
+        if (temp$8) {
+            temp$9 = true;
+        }
+        else {
+            temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
+        }
+        return temp$9;
+    });
 }
 exports.is_policy_exempted_address_ = is_policy_exempted_address_;
 function publish_package_(owner, pack, code, $c) {
-    let temp$1, temp$2, temp$3, addr, allowed_deps, i, index, len, module_names, old, packages, policy, upgrade_number;
-    temp$1 = upgrade_policy_arbitrary_($c);
-    if (!($.copy(pack.upgrade_policy.policy)).gt($.copy(temp$1.policy))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINCOMPATIBLE_POLICY_DISABLED), $c));
-    }
-    addr = Signer.address_of_(owner, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr))) {
-        $c.move_to(new move_to_ts_2.SimpleStructTag(PackageRegistry), owner, new PackageRegistry({ packages: Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]) }, new move_to_ts_2.SimpleStructTag(PackageRegistry)));
-    }
-    else {
-    }
-    allowed_deps = check_dependencies_($.copy(addr), pack, $c);
-    module_names = get_module_names_(pack, $c);
-    packages = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr)).packages;
-    len = Vector.length_(packages, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-    index = $.copy(len);
-    i = (0, move_to_ts_1.u64)("0");
-    upgrade_number = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            [temp$2, temp$3] = [packages, $.copy(i)];
-            old = Vector.borrow_(temp$2, temp$3, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-            if ($.deep_eq($.copy(old.name), $.copy(pack.name))) {
-                upgrade_number = ($.copy(old.upgrade_number)).add((0, move_to_ts_1.u64)("1"));
-                check_upgradability_(old, pack, module_names, $c);
-                index = $.copy(i);
-            }
-            else {
-                check_coexistence_(old, module_names, $c);
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, addr, allowed_deps, i, index, len, module_names, old, packages, policy, upgrade_number;
+        temp$1 = yield upgrade_policy_arbitrary_($c);
+        if (!($.copy(((pack).upgrade_policy).policy)).gt($.copy((temp$1).policy))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINCOMPATIBLE_POLICY_DISABLED), $c));
         }
-    }
-    pack.upgrade_number = $.copy(upgrade_number);
-    policy = $.copy(pack.upgrade_policy);
-    if (($.copy(index)).lt($.copy(len))) {
-        $.set(Vector.borrow_mut_(packages, $.copy(index), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]), pack);
-    }
-    else {
-        Vector.push_back_(packages, pack, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
-    }
-    if (Features.code_dependency_check_enabled_($c)) {
-        request_publish_with_allowed_deps_($.copy(addr), $.copy(module_names), allowed_deps, $.copy(code), $.copy(policy.policy), $c);
-    }
-    else {
-        request_publish_($.copy(addr), $.copy(module_names), $.copy(code), $.copy(policy.policy), $c);
-    }
-    return;
+        addr = yield Signer.address_of_(owner, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr)))) {
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), owner, new PackageRegistry({ packages: yield Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]) }, new move_to_ts_2.SimpleStructTag(PackageRegistry)));
+        }
+        else {
+        }
+        allowed_deps = yield check_dependencies_($.copy(addr), pack, $c);
+        module_names = yield get_module_names_(pack, $c);
+        packages = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(PackageRegistry), $.copy(addr))).packages;
+        len = yield Vector.length_(packages, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+        index = $.copy(len);
+        i = (0, move_to_ts_1.u64)("0");
+        upgrade_number = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                [temp$2, temp$3] = [packages, $.copy(i)];
+                old = yield Vector.borrow_(temp$2, temp$3, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+                if ($.deep_eq($.copy((old).name), $.copy((pack).name))) {
+                    upgrade_number = ($.copy((old).upgrade_number)).add((0, move_to_ts_1.u64)("1"));
+                    yield check_upgradability_(old, pack, module_names, $c);
+                    index = $.copy(i);
+                }
+                else {
+                    yield check_coexistence_(old, module_names, $c);
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        (pack).upgrade_number = $.copy(upgrade_number);
+        policy = $.copy((pack).upgrade_policy);
+        if (($.copy(index)).lt($.copy(len))) {
+            $.set(yield Vector.borrow_mut_(packages, $.copy(index), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]), pack);
+        }
+        else {
+            yield Vector.push_back_(packages, pack, $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]);
+        }
+        if (yield Features.code_dependency_check_enabled_($c)) {
+            yield request_publish_with_allowed_deps_($.copy(addr), $.copy(module_names), allowed_deps, $.copy(code), $.copy((policy).policy), $c);
+        }
+        else {
+            yield request_publish_($.copy(addr), $.copy(module_names), $.copy(code), $.copy((policy).policy), $c);
+        }
+        return;
+    });
 }
 exports.publish_package_ = publish_package_;
 function publish_package_txn_(owner, metadata_serialized, code, $c) {
-    return publish_package_(owner, Util.from_bytes_($.copy(metadata_serialized), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]), $.copy(code), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield publish_package_(owner, yield Util.from_bytes_($.copy(metadata_serialized), $c, [new move_to_ts_2.SimpleStructTag(PackageMetadata)]), $.copy(code), $c);
+    });
 }
 exports.publish_package_txn_ = publish_package_txn_;
 function buildPayload_publish_package_txn(metadata_serialized, code, isJSON = false) {
@@ -525,23 +543,33 @@ function buildPayload_publish_package_txn(metadata_serialized, code, isJSON = fa
 }
 exports.buildPayload_publish_package_txn = buildPayload_publish_package_txn;
 function request_publish_(owner, expected_modules, bundle, policy, $c) {
-    return $.aptos_framework_code_request_publish(owner, expected_modules, bundle, policy, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_code_request_publish(owner, expected_modules, bundle, policy, $c);
+    });
 }
 exports.request_publish_ = request_publish_;
 function request_publish_with_allowed_deps_(owner, expected_modules, allowed_deps, bundle, policy, $c) {
-    return $.aptos_framework_code_request_publish_with_allowed_deps(owner, expected_modules, allowed_deps, bundle, policy, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_code_request_publish_with_allowed_deps(owner, expected_modules, allowed_deps, bundle, policy, $c);
+    });
 }
 exports.request_publish_with_allowed_deps_ = request_publish_with_allowed_deps_;
 function upgrade_policy_arbitrary_($c) {
-    return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("0") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("0") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    });
 }
 exports.upgrade_policy_arbitrary_ = upgrade_policy_arbitrary_;
 function upgrade_policy_compat_($c) {
-    return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("1") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("1") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    });
 }
 exports.upgrade_policy_compat_ = upgrade_policy_compat_;
 function upgrade_policy_immutable_($c) {
-    return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("2") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new UpgradePolicy({ policy: (0, move_to_ts_1.u8)("2") }, new move_to_ts_2.SimpleStructTag(UpgradePolicy));
+    });
 }
 exports.upgrade_policy_immutable_ = upgrade_policy_immutable_;
 function loadParsers(repo) {
@@ -570,11 +598,14 @@ class App {
     get PackageDep() { return PackageDep; }
     get PackageMetadata() { return PackageMetadata; }
     get PackageRegistry() { return PackageRegistry; }
-    loadPackageRegistry(owner, loadFull = true) {
+    loadPackageRegistry(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield PackageRegistry.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -583,10 +614,10 @@ class App {
     payload_publish_package_txn(metadata_serialized, code, isJSON = false) {
         return buildPayload_publish_package_txn(metadata_serialized, code, isJSON);
     }
-    publish_package_txn(_account, metadata_serialized, code, _maxGas = 1000, _isJSON = false) {
+    publish_package_txn(_account, metadata_serialized, code, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

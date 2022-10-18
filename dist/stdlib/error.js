@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.unavailable_ = exports.unauthenticated_ = exports.resource_exhausted_ = exports.permission_denied_ = exports.out_of_range_ = exports.not_implemented_ = exports.not_found_ = exports.invalid_state_ = exports.invalid_argument_ = exports.internal_ = exports.canonical_ = exports.already_exists_ = exports.aborted_ = exports.UNAVAILABLE = exports.UNAUTHENTICATED = exports.RESOURCE_EXHAUSTED = exports.PERMISSION_DENIED = exports.OUT_OF_RANGE = exports.NOT_IMPLEMENTED = exports.NOT_FOUND = exports.INVALID_STATE = exports.INVALID_ARGUMENT = exports.INTERNAL = exports.CANCELLED = exports.ALREADY_EXISTS = exports.ABORTED = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -44,55 +53,81 @@ exports.RESOURCE_EXHAUSTED = (0, move_to_ts_1.u64)("9");
 exports.UNAUTHENTICATED = (0, move_to_ts_1.u64)("4");
 exports.UNAVAILABLE = (0, move_to_ts_1.u64)("13");
 function aborted_(r, $c) {
-    return canonical_($.copy(exports.ABORTED), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.ABORTED), $.copy(r), $c);
+    });
 }
 exports.aborted_ = aborted_;
 function already_exists_(r, $c) {
-    return canonical_($.copy(exports.ALREADY_EXISTS), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.ALREADY_EXISTS), $.copy(r), $c);
+    });
 }
 exports.already_exists_ = already_exists_;
 function canonical_(category, reason, $c) {
-    return (($.copy(category)).shl((0, move_to_ts_1.u8)("16"))).add($.copy(reason));
+    return __awaiter(this, void 0, void 0, function* () {
+        return (($.copy(category)).shl((0, move_to_ts_1.u8)("16"))).add($.copy(reason));
+    });
 }
 exports.canonical_ = canonical_;
 function internal_(r, $c) {
-    return canonical_($.copy(exports.INTERNAL), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.INTERNAL), $.copy(r), $c);
+    });
 }
 exports.internal_ = internal_;
 function invalid_argument_(r, $c) {
-    return canonical_($.copy(exports.INVALID_ARGUMENT), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.INVALID_ARGUMENT), $.copy(r), $c);
+    });
 }
 exports.invalid_argument_ = invalid_argument_;
 function invalid_state_(r, $c) {
-    return canonical_($.copy(exports.INVALID_STATE), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.INVALID_STATE), $.copy(r), $c);
+    });
 }
 exports.invalid_state_ = invalid_state_;
 function not_found_(r, $c) {
-    return canonical_($.copy(exports.NOT_FOUND), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.NOT_FOUND), $.copy(r), $c);
+    });
 }
 exports.not_found_ = not_found_;
 function not_implemented_(r, $c) {
-    return canonical_($.copy(exports.NOT_IMPLEMENTED), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.NOT_IMPLEMENTED), $.copy(r), $c);
+    });
 }
 exports.not_implemented_ = not_implemented_;
 function out_of_range_(r, $c) {
-    return canonical_($.copy(exports.OUT_OF_RANGE), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.OUT_OF_RANGE), $.copy(r), $c);
+    });
 }
 exports.out_of_range_ = out_of_range_;
 function permission_denied_(r, $c) {
-    return canonical_($.copy(exports.PERMISSION_DENIED), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.PERMISSION_DENIED), $.copy(r), $c);
+    });
 }
 exports.permission_denied_ = permission_denied_;
 function resource_exhausted_(r, $c) {
-    return canonical_($.copy(exports.RESOURCE_EXHAUSTED), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.RESOURCE_EXHAUSTED), $.copy(r), $c);
+    });
 }
 exports.resource_exhausted_ = resource_exhausted_;
 function unauthenticated_(r, $c) {
-    return canonical_($.copy(exports.UNAUTHENTICATED), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.UNAUTHENTICATED), $.copy(r), $c);
+    });
 }
 exports.unauthenticated_ = unauthenticated_;
 function unavailable_(r, $c) {
-    return canonical_($.copy(exports.UNAVAILABLE), $.copy(r), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield canonical_($.copy(exports.UNAVAILABLE), $.copy(r), $c);
+    });
 }
 exports.unavailable_ = unavailable_;
 function loadParsers(repo) {

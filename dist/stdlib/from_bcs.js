@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.to_u8_ = exports.to_u64_ = exports.to_u128_ = exports.to_string_ = exports.to_bool_ = exports.to_address_ = exports.from_bytes_ = exports.EINVALID_UTF8 = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -34,36 +43,50 @@ exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "from_bcs";
 exports.EINVALID_UTF8 = (0, move_to_ts_1.u64)("1");
 function from_bytes_(bytes, $c, $p) {
-    return $.aptos_std_from_bcs_from_bytes(bytes, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_from_bcs_from_bytes(bytes, $c, [$p[0]]);
+    });
 }
 exports.from_bytes_ = from_bytes_;
 function to_address_(v, $c) {
-    return from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    });
 }
 exports.to_address_ = to_address_;
 function to_bool_(v, $c) {
-    return from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+    });
 }
 exports.to_bool_ = to_bool_;
 function to_string_(v, $c) {
-    let s;
-    s = from_bytes_($.copy(v), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
-    if (!String.internal_check_utf8_(String.bytes_(s, $c), $c)) {
-        throw $.abortCode($.copy(exports.EINVALID_UTF8));
-    }
-    return $.copy(s);
+    return __awaiter(this, void 0, void 0, function* () {
+        let s;
+        s = yield from_bytes_($.copy(v), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", [])]);
+        if (!(yield String.internal_check_utf8_(yield String.bytes_(s, $c), $c))) {
+            throw $.abortCode($.copy(exports.EINVALID_UTF8));
+        }
+        return $.copy(s);
+    });
 }
 exports.to_string_ = to_string_;
 function to_u128_(v, $c) {
-    return from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U128]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U128]);
+    });
 }
 exports.to_u128_ = to_u128_;
 function to_u64_(v, $c) {
-    return from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U64]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U64]);
+    });
 }
 exports.to_u64_ = to_u64_;
 function to_u8_(v, $c) {
-    return from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield from_bytes_($.copy(v), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+    });
 }
 exports.to_u8_ = to_u8_;
 function loadParsers(repo) {

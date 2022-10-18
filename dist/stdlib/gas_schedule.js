@@ -161,47 +161,53 @@ GasScheduleV2.fields = [
     { name: "entries", typeTag: new move_to_ts_2.VectorTag(new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "gas_schedule", "GasEntry", [])) }
 ];
 function initialize_(aptos_framework, gas_schedule_blob, $c) {
-    let gas_schedule;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!!Vector.is_empty_(gas_schedule_blob, $c, [move_to_ts_2.AtomicTypeTag.U8])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_GAS_SCHEDULE), $c));
-    }
-    gas_schedule = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(gas_schedule));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let gas_schedule;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!!(yield Vector.is_empty_(gas_schedule_blob, $c, [move_to_ts_2.AtomicTypeTag.U8]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_GAS_SCHEDULE), $c));
+        }
+        gas_schedule = yield Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(gas_schedule));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function set_gas_schedule_(aptos_framework, gas_schedule_blob, $c) {
-    let gas_schedule, new_gas_schedule, new_gas_schedule__1;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!!Vector.is_empty_(gas_schedule_blob, $c, [move_to_ts_2.AtomicTypeTag.U8])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_GAS_SCHEDULE), $c));
-    }
-    if ($c.exists(new move_to_ts_2.SimpleStructTag(GasScheduleV2), new aptos_1.HexString("0x1"))) {
-        gas_schedule = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(GasScheduleV2), new aptos_1.HexString("0x1"));
-        new_gas_schedule = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
-        if (!($.copy(new_gas_schedule.feature_version)).ge($.copy(gas_schedule.feature_version))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_GAS_FEATURE_VERSION), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let gas_schedule, new_gas_schedule, new_gas_schedule__1;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!!(yield Vector.is_empty_(gas_schedule_blob, $c, [move_to_ts_2.AtomicTypeTag.U8]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_GAS_SCHEDULE), $c));
         }
-        $.set(gas_schedule, $.copy(new_gas_schedule));
-    }
-    else {
-        if ($c.exists(new move_to_ts_2.SimpleStructTag(GasSchedule), new aptos_1.HexString("0x1"))) {
-            $c.move_from(new move_to_ts_2.SimpleStructTag(GasSchedule), new aptos_1.HexString("0x1"));
+        if (yield $c.exists_async(new move_to_ts_2.SimpleStructTag(GasScheduleV2), new aptos_1.HexString("0x1"))) {
+            gas_schedule = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(GasScheduleV2), new aptos_1.HexString("0x1"));
+            new_gas_schedule = yield Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
+            if (!($.copy((new_gas_schedule).feature_version)).ge($.copy((gas_schedule).feature_version))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_GAS_FEATURE_VERSION), $c));
+            }
+            $.set(gas_schedule, $.copy(new_gas_schedule));
         }
         else {
+            if (yield $c.exists_async(new move_to_ts_2.SimpleStructTag(GasSchedule), new aptos_1.HexString("0x1"))) {
+                yield $c.move_from_async(new move_to_ts_2.SimpleStructTag(GasSchedule), new aptos_1.HexString("0x1"));
+            }
+            else {
+            }
+            new_gas_schedule__1 = yield Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(new_gas_schedule__1));
         }
-        new_gas_schedule__1 = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new move_to_ts_2.SimpleStructTag(GasScheduleV2)]);
-        $c.move_to(new move_to_ts_2.SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(new_gas_schedule__1));
-    }
-    Reconfiguration.reconfigure_($c);
-    return;
+        yield Reconfiguration.reconfigure_($c);
+        return;
+    });
 }
 exports.set_gas_schedule_ = set_gas_schedule_;
 function set_storage_gas_config_(aptos_framework, config, $c) {
-    Storage_gas.set_config_(aptos_framework, $.copy(config), $c);
-    Reconfiguration.reconfigure_($c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Storage_gas.set_config_(aptos_framework, $.copy(config), $c);
+        yield Reconfiguration.reconfigure_($c);
+        return;
+    });
 }
 exports.set_storage_gas_config_ = set_storage_gas_config_;
 function loadParsers(repo) {
@@ -224,21 +230,27 @@ class App {
     } }
     get GasEntry() { return GasEntry; }
     get GasSchedule() { return GasSchedule; }
-    loadGasSchedule(owner, loadFull = true) {
+    loadGasSchedule(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield GasSchedule.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get GasScheduleV2() { return GasScheduleV2; }
-    loadGasScheduleV2(owner, loadFull = true) {
+    loadGasScheduleV2(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield GasScheduleV2.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

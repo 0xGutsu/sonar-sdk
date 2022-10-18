@@ -83,13 +83,17 @@ AptosCoinCapabilities.fields = [
     { name: "burn_cap", typeTag: new move_to_ts_1.StructTag(new aptos_1.HexString("0x1"), "coin", "BurnCapability", [new move_to_ts_1.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]) }
 ];
 function burn_fee_(account, fee, $c) {
-    Coin.burn_from_($.copy(account), $.copy(fee), $c.borrow_global(new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities), new aptos_1.HexString("0x1")).burn_cap, $c, [new move_to_ts_1.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Coin.burn_from_($.copy(account), $.copy(fee), (yield $c.borrow_global_async(new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities), new aptos_1.HexString("0x1"))).burn_cap, $c, [new move_to_ts_1.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        return;
+    });
 }
 exports.burn_fee_ = burn_fee_;
 function store_aptos_coin_burn_cap_(aptos_framework, burn_cap, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    return $c.move_to(new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities), aptos_framework, new AptosCoinCapabilities({ burn_cap: $.copy(burn_cap) }, new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities)));
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        return yield $c.move_to_async(new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities), aptos_framework, new AptosCoinCapabilities({ burn_cap: $.copy(burn_cap) }, new move_to_ts_1.SimpleStructTag(AptosCoinCapabilities)));
+    });
 }
 exports.store_aptos_coin_burn_cap_ = store_aptos_coin_burn_cap_;
 function loadParsers(repo) {
@@ -109,11 +113,14 @@ class App {
         return exports.moduleName;
     } }
     get AptosCoinCapabilities() { return AptosCoinCapabilities; }
-    loadAptosCoinCapabilities(owner, loadFull = true) {
+    loadAptosCoinCapabilities(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield AptosCoinCapabilities.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

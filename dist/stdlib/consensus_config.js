@@ -86,24 +86,28 @@ ConsensusConfig.fields = [
     { name: "config", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8) }
 ];
 function initialize_(aptos_framework, config, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!(Vector.length_(config, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_CONFIG), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(ConsensusConfig), aptos_framework, new ConsensusConfig({ config: $.copy(config) }, new move_to_ts_2.SimpleStructTag(ConsensusConfig)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!(yield Vector.length_(config, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_CONFIG), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(ConsensusConfig), aptos_framework, new ConsensusConfig({ config: $.copy(config) }, new move_to_ts_2.SimpleStructTag(ConsensusConfig)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function set_(account, config, $c) {
-    let config_ref;
-    System_addresses.assert_aptos_framework_(account, $c);
-    if (!(Vector.length_(config, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_CONFIG), $c));
-    }
-    config_ref = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(ConsensusConfig), new aptos_1.HexString("0x1")).config;
-    $.set(config_ref, $.copy(config));
-    Reconfiguration.reconfigure_($c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let config_ref;
+        yield System_addresses.assert_aptos_framework_(account, $c);
+        if (!(yield Vector.length_(config, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_CONFIG), $c));
+        }
+        config_ref = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(ConsensusConfig), new aptos_1.HexString("0x1"))).config;
+        $.set(config_ref, $.copy(config));
+        yield Reconfiguration.reconfigure_($c);
+        return;
+    });
 }
 exports.set_ = set_;
 function loadParsers(repo) {
@@ -123,11 +127,14 @@ class App {
         return exports.moduleName;
     } }
     get ConsensusConfig() { return ConsensusConfig; }
-    loadConsensusConfig(owner, loadFull = true) {
+    loadConsensusConfig(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield ConsensusConfig.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

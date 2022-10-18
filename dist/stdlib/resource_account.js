@@ -91,10 +91,12 @@ Container.fields = [
     { name: "store", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "simple_map", "SimpleMap", [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]) }
 ];
 function create_resource_account_(origin, seed, optional_auth_key, $c) {
-    let resource, resource_signer_cap;
-    [resource, resource_signer_cap] = Account.create_resource_account_(origin, $.copy(seed), $c);
-    rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(optional_auth_key), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let resource, resource_signer_cap;
+        [resource, resource_signer_cap] = yield Account.create_resource_account_(origin, $.copy(seed), $c);
+        yield rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(optional_auth_key), $c);
+        return;
+    });
 }
 exports.create_resource_account_ = create_resource_account_;
 function buildPayload_create_resource_account(seed, optional_auth_key, isJSON = false) {
@@ -106,12 +108,14 @@ function buildPayload_create_resource_account(seed, optional_auth_key, isJSON = 
 }
 exports.buildPayload_create_resource_account = buildPayload_create_resource_account;
 function create_resource_account_and_fund_(origin, seed, optional_auth_key, fund_amount, $c) {
-    let resource, resource_signer_cap;
-    [resource, resource_signer_cap] = Account.create_resource_account_(origin, $.copy(seed), $c);
-    Coin.register_(resource, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    Coin.transfer_(origin, Signer.address_of_(resource, $c), $.copy(fund_amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(optional_auth_key), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let resource, resource_signer_cap;
+        [resource, resource_signer_cap] = yield Account.create_resource_account_(origin, $.copy(seed), $c);
+        yield Coin.register_(resource, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        yield Coin.transfer_(origin, yield Signer.address_of_(resource, $c), $.copy(fund_amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        yield rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(optional_auth_key), $c);
+        return;
+    });
 }
 exports.create_resource_account_and_fund_ = create_resource_account_and_fund_;
 function buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, isJSON = false) {
@@ -124,11 +128,13 @@ function buildPayload_create_resource_account_and_fund(seed, optional_auth_key, 
 }
 exports.buildPayload_create_resource_account_and_fund = buildPayload_create_resource_account_and_fund;
 function create_resource_account_and_publish_package_(origin, seed, metadata_serialized, code, $c) {
-    let resource, resource_signer_cap;
-    [resource, resource_signer_cap] = Account.create_resource_account_(origin, $.copy(seed), $c);
-    Code.publish_package_txn_(resource, $.copy(metadata_serialized), $.copy(code), $c);
-    rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(exports.ZERO_AUTH_KEY), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let resource, resource_signer_cap;
+        [resource, resource_signer_cap] = yield Account.create_resource_account_(origin, $.copy(seed), $c);
+        yield Code.publish_package_txn_(resource, $.copy(metadata_serialized), $.copy(code), $c);
+        yield rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, $.copy(exports.ZERO_AUTH_KEY), $c);
+        return;
+    });
 }
 exports.create_resource_account_and_publish_package_ = create_resource_account_and_publish_package_;
 function buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, isJSON = false) {
@@ -141,46 +147,50 @@ function buildPayload_create_resource_account_and_publish_package(seed, metadata
 }
 exports.buildPayload_create_resource_account_and_publish_package = buildPayload_create_resource_account_and_publish_package;
 function retrieve_resource_account_cap_(resource, source_addr, $c) {
-    let _resource_addr, container, container__1, empty_container, resource__2, resource_addr, resource_signer_cap, signer_cap;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ECONTAINER_NOT_PUBLISHED), $c));
-    }
-    resource_addr = Signer.address_of_(resource, $c);
-    container = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr));
-    [_resource_addr, signer_cap] = Simple_map.remove_(container.store, resource_addr, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
-    [resource_signer_cap, empty_container] = [signer_cap, (Simple_map.length_(container.store, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])])).eq(((0, move_to_ts_1.u64)("0")))];
-    if (empty_container) {
-        container__1 = $c.move_from(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr));
-        let { store: store } = container__1;
-        Simple_map.destroy_empty_(store, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
-    }
-    else {
-    }
-    resource__2 = Account.create_signer_with_capability_(resource_signer_cap, $c);
-    Account.rotate_authentication_key_internal_(resource__2, $.copy(exports.ZERO_AUTH_KEY), $c);
-    return resource_signer_cap;
+    return __awaiter(this, void 0, void 0, function* () {
+        let _resource_addr, container, container__1, empty_container, resource__2, resource_addr, resource_signer_cap, signer_cap;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ECONTAINER_NOT_PUBLISHED), $c));
+        }
+        resource_addr = yield Signer.address_of_(resource, $c);
+        container = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr));
+        [_resource_addr, signer_cap] = yield Simple_map.remove_((container).store, resource_addr, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
+        [resource_signer_cap, empty_container] = [signer_cap, (yield Simple_map.length_((container).store, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])])).eq(((0, move_to_ts_1.u64)("0")))];
+        if (empty_container) {
+            container__1 = yield $c.move_from_async(new move_to_ts_2.SimpleStructTag(Container), $.copy(source_addr));
+            let { store: store } = container__1;
+            yield Simple_map.destroy_empty_(store, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
+        }
+        else {
+        }
+        resource__2 = yield Account.create_signer_with_capability_(resource_signer_cap, $c);
+        yield Account.rotate_authentication_key_internal_(resource__2, $.copy(exports.ZERO_AUTH_KEY), $c);
+        return resource_signer_cap;
+    });
 }
 exports.retrieve_resource_account_cap_ = retrieve_resource_account_cap_;
 function rotate_account_authentication_key_and_store_capability_(origin, resource, resource_signer_cap, optional_auth_key, $c) {
-    let temp$1, auth_key, container, origin_addr, resource_addr;
-    origin_addr = Signer.address_of_(origin, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(Container), $.copy(origin_addr))) {
-        $c.move_to(new move_to_ts_2.SimpleStructTag(Container), origin, new Container({ store: Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]) }, new move_to_ts_2.SimpleStructTag(Container)));
-    }
-    else {
-    }
-    container = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Container), $.copy(origin_addr));
-    resource_addr = Signer.address_of_(resource, $c);
-    Simple_map.add_(container.store, $.copy(resource_addr), resource_signer_cap, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
-    if (Vector.is_empty_(optional_auth_key, $c, [move_to_ts_2.AtomicTypeTag.U8])) {
-        temp$1 = Account.get_authentication_key_($.copy(origin_addr), $c);
-    }
-    else {
-        temp$1 = $.copy(optional_auth_key);
-    }
-    auth_key = temp$1;
-    Account.rotate_authentication_key_internal_(resource, $.copy(auth_key), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, auth_key, container, origin_addr, resource_addr;
+        origin_addr = yield Signer.address_of_(origin, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Container), $.copy(origin_addr)))) {
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Container), origin, new Container({ store: yield Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]) }, new move_to_ts_2.SimpleStructTag(Container)));
+        }
+        else {
+        }
+        container = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Container), $.copy(origin_addr));
+        resource_addr = yield Signer.address_of_(resource, $c);
+        yield Simple_map.add_((container).store, $.copy(resource_addr), resource_signer_cap, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "account", "SignerCapability", [])]);
+        if (yield Vector.is_empty_(optional_auth_key, $c, [move_to_ts_2.AtomicTypeTag.U8])) {
+            temp$1 = yield Account.get_authentication_key_($.copy(origin_addr), $c);
+        }
+        else {
+            temp$1 = $.copy(optional_auth_key);
+        }
+        auth_key = temp$1;
+        yield Account.rotate_authentication_key_internal_(resource, $.copy(auth_key), $c);
+        return;
+    });
 }
 exports.rotate_account_authentication_key_and_store_capability_ = rotate_account_authentication_key_and_store_capability_;
 function loadParsers(repo) {
@@ -200,11 +210,14 @@ class App {
         return exports.moduleName;
     } }
     get Container() { return Container; }
-    loadContainer(owner, loadFull = true) {
+    loadContainer(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Container.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -212,28 +225,28 @@ class App {
     payload_create_resource_account(seed, optional_auth_key, isJSON = false) {
         return buildPayload_create_resource_account(seed, optional_auth_key, isJSON);
     }
-    create_resource_account(_account, seed, optional_auth_key, _maxGas = 1000, _isJSON = false) {
+    create_resource_account(_account, seed, optional_auth_key, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_create_resource_account(seed, optional_auth_key, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_create_resource_account(seed, optional_auth_key, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, isJSON = false) {
         return buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, isJSON);
     }
-    create_resource_account_and_fund(_account, seed, optional_auth_key, fund_amount, _maxGas = 1000, _isJSON = false) {
+    create_resource_account_and_fund(_account, seed, optional_auth_key, fund_amount, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_create_resource_account_and_publish_package(seed, metadata_serialized, code, isJSON = false) {
         return buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, isJSON);
     }
-    create_resource_account_and_publish_package(_account, seed, metadata_serialized, code, _maxGas = 1000, _isJSON = false) {
+    create_resource_account_and_publish_package(_account, seed, metadata_serialized, code, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

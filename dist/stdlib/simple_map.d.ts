@@ -39,15 +39,15 @@ export declare class SimpleMap {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(map: SimpleMap, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function borrow_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_mut_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function contains_key_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function create_($c: AptosDataCache, $p: TypeTag[]): SimpleMap;
-export declare function destroy_empty_(map: SimpleMap, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function find_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): [Option.Option, Option.Option];
-export declare function length_(map: SimpleMap, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function remove_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): [any, any];
+export declare function add_(map: SimpleMap, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function borrow_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_mut_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function contains_key_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function create_($c: AptosDataCache, $p: TypeTag[]): Promise<SimpleMap>;
+export declare function destroy_empty_(map: SimpleMap, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function find_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<[Option.Option, Option.Option]>;
+export declare function length_(map: SimpleMap, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function remove_(map: SimpleMap, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<[any, any]>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

@@ -86,29 +86,37 @@ AggregatorFactory.fields = [
     { name: "phantom_table", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "table", "Table", [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U128]) }
 ];
 function create_aggregator_(account, limit, $c) {
-    System_addresses.assert_aptos_framework_(account, $c);
-    return create_aggregator_internal_($.copy(limit), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(account, $c);
+        return yield create_aggregator_internal_($.copy(limit), $c);
+    });
 }
 exports.create_aggregator_ = create_aggregator_;
 function create_aggregator_internal_(limit, $c) {
-    let aggregator_factory;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(AggregatorFactory), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EAGGREGATOR_FACTORY_NOT_FOUND), $c));
-    }
-    aggregator_factory = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(AggregatorFactory), new aptos_1.HexString("0x1"));
-    return new_aggregator_(aggregator_factory, $.copy(limit), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator_factory;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(AggregatorFactory), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EAGGREGATOR_FACTORY_NOT_FOUND), $c));
+        }
+        aggregator_factory = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(AggregatorFactory), new aptos_1.HexString("0x1"));
+        return yield new_aggregator_(aggregator_factory, $.copy(limit), $c);
+    });
 }
 exports.create_aggregator_internal_ = create_aggregator_internal_;
 function initialize_aggregator_factory_(aptos_framework, $c) {
-    let aggregator_factory;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    aggregator_factory = new AggregatorFactory({ phantom_table: Table.new___($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U128]) }, new move_to_ts_2.SimpleStructTag(AggregatorFactory));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(AggregatorFactory), aptos_framework, aggregator_factory);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let aggregator_factory;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        aggregator_factory = new AggregatorFactory({ phantom_table: yield Table.new___($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.U128]) }, new move_to_ts_2.SimpleStructTag(AggregatorFactory));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(AggregatorFactory), aptos_framework, aggregator_factory);
+        return;
+    });
 }
 exports.initialize_aggregator_factory_ = initialize_aggregator_factory_;
 function new_aggregator_(aggregator_factory, limit, $c) {
-    return $.aptos_framework_aggregator_factory_new_aggregator(aggregator_factory, limit, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_aggregator_factory_new_aggregator(aggregator_factory, limit, $c);
+    });
 }
 exports.new_aggregator_ = new_aggregator_;
 function loadParsers(repo) {
@@ -128,11 +136,14 @@ class App {
         return exports.moduleName;
     } }
     get AggregatorFactory() { return AggregatorFactory; }
-    loadAggregatorFactory(owner, loadFull = true) {
+    loadAggregatorFactory(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield AggregatorFactory.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

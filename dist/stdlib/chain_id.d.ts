@@ -23,8 +23,8 @@ export declare class ChainId {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function get_($c: AptosDataCache): U8;
-export declare function initialize_(aptos_framework: HexString, id: U8, $c: AptosDataCache): void;
+export declare function get_($c: AptosDataCache): Promise<U8>;
+export declare function initialize_(aptos_framework: HexString, id: U8, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -34,6 +34,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get ChainId(): typeof ChainId;
-    loadChainId(owner: HexString, loadFull?: boolean): Promise<ChainId>;
+    loadChainId(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<ChainId>;
 }
 //# sourceMappingURL=chain_id.d.ts.map

@@ -25,20 +25,20 @@ export declare class String {
     str(): string;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function append_(s: String, r: String, $c: AptosDataCache): void;
-export declare function append_utf8_(s: String, bytes: U8[], $c: AptosDataCache): void;
-export declare function bytes_(s: String, $c: AptosDataCache): U8[];
-export declare function index_of_(s: String, r: String, $c: AptosDataCache): U64;
-export declare function insert_(s: String, at: U64, o: String, $c: AptosDataCache): void;
-export declare function internal_check_utf8_(v: U8[], $c: AptosDataCache): boolean;
-export declare function internal_index_of_(v: U8[], r: U8[], $c: AptosDataCache): U64;
-export declare function internal_is_char_boundary_(v: U8[], i: U64, $c: AptosDataCache): boolean;
-export declare function internal_sub_string_(v: U8[], i: U64, j: U64, $c: AptosDataCache): U8[];
-export declare function is_empty_(s: String, $c: AptosDataCache): boolean;
-export declare function length_(s: String, $c: AptosDataCache): U64;
-export declare function sub_string_(s: String, i: U64, j: U64, $c: AptosDataCache): String;
-export declare function try_utf8_(bytes: U8[], $c: AptosDataCache): Option.Option;
-export declare function utf8_(bytes: U8[], $c: AptosDataCache): String;
+export declare function append_(s: String, r: String, $c: AptosDataCache): Promise<void>;
+export declare function append_utf8_(s: String, bytes: U8[], $c: AptosDataCache): Promise<void>;
+export declare function bytes_(s: String, $c: AptosDataCache): Promise<U8[]>;
+export declare function index_of_(s: String, r: String, $c: AptosDataCache): Promise<U64>;
+export declare function insert_(s: String, at: U64, o: String, $c: AptosDataCache): Promise<void>;
+export declare function internal_check_utf8_(v: U8[], $c: AptosDataCache): Promise<boolean>;
+export declare function internal_index_of_(v: U8[], r: U8[], $c: AptosDataCache): Promise<U64>;
+export declare function internal_is_char_boundary_(v: U8[], i: U64, $c: AptosDataCache): Promise<boolean>;
+export declare function internal_sub_string_(v: U8[], i: U64, j: U64, $c: AptosDataCache): Promise<U8[]>;
+export declare function is_empty_(s: String, $c: AptosDataCache): Promise<boolean>;
+export declare function length_(s: String, $c: AptosDataCache): Promise<U64>;
+export declare function sub_string_(s: String, i: U64, j: U64, $c: AptosDataCache): Promise<String>;
+export declare function try_utf8_(bytes: U8[], $c: AptosDataCache): Promise<Option.Option>;
+export declare function utf8_(bytes: U8[], $c: AptosDataCache): Promise<String>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

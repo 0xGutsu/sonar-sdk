@@ -23,11 +23,11 @@ export declare class ACL {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(acl: ACL, addr: HexString, $c: AptosDataCache): void;
-export declare function assert_contains_(acl: ACL, addr: HexString, $c: AptosDataCache): void;
-export declare function contains_(acl: ACL, addr: HexString, $c: AptosDataCache): boolean;
-export declare function empty_($c: AptosDataCache): ACL;
-export declare function remove_(acl: ACL, addr: HexString, $c: AptosDataCache): void;
+export declare function add_(acl: ACL, addr: HexString, $c: AptosDataCache): Promise<void>;
+export declare function assert_contains_(acl: ACL, addr: HexString, $c: AptosDataCache): Promise<void>;
+export declare function contains_(acl: ACL, addr: HexString, $c: AptosDataCache): Promise<boolean>;
+export declare function empty_($c: AptosDataCache): Promise<ACL>;
+export declare function remove_(acl: ACL, addr: HexString, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

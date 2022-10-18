@@ -24,11 +24,11 @@ export declare class GenesisEndMarker {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function assert_genesis_($c: AptosDataCache): void;
-export declare function assert_operating_($c: AptosDataCache): void;
-export declare function is_genesis_($c: AptosDataCache): boolean;
-export declare function is_operating_($c: AptosDataCache): boolean;
-export declare function set_genesis_end_(aptos_framework: HexString, $c: AptosDataCache): void;
+export declare function assert_genesis_($c: AptosDataCache): Promise<void>;
+export declare function assert_operating_($c: AptosDataCache): Promise<void>;
+export declare function is_genesis_($c: AptosDataCache): Promise<boolean>;
+export declare function is_operating_($c: AptosDataCache): Promise<boolean>;
+export declare function set_genesis_end_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -38,6 +38,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get GenesisEndMarker(): typeof GenesisEndMarker;
-    loadGenesisEndMarker(owner: HexString, loadFull?: boolean): Promise<GenesisEndMarker>;
+    loadGenesisEndMarker(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<GenesisEndMarker>;
 }
 //# sourceMappingURL=chain_status.d.ts.map

@@ -6,6 +6,7 @@ import * as Market from './market';
 import * as Open_table from './open_table';
 import * as Order_id from './order_id';
 import * as Registry from './registry';
+import * as Test from './test';
 import * as User from './user';
 export * as Assets from './assets';
 export * as Critbit from './critbit';
@@ -13,6 +14,7 @@ export * as Market from './market';
 export * as Open_table from './open_table';
 export * as Order_id from './order_id';
 export * as Registry from './registry';
+export * as Test from './test';
 export * as User from './user';
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare function getPackageRepo(): AptosParserRepo;
@@ -31,6 +33,7 @@ export declare class App {
     open_table: Open_table.App;
     order_id: Order_id.App;
     registry: Registry.App;
+    test: Test.App;
     user: User.App;
     constructor(client: AptosClient, repo: AptosParserRepo, cache: AptosLocalCache);
 }

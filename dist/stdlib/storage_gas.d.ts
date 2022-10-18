@@ -102,20 +102,20 @@ export declare class UsageGasConfig {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function base_8192_exponential_curve_(min_gas: U64, max_gas: U64, $c: AptosDataCache): GasCurve;
-export declare function calculate_create_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): U64;
-export declare function calculate_gas_(max_usage: U64, current_usage: U64, curve: GasCurve, $c: AptosDataCache): U64;
-export declare function calculate_read_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): U64;
-export declare function calculate_write_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): U64;
-export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function interpolate_(x0: U64, x1: U64, y0: U64, y1: U64, x: U64, $c: AptosDataCache): U64;
-export declare function new_gas_curve_(min_gas: U64, max_gas: U64, points: Point[], $c: AptosDataCache): GasCurve;
-export declare function new_point_(x: U64, y: U64, $c: AptosDataCache): Point;
-export declare function new_storage_gas_config_(item_config: UsageGasConfig, byte_config: UsageGasConfig, $c: AptosDataCache): StorageGasConfig;
-export declare function new_usage_gas_config_(target_usage: U64, read_curve: GasCurve, create_curve: GasCurve, write_curve: GasCurve, $c: AptosDataCache): UsageGasConfig;
-export declare function on_reconfig_($c: AptosDataCache): void;
-export declare function set_config_(aptos_framework: HexString, config: StorageGasConfig, $c: AptosDataCache): void;
-export declare function validate_points_(points: Point[], $c: AptosDataCache): void;
+export declare function base_8192_exponential_curve_(min_gas: U64, max_gas: U64, $c: AptosDataCache): Promise<GasCurve>;
+export declare function calculate_create_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): Promise<U64>;
+export declare function calculate_gas_(max_usage: U64, current_usage: U64, curve: GasCurve, $c: AptosDataCache): Promise<U64>;
+export declare function calculate_read_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): Promise<U64>;
+export declare function calculate_write_gas_(config: UsageGasConfig, usage: U64, $c: AptosDataCache): Promise<U64>;
+export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function interpolate_(x0: U64, x1: U64, y0: U64, y1: U64, x: U64, $c: AptosDataCache): Promise<U64>;
+export declare function new_gas_curve_(min_gas: U64, max_gas: U64, points: Point[], $c: AptosDataCache): Promise<GasCurve>;
+export declare function new_point_(x: U64, y: U64, $c: AptosDataCache): Promise<Point>;
+export declare function new_storage_gas_config_(item_config: UsageGasConfig, byte_config: UsageGasConfig, $c: AptosDataCache): Promise<StorageGasConfig>;
+export declare function new_usage_gas_config_(target_usage: U64, read_curve: GasCurve, create_curve: GasCurve, write_curve: GasCurve, $c: AptosDataCache): Promise<UsageGasConfig>;
+export declare function on_reconfig_($c: AptosDataCache): Promise<void>;
+export declare function set_config_(aptos_framework: HexString, config: StorageGasConfig, $c: AptosDataCache): Promise<void>;
+export declare function validate_points_(points: Point[], $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -127,9 +127,9 @@ export declare class App {
     get GasCurve(): typeof GasCurve;
     get Point(): typeof Point;
     get StorageGas(): typeof StorageGas;
-    loadStorageGas(owner: HexString, loadFull?: boolean): Promise<StorageGas>;
+    loadStorageGas(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<StorageGas>;
     get StorageGasConfig(): typeof StorageGasConfig;
-    loadStorageGasConfig(owner: HexString, loadFull?: boolean): Promise<StorageGasConfig>;
+    loadStorageGasConfig(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<StorageGasConfig>;
     get UsageGasConfig(): typeof UsageGasConfig;
 }
 //# sourceMappingURL=storage_gas.d.ts.map

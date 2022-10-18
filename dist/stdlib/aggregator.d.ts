@@ -26,11 +26,11 @@ export declare class Aggregator {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(aggregator: Aggregator, value: U128, $c: AptosDataCache): void;
-export declare function destroy_(aggregator: Aggregator, $c: AptosDataCache): void;
-export declare function limit_(aggregator: Aggregator, $c: AptosDataCache): U128;
-export declare function read_(aggregator: Aggregator, $c: AptosDataCache): U128;
-export declare function sub_(aggregator: Aggregator, value: U128, $c: AptosDataCache): void;
+export declare function add_(aggregator: Aggregator, value: U128, $c: AptosDataCache): Promise<void>;
+export declare function destroy_(aggregator: Aggregator, $c: AptosDataCache): Promise<void>;
+export declare function limit_(aggregator: Aggregator, $c: AptosDataCache): Promise<U128>;
+export declare function read_(aggregator: Aggregator, $c: AptosDataCache): Promise<U128>;
+export declare function sub_(aggregator: Aggregator, value: U128, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

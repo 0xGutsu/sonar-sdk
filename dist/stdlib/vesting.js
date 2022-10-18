@@ -32,8 +32,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get_role_holder_ = exports.get_beneficiary_ = exports.buildPayload_distribute = exports.distribute_ = exports.create_vesting_schedule_ = exports.create_vesting_contract_account_ = exports.create_vesting_contract_ = exports.beneficiary_ = exports.assert_vesting_contract_exists_ = exports.assert_active_vesting_contract_ = exports.buildPayload_admin_withdraw = exports.admin_withdraw_ = exports.VestingSchedule = exports.VestingContract = exports.VestingAccountManagement = exports.VestEvent = exports.UpdateVoterEvent = exports.UpdateOperatorEvent = exports.UnlockRewardsEvent = exports.TerminateEvent = exports.StakingInfo = exports.SetBeneficiaryEvent = exports.ResetLockupEvent = exports.DistributeEvent = exports.CreateVestingContractEvent = exports.AdminWithdrawEvent = exports.AdminStore = exports.VESTING_POOL_TERMINATED = exports.VESTING_POOL_SALT = exports.VESTING_POOL_ACTIVE = exports.ROLE_BENEFICIARY_RESETTER = exports.MAXIMUM_SHAREHOLDERS = exports.EZERO_VESTING_SCHEDULE_PERIOD = exports.EZERO_GRANT = exports.EVESTING_START_TOO_SOON = exports.EVESTING_CONTRACT_STILL_ACTIVE = exports.EVESTING_CONTRACT_NOT_FOUND = exports.EVESTING_CONTRACT_NOT_ACTIVE = exports.EVESTING_ACCOUNT_HAS_NO_ROLES = exports.ESHARES_LENGTH_MISMATCH = exports.EROLE_NOT_FOUND = exports.EPERMISSION_DENIED = exports.EPENDING_STAKE_FOUND = exports.ENO_SHAREHOLDERS = exports.ENOT_ADMIN = exports.EINVALID_WITHDRAWAL_ADDRESS = exports.EEMPTY_VESTING_SCHEDULE = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
-exports.App = exports.loadParsers = exports.withdraw_stake_ = exports.voter_ = exports.vesting_start_secs_ = exports.vesting_contracts_ = exports.buildPayload_vest = exports.vest_ = exports.verify_admin_ = exports.buildPayload_update_voter = exports.update_voter_ = exports.buildPayload_update_operator_with_same_commission = exports.update_operator_with_same_commission_ = exports.buildPayload_update_operator = exports.update_operator_ = exports.unlock_stake_ = exports.buildPayload_unlock_rewards = exports.unlock_rewards_ = exports.buildPayload_terminate_vesting_contract = exports.terminate_vesting_contract_ = exports.stake_pool_address_ = exports.buildPayload_set_management_role = exports.set_management_role_ = exports.buildPayload_set_beneficiary_resetter = exports.set_beneficiary_resetter_ = exports.buildPayload_set_beneficiary = exports.set_beneficiary_ = exports.buildPayload_reset_lockup = exports.reset_lockup_ = exports.buildPayload_reset_beneficiary = exports.reset_beneficiary_ = exports.remaining_grant_ = exports.operator_commission_percentage_ = exports.operator_ = exports.get_vesting_account_signer_internal_ = exports.get_vesting_account_signer_ = void 0;
+exports.get_beneficiary_ = exports.buildPayload_distribute = exports.distribute_ = exports.create_vesting_schedule_ = exports.create_vesting_contract_account_ = exports.create_vesting_contract_ = exports.compute_vested_amount_ = exports.beneficiary_ = exports.assert_vesting_contract_exists_ = exports.assert_active_vesting_contract_ = exports.buildPayload_admin_withdraw = exports.admin_withdraw_ = exports.VestingSchedule = exports.VestingContract = exports.VestingAccountManagement = exports.VestEvent = exports.UpdateVoterEvent = exports.UpdateOperatorEvent = exports.UnlockRewardsEvent = exports.TerminateEvent = exports.StakingInfo = exports.SetBeneficiaryEvent = exports.ResetLockupEvent = exports.DistributeEvent = exports.CreateVestingContractEvent = exports.AdminWithdrawEvent = exports.AdminStore = exports.VESTING_POOL_TERMINATED = exports.VESTING_POOL_SALT = exports.VESTING_POOL_ACTIVE = exports.ROLE_BENEFICIARY_RESETTER = exports.MAXIMUM_SHAREHOLDERS = exports.EZERO_VESTING_SCHEDULE_PERIOD = exports.EZERO_GRANT = exports.EVESTING_START_TOO_SOON = exports.EVESTING_CONTRACT_STILL_ACTIVE = exports.EVESTING_CONTRACT_NOT_FOUND = exports.EVESTING_CONTRACT_NOT_ACTIVE = exports.EVESTING_ACCOUNT_HAS_NO_ROLES = exports.ESHARES_LENGTH_MISMATCH = exports.EROLE_NOT_FOUND = exports.EPERMISSION_DENIED = exports.EPENDING_STAKE_FOUND = exports.ENO_SHAREHOLDERS = exports.ENOT_ADMIN = exports.EINVALID_WITHDRAWAL_ADDRESS = exports.EEMPTY_VESTING_SCHEDULE = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
+exports.App = exports.loadParsers = exports.withdraw_stake_ = exports.voter_ = exports.vesting_start_secs_ = exports.vesting_contracts_ = exports.buildPayload_vest = exports.vest_ = exports.verify_admin_ = exports.buildPayload_update_voter = exports.update_voter_ = exports.buildPayload_update_operator_with_same_commission = exports.update_operator_with_same_commission_ = exports.buildPayload_update_operator = exports.update_operator_ = exports.unlock_stake_ = exports.buildPayload_unlock_rewards = exports.unlock_rewards_ = exports.buildPayload_terminate_vesting_contract = exports.terminate_vesting_contract_ = exports.stake_pool_address_ = exports.buildPayload_set_management_role = exports.set_management_role_ = exports.buildPayload_set_beneficiary_resetter = exports.set_beneficiary_resetter_ = exports.buildPayload_set_beneficiary = exports.set_beneficiary_ = exports.buildPayload_reset_lockup = exports.reset_lockup_ = exports.buildPayload_reset_beneficiary = exports.reset_beneficiary_ = exports.remaining_grant_ = exports.operator_commission_percentage_ = exports.operator_ = exports.get_vesting_account_signer_internal_ = exports.get_vesting_account_signer_ = exports.get_role_holder_ = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const move_to_ts_2 = require("@manahippo/move-to-ts");
@@ -45,7 +45,6 @@ const Coin = __importStar(require("./coin"));
 const Error = __importStar(require("./error"));
 const Event = __importStar(require("./event"));
 const Fixed_point32 = __importStar(require("./fixed_point32"));
-const Math64 = __importStar(require("./math64"));
 const Pool_u64 = __importStar(require("./pool_u64"));
 const Signer = __importStar(require("./signer"));
 const Simple_map = __importStar(require("./simple_map"));
@@ -657,26 +656,28 @@ VestingSchedule.fields = [
     { name: "last_vested_period", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function admin_withdraw_(admin, contract_address, $c) {
-    let temp$2, temp$3, temp$4, temp$5, amount, coins, vesting_contract, vesting_contract__1;
-    vesting_contract = $c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    if (!($.copy(vesting_contract.state)).eq(($.copy(exports.VESTING_POOL_TERMINATED)))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EVESTING_CONTRACT_STILL_ACTIVE), $c));
-    }
-    vesting_contract__1 = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$2, temp$3] = [admin, vesting_contract__1];
-    verify_admin_(temp$2, temp$3, $c);
-    [temp$4, temp$5] = [vesting_contract__1, $.copy(contract_address)];
-    coins = withdraw_stake_(temp$4, temp$5, $c);
-    amount = Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$2, temp$3, temp$4, temp$5, amount, coins, vesting_contract, vesting_contract__1;
+        vesting_contract = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        if (!($.copy((vesting_contract).state)).eq(($.copy(exports.VESTING_POOL_TERMINATED)))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EVESTING_CONTRACT_STILL_ACTIVE), $c));
+        }
+        vesting_contract__1 = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$2, temp$3] = [admin, vesting_contract__1];
+        yield verify_admin_(temp$2, temp$3, $c);
+        [temp$4, temp$5] = [vesting_contract__1, $.copy(contract_address)];
+        coins = yield withdraw_stake_(temp$4, temp$5, $c);
+        amount = yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            yield Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+            return;
+        }
+        else {
+        }
+        yield Coin.deposit_($.copy((vesting_contract__1).withdrawal_address), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        yield Event.emit_event_((vesting_contract__1).admin_withdraw_events, new AdminWithdrawEvent({ admin: $.copy((vesting_contract__1).admin), vesting_contract_address: $.copy(contract_address), amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)), $c, [new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)]);
         return;
-    }
-    else {
-    }
-    Coin.deposit_($.copy(vesting_contract__1.withdrawal_address), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    Event.emit_event_(vesting_contract__1.admin_withdraw_events, new AdminWithdrawEvent({ admin: $.copy(vesting_contract__1.admin), vesting_contract_address: $.copy(contract_address), amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)), $c, [new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)]);
-    return;
+    });
 }
 exports.admin_withdraw_ = admin_withdraw_;
 function buildPayload_admin_withdraw(contract_address, isJSON = false) {
@@ -687,148 +688,189 @@ function buildPayload_admin_withdraw(contract_address, isJSON = false) {
 }
 exports.buildPayload_admin_withdraw = buildPayload_admin_withdraw;
 function assert_active_vesting_contract_(contract_address, $c) {
-    let vesting_contract;
-    assert_vesting_contract_exists_($.copy(contract_address), $c);
-    vesting_contract = $c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    if (!($.copy(vesting_contract.state)).eq(($.copy(exports.VESTING_POOL_ACTIVE)))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EVESTING_CONTRACT_NOT_ACTIVE), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let vesting_contract;
+        yield assert_vesting_contract_exists_($.copy(contract_address), $c);
+        vesting_contract = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        if (!($.copy((vesting_contract).state)).eq(($.copy(exports.VESTING_POOL_ACTIVE)))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EVESTING_CONTRACT_NOT_ACTIVE), $c));
+        }
+        return;
+    });
 }
 exports.assert_active_vesting_contract_ = assert_active_vesting_contract_;
 function assert_vesting_contract_exists_(contract_address, $c) {
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EVESTING_CONTRACT_NOT_FOUND), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EVESTING_CONTRACT_NOT_FOUND), $c));
+        }
+        return;
+    });
 }
 exports.assert_vesting_contract_exists_ = assert_vesting_contract_exists_;
 function beneficiary_(vesting_contract_address, shareholder, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return get_beneficiary_($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)), $.copy(shareholder), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return yield get_beneficiary_(yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)), $.copy(shareholder), $c);
+    });
 }
 exports.beneficiary_ = beneficiary_;
-function create_vesting_contract_(admin, shareholders, buy_ins, vesting_schedule, withdrawal_address, operator, voter, commission_percentage, contract_creation_seed, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, admin_address, admin_store, buy_in, buy_in_amount, contract_address, contract_signer, contract_signer_cap, grant, grant_amount, grant_pool, i, len, pool_address, shareholder;
-    if (!!System_addresses.is_reserved_address_($.copy(withdrawal_address), $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_WITHDRAWAL_ADDRESS), $c));
-    }
-    Aptos_account.assert_account_is_registered_for_apt_($.copy(withdrawal_address), $c);
-    if (!(Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ENO_SHAREHOLDERS), $c));
-    }
-    if (!(Simple_map.length_(buy_ins, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])])).eq((Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ESHARES_LENGTH_MISMATCH), $c));
-    }
-    grant = Coin.zero_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    grant_amount = (0, move_to_ts_1.u64)("0");
-    grant_pool = Pool_u64.create_($.copy(exports.MAXIMUM_SHAREHOLDERS), $c);
-    len = Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            shareholder = $.copy(Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            [, buy_in] = Simple_map.remove_(buy_ins, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])]);
-            buy_in_amount = Coin.value_(buy_in, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-            Coin.merge_(grant, buy_in, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-            Pool_u64.buy_in_(grant_pool, $.copy(Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address])), $.copy(buy_in_amount), $c);
-            grant_amount = ($.copy(grant_amount)).add($.copy(buy_in_amount));
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+function compute_vested_amount_(vesting_contract, $c) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, last_completed_period, last_vested_period, next_period_to_vest, schedule, schedule_index, total_grant, vesting_fraction, vesting_schedule;
+        vesting_schedule = (vesting_contract).vesting_schedule;
+        last_vested_period = $.copy((vesting_schedule).last_vested_period);
+        next_period_to_vest = ($.copy(last_vested_period)).add((0, move_to_ts_1.u64)("1"));
+        last_completed_period = ((yield Timestamp.now_seconds_($c)).sub($.copy((vesting_schedule).start_timestamp_secs))).div($.copy((vesting_schedule).period_duration));
+        if (($.copy(last_completed_period)).lt($.copy(next_period_to_vest))) {
+            return (0, move_to_ts_1.u64)("0");
         }
-    }
-    if (!($.copy(grant_amount)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_GRANT), $c));
-    }
-    admin_address = Signer.address_of_(admin, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin_address))) {
-        $c.move_to(new move_to_ts_2.SimpleStructTag(AdminStore), admin, new AdminStore({ vesting_contracts: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]), nonce: (0, move_to_ts_1.u64)("0"), create_events: Account.new_event_handle_(admin, $c, [new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)]) }, new move_to_ts_2.SimpleStructTag(AdminStore)));
-    }
-    else {
-    }
-    [contract_signer, contract_signer_cap] = create_vesting_contract_account_(admin, $.copy(contract_creation_seed), $c);
-    pool_address = Staking_contract.create_staking_contract_with_coins_(contract_signer, $.copy(operator), $.copy(voter), grant, $.copy(commission_percentage), $.copy(contract_creation_seed), $c);
-    contract_address = Signer.address_of_(contract_signer, $c);
-    admin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin_address));
-    Vector.push_back_(admin_store.vesting_contracts, $.copy(contract_address), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    temp$8 = admin_store.create_events;
-    temp$1 = $.copy(operator);
-    temp$2 = $.copy(voter);
-    temp$3 = $.copy(withdrawal_address);
-    temp$4 = $.copy(grant_amount);
-    temp$5 = $.copy(contract_address);
-    temp$6 = $.copy(pool_address);
-    temp$7 = $.copy(commission_percentage);
-    Event.emit_event_(temp$8, new CreateVestingContractEvent({ operator: temp$1, voter: temp$2, grant_amount: temp$4, withdrawal_address: temp$3, vesting_contract_address: temp$5, staking_pool_address: temp$6, commission_percentage: temp$7 }, new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(VestingContract), contract_signer, new VestingContract({ state: $.copy(exports.VESTING_POOL_ACTIVE), admin: $.copy(admin_address), grant_pool: grant_pool, beneficiaries: Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]), vesting_schedule: $.copy(vesting_schedule), withdrawal_address: $.copy(withdrawal_address), staking: new StakingInfo({ pool_address: $.copy(pool_address), operator: $.copy(operator), voter: $.copy(voter), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(StakingInfo)), remaining_grant: $.copy(grant_amount), signer_cap: contract_signer_cap, update_operator_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)]), update_voter_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]), reset_lockup_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]), set_beneficiary_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)]), unlock_rewards_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UnlockRewardsEvent)]), vest_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(VestEvent)]), distribute_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]), terminate_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(TerminateEvent)]), admin_withdraw_events: Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)]) }, new move_to_ts_2.SimpleStructTag(VestingContract)));
-    Simple_map.destroy_empty_(buy_ins, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])]);
-    return $.copy(contract_address);
+        else {
+        }
+        schedule = (vesting_schedule).schedule;
+        schedule_index = ($.copy(next_period_to_vest)).sub((0, move_to_ts_1.u64)("1"));
+        if (($.copy(schedule_index)).lt(yield Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]))) {
+            temp$1 = $.copy(yield Vector.borrow_(schedule, $.copy(schedule_index), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
+        }
+        else {
+            temp$1 = $.copy(yield Vector.borrow_(schedule, (yield Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
+        }
+        vesting_fraction = temp$1;
+        total_grant = yield Pool_u64.total_coins_((vesting_contract).grant_pool, $c);
+        return yield Fixed_point32.multiply_u64_($.copy(total_grant), $.copy(vesting_fraction), $c);
+    });
+}
+exports.compute_vested_amount_ = compute_vested_amount_;
+function create_vesting_contract_(admin, shareholders, buy_ins, vesting_schedule, withdrawal_address, operator, voter, commission_percentage, contract_creation_seed, $c) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, admin_address, admin_store, buy_in, buy_in_amount, contract_address, contract_signer, contract_signer_cap, grant, grant_amount, grant_pool, i, len, pool_address, shareholder;
+        if (!!(yield System_addresses.is_reserved_address_($.copy(withdrawal_address), $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_WITHDRAWAL_ADDRESS), $c));
+        }
+        yield Aptos_account.assert_account_is_registered_for_apt_($.copy(withdrawal_address), $c);
+        if (!(yield Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ENO_SHAREHOLDERS), $c));
+        }
+        if (!(yield Simple_map.length_(buy_ins, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])])).eq((yield Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address])))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ESHARES_LENGTH_MISMATCH), $c));
+        }
+        grant = yield Coin.zero_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        grant_amount = (0, move_to_ts_1.u64)("0");
+        grant_pool = yield Pool_u64.create_($.copy(exports.MAXIMUM_SHAREHOLDERS), $c);
+        len = yield Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                shareholder = $.copy(yield Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                [, buy_in] = yield Simple_map.remove_(buy_ins, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])]);
+                buy_in_amount = yield Coin.value_(buy_in, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+                yield Coin.merge_(grant, buy_in, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+                yield Pool_u64.buy_in_(grant_pool, $.copy(yield Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address])), $.copy(buy_in_amount), $c);
+                grant_amount = ($.copy(grant_amount)).add($.copy(buy_in_amount));
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        if (!($.copy(grant_amount)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_GRANT), $c));
+        }
+        yield Pool_u64.update_total_coins_(grant_pool, $.copy(grant_amount), $c);
+        admin_address = yield Signer.address_of_(admin, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin_address)))) {
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(AdminStore), admin, new AdminStore({ vesting_contracts: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]), nonce: (0, move_to_ts_1.u64)("0"), create_events: yield Account.new_event_handle_(admin, $c, [new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)]) }, new move_to_ts_2.SimpleStructTag(AdminStore)));
+        }
+        else {
+        }
+        [contract_signer, contract_signer_cap] = yield create_vesting_contract_account_(admin, $.copy(contract_creation_seed), $c);
+        pool_address = yield Staking_contract.create_staking_contract_with_coins_(contract_signer, $.copy(operator), $.copy(voter), grant, $.copy(commission_percentage), $.copy(contract_creation_seed), $c);
+        contract_address = yield Signer.address_of_(contract_signer, $c);
+        admin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin_address));
+        yield Vector.push_back_((admin_store).vesting_contracts, $.copy(contract_address), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        temp$8 = (admin_store).create_events;
+        temp$1 = $.copy(operator);
+        temp$2 = $.copy(voter);
+        temp$3 = $.copy(withdrawal_address);
+        temp$4 = $.copy(grant_amount);
+        temp$5 = $.copy(contract_address);
+        temp$6 = $.copy(pool_address);
+        temp$7 = $.copy(commission_percentage);
+        yield Event.emit_event_(temp$8, new CreateVestingContractEvent({ operator: temp$1, voter: temp$2, grant_amount: temp$4, withdrawal_address: temp$3, vesting_contract_address: temp$5, staking_pool_address: temp$6, commission_percentage: temp$7 }, new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateVestingContractEvent)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(VestingContract), contract_signer, new VestingContract({ state: $.copy(exports.VESTING_POOL_ACTIVE), admin: $.copy(admin_address), grant_pool: grant_pool, beneficiaries: yield Simple_map.create_($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]), vesting_schedule: $.copy(vesting_schedule), withdrawal_address: $.copy(withdrawal_address), staking: new StakingInfo({ pool_address: $.copy(pool_address), operator: $.copy(operator), voter: $.copy(voter), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(StakingInfo)), remaining_grant: $.copy(grant_amount), signer_cap: contract_signer_cap, update_operator_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)]), update_voter_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]), reset_lockup_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]), set_beneficiary_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)]), unlock_rewards_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(UnlockRewardsEvent)]), vest_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(VestEvent)]), distribute_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]), terminate_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(TerminateEvent)]), admin_withdraw_events: yield Account.new_event_handle_(contract_signer, $c, [new move_to_ts_2.SimpleStructTag(AdminWithdrawEvent)]) }, new move_to_ts_2.SimpleStructTag(VestingContract)));
+        yield Simple_map.destroy_empty_(buy_ins, $c, [move_to_ts_2.AtomicTypeTag.Address, new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "Coin", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])]);
+        return $.copy(contract_address);
+    });
 }
 exports.create_vesting_contract_ = create_vesting_contract_;
 function create_vesting_contract_account_(admin, contract_creation_seed, $c) {
-    let temp$1, account_signer, admin_store, seed, signer_cap;
-    admin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(AdminStore), Signer.address_of_(admin, $c));
-    temp$1 = Signer.address_of_(admin, $c);
-    seed = Bcs.to_bytes_(temp$1, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    Vector.append_(seed, Bcs.to_bytes_(admin_store.nonce, $c, [move_to_ts_2.AtomicTypeTag.U64]), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    admin_store.nonce = ($.copy(admin_store.nonce)).add((0, move_to_ts_1.u64)("1"));
-    Vector.append_(seed, $.copy(exports.VESTING_POOL_SALT), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    Vector.append_(seed, $.copy(contract_creation_seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    [account_signer, signer_cap] = Account.create_resource_account_(admin, $.copy(seed), $c);
-    Coin.register_(account_signer, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    return [account_signer, signer_cap];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, account_signer, admin_store, seed, signer_cap;
+        admin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(AdminStore), yield Signer.address_of_(admin, $c));
+        temp$1 = yield Signer.address_of_(admin, $c);
+        seed = yield Bcs.to_bytes_(temp$1, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        yield Vector.append_(seed, yield Bcs.to_bytes_((admin_store).nonce, $c, [move_to_ts_2.AtomicTypeTag.U64]), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        (admin_store).nonce = ($.copy((admin_store).nonce)).add((0, move_to_ts_1.u64)("1"));
+        yield Vector.append_(seed, $.copy(exports.VESTING_POOL_SALT), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        yield Vector.append_(seed, $.copy(contract_creation_seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        [account_signer, signer_cap] = yield Account.create_resource_account_(admin, $.copy(seed), $c);
+        yield Coin.register_(account_signer, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        return [account_signer, signer_cap];
+    });
 }
 exports.create_vesting_contract_account_ = create_vesting_contract_account_;
 function create_vesting_schedule_(schedule, start_timestamp_secs, period_duration, $c) {
-    if (!(Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EEMPTY_VESTING_SCHEDULE), $c));
-    }
-    if (!($.copy(period_duration)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_VESTING_SCHEDULE_PERIOD), $c));
-    }
-    if (!($.copy(start_timestamp_secs)).ge(Timestamp.now_seconds_($c))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EVESTING_START_TOO_SOON), $c));
-    }
-    return new VestingSchedule({ schedule: $.copy(schedule), start_timestamp_secs: $.copy(start_timestamp_secs), period_duration: $.copy(period_duration), last_vested_period: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(VestingSchedule));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EEMPTY_VESTING_SCHEDULE), $c));
+        }
+        if (!($.copy(period_duration)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_VESTING_SCHEDULE_PERIOD), $c));
+        }
+        if (!($.copy(start_timestamp_secs)).ge(yield Timestamp.now_seconds_($c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EVESTING_START_TOO_SOON), $c));
+        }
+        return new VestingSchedule({ schedule: $.copy(schedule), start_timestamp_secs: $.copy(start_timestamp_secs), period_duration: $.copy(period_duration), last_vested_period: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(VestingSchedule));
+    });
 }
 exports.create_vesting_schedule_ = create_vesting_schedule_;
 function distribute_(contract_address, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, amount, coins, grant_pool, i, len, recipient_address, share_of_coins, shareholder, shareholders, shares, total_distribution_amount, vesting_contract;
-    assert_active_vesting_contract_($.copy(contract_address), $c);
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [vesting_contract, $.copy(contract_address)];
-    coins = withdraw_stake_(temp$1, temp$2, $c);
-    total_distribution_amount = Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    if (($.copy(total_distribution_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-        return;
-    }
-    else {
-    }
-    grant_pool = vesting_contract.grant_pool;
-    temp$3 = Pool_u64.shareholders_(grant_pool, $c);
-    shareholders = temp$3;
-    len = Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            shareholder = $.copy(Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
-            shares = Pool_u64.shares_(grant_pool, $.copy(shareholder), $c);
-            amount = Pool_u64.shares_to_amount_with_total_coins_(grant_pool, $.copy(shares), $.copy(total_distribution_amount), $c);
-            share_of_coins = Coin.extract_(coins, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-            [temp$4, temp$5] = [vesting_contract, $.copy(shareholder)];
-            recipient_address = get_beneficiary_(temp$4, temp$5, $c);
-            Coin.deposit_($.copy(recipient_address), share_of_coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, amount, coins, grant_pool, i, len, recipient_address, share_of_coins, shareholder, shareholders, shares, total_distribution_amount, vesting_contract;
+        yield assert_active_vesting_contract_($.copy(contract_address), $c);
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [vesting_contract, $.copy(contract_address)];
+        coins = yield withdraw_stake_(temp$1, temp$2, $c);
+        total_distribution_amount = yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        if (($.copy(total_distribution_amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            yield Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+            return;
         }
-    }
-    if ((Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])).gt((0, move_to_ts_1.u64)("0"))) {
-        Coin.deposit_($.copy(vesting_contract.withdrawal_address), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    }
-    else {
-        Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    }
-    Event.emit_event_(vesting_contract.distribute_events, new DistributeEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), amount: $.copy(total_distribution_amount) }, new move_to_ts_2.SimpleStructTag(DistributeEvent)), $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]);
-    return;
+        else {
+        }
+        grant_pool = (vesting_contract).grant_pool;
+        temp$3 = yield Pool_u64.shareholders_(grant_pool, $c);
+        shareholders = temp$3;
+        len = yield Vector.length_(shareholders, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                shareholder = $.copy(yield Vector.borrow_(shareholders, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Address]));
+                shares = yield Pool_u64.shares_(grant_pool, $.copy(shareholder), $c);
+                amount = yield Pool_u64.shares_to_amount_with_total_coins_(grant_pool, $.copy(shares), $.copy(total_distribution_amount), $c);
+                share_of_coins = yield Coin.extract_(coins, $.copy(amount), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+                [temp$4, temp$5] = [vesting_contract, $.copy(shareholder)];
+                recipient_address = yield get_beneficiary_(temp$4, temp$5, $c);
+                yield Coin.deposit_($.copy(recipient_address), share_of_coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        if ((yield Coin.value_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])])).gt((0, move_to_ts_1.u64)("0"))) {
+            yield Coin.deposit_($.copy((vesting_contract).withdrawal_address), coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        }
+        else {
+            yield Coin.destroy_zero_(coins, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        }
+        yield Event.emit_event_((vesting_contract).distribute_events, new DistributeEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), amount: $.copy(total_distribution_amount) }, new move_to_ts_2.SimpleStructTag(DistributeEvent)), $c, [new move_to_ts_2.SimpleStructTag(DistributeEvent)]);
+        return;
+    });
 }
 exports.distribute_ = distribute_;
 function buildPayload_distribute(contract_address, isJSON = false) {
@@ -839,76 +881,92 @@ function buildPayload_distribute(contract_address, isJSON = false) {
 }
 exports.buildPayload_distribute = buildPayload_distribute;
 function get_beneficiary_(contract, shareholder, $c) {
-    let temp$1;
-    if (Simple_map.contains_key_(contract.beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
-        temp$1 = $.copy(Simple_map.borrow_(contract.beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]));
-    }
-    else {
-        temp$1 = $.copy(shareholder);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield Simple_map.contains_key_((contract).beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
+            temp$1 = $.copy(yield Simple_map.borrow_((contract).beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]));
+        }
+        else {
+            temp$1 = $.copy(shareholder);
+        }
+        return temp$1;
+    });
 }
 exports.get_beneficiary_ = get_beneficiary_;
 function get_role_holder_(contract_address, role, $c) {
-    let roles;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EVESTING_ACCOUNT_HAS_NO_ROLES), $c));
-    }
-    roles = $c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address)).roles;
-    if (!Simple_map.contains_key_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EROLE_NOT_FOUND), $c));
-    }
-    return $.copy(Simple_map.borrow_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]));
+    return __awaiter(this, void 0, void 0, function* () {
+        let roles;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EVESTING_ACCOUNT_HAS_NO_ROLES), $c));
+        }
+        roles = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address))).roles;
+        if (!(yield Simple_map.contains_key_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EROLE_NOT_FOUND), $c));
+        }
+        return $.copy(yield Simple_map.borrow_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]));
+    });
 }
 exports.get_role_holder_ = get_role_holder_;
 function get_vesting_account_signer_(admin, contract_address, $c) {
-    let temp$1, temp$2, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    return get_vesting_account_signer_internal_(vesting_contract, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        return yield get_vesting_account_signer_internal_(vesting_contract, $c);
+    });
 }
 exports.get_vesting_account_signer_ = get_vesting_account_signer_;
 function get_vesting_account_signer_internal_(vesting_contract, $c) {
-    return Account.create_signer_with_capability_(vesting_contract.signer_cap, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Account.create_signer_with_capability_((vesting_contract).signer_cap, $c);
+    });
 }
 exports.get_vesting_account_signer_internal_ = get_vesting_account_signer_internal_;
 function operator_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.operator);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).staking).operator);
+    });
 }
 exports.operator_ = operator_;
 function operator_commission_percentage_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.commission_percentage);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).staking).commission_percentage);
+    });
 }
 exports.operator_commission_percentage_ = operator_commission_percentage_;
 function remaining_grant_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).remaining_grant);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).remaining_grant);
+    });
 }
 exports.remaining_grant_ = remaining_grant_;
 function reset_beneficiary_(account, contract_address, shareholder, $c) {
-    let temp$1, temp$2, temp$3, addr, beneficiaries, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    addr = Signer.address_of_(account, $c);
-    if ((($.copy(addr)).hex() === ($.copy(vesting_contract.admin)).hex())) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (($.copy(addr)).hex() === (get_role_holder_($.copy(contract_address), String.utf8_($.copy(exports.ROLE_BENEFICIARY_RESETTER), $c), $c)).hex());
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.EPERMISSION_DENIED), $c));
-    }
-    beneficiaries = vesting_contract.beneficiaries;
-    [temp$2, temp$3] = [beneficiaries, shareholder];
-    if (Simple_map.contains_key_(temp$2, temp$3, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
-        Simple_map.remove_(beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, addr, beneficiaries, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        addr = yield Signer.address_of_(account, $c);
+        if ((($.copy(addr)).hex() === ($.copy((vesting_contract).admin)).hex())) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (($.copy(addr)).hex() === (yield get_role_holder_($.copy(contract_address), yield String.utf8_($.copy(exports.ROLE_BENEFICIARY_RESETTER), $c), $c)).hex());
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.EPERMISSION_DENIED), $c));
+        }
+        beneficiaries = (vesting_contract).beneficiaries;
+        [temp$2, temp$3] = [beneficiaries, shareholder];
+        if (yield Simple_map.contains_key_(temp$2, temp$3, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
+            yield Simple_map.remove_(beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.reset_beneficiary_ = reset_beneficiary_;
 function buildPayload_reset_beneficiary(contract_address, shareholder, isJSON = false) {
@@ -920,15 +978,17 @@ function buildPayload_reset_beneficiary(contract_address, shareholder, isJSON = 
 }
 exports.buildPayload_reset_beneficiary = buildPayload_reset_beneficiary;
 function reset_lockup_(admin, contract_address, $c) {
-    let temp$1, temp$2, temp$3, contract_signer, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    temp$3 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$3;
-    Staking_contract.reset_lockup_(contract_signer, $.copy(vesting_contract.staking.operator), $c);
-    Event.emit_event_(vesting_contract.reset_lockup_events, new ResetLockupEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), new_lockup_expiration_secs: Stake.get_lockup_secs_($.copy(vesting_contract.staking.pool_address), $c) }, new move_to_ts_2.SimpleStructTag(ResetLockupEvent)), $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, contract_signer, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        temp$3 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$3;
+        yield Staking_contract.reset_lockup_(contract_signer, $.copy(((vesting_contract).staking).operator), $c);
+        yield Event.emit_event_((vesting_contract).reset_lockup_events, new ResetLockupEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(((vesting_contract).staking).pool_address), new_lockup_expiration_secs: yield Stake.get_lockup_secs_($.copy(((vesting_contract).staking).pool_address), $c) }, new move_to_ts_2.SimpleStructTag(ResetLockupEvent)), $c, [new move_to_ts_2.SimpleStructTag(ResetLockupEvent)]);
+        return;
+    });
 }
 exports.reset_lockup_ = reset_lockup_;
 function buildPayload_reset_lockup(contract_address, isJSON = false) {
@@ -939,24 +999,26 @@ function buildPayload_reset_lockup(contract_address, isJSON = false) {
 }
 exports.buildPayload_reset_lockup = buildPayload_reset_lockup;
 function set_beneficiary_(admin, contract_address, shareholder, new_beneficiary, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, beneficiaries, beneficiary, old_beneficiary, vesting_contract;
-    Aptos_account.assert_account_is_registered_for_apt_($.copy(new_beneficiary), $c);
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    [temp$3, temp$4] = [vesting_contract, $.copy(shareholder)];
-    old_beneficiary = get_beneficiary_(temp$3, temp$4, $c);
-    beneficiaries = vesting_contract.beneficiaries;
-    [temp$5, temp$6] = [beneficiaries, shareholder];
-    if (Simple_map.contains_key_(temp$5, temp$6, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
-        beneficiary = Simple_map.borrow_mut_(beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
-        $.set(beneficiary, $.copy(new_beneficiary));
-    }
-    else {
-        Simple_map.add_(beneficiaries, $.copy(shareholder), $.copy(new_beneficiary), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
-    }
-    Event.emit_event_(vesting_contract.set_beneficiary_events, new SetBeneficiaryEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), shareholder: $.copy(shareholder), old_beneficiary: $.copy(old_beneficiary), new_beneficiary: $.copy(new_beneficiary) }, new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)), $c, [new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, beneficiaries, beneficiary, old_beneficiary, vesting_contract;
+        yield Aptos_account.assert_account_is_registered_for_apt_($.copy(new_beneficiary), $c);
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        [temp$3, temp$4] = [vesting_contract, $.copy(shareholder)];
+        old_beneficiary = yield get_beneficiary_(temp$3, temp$4, $c);
+        beneficiaries = (vesting_contract).beneficiaries;
+        [temp$5, temp$6] = [beneficiaries, shareholder];
+        if (yield Simple_map.contains_key_(temp$5, temp$6, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
+            beneficiary = yield Simple_map.borrow_mut_(beneficiaries, shareholder, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
+            $.set(beneficiary, $.copy(new_beneficiary));
+        }
+        else {
+            yield Simple_map.add_(beneficiaries, $.copy(shareholder), $.copy(new_beneficiary), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
+        }
+        yield Event.emit_event_((vesting_contract).set_beneficiary_events, new SetBeneficiaryEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), shareholder: $.copy(shareholder), old_beneficiary: $.copy(old_beneficiary), new_beneficiary: $.copy(new_beneficiary) }, new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)), $c, [new move_to_ts_2.SimpleStructTag(SetBeneficiaryEvent)]);
+        return;
+    });
 }
 exports.set_beneficiary_ = set_beneficiary_;
 function buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, isJSON = false) {
@@ -969,8 +1031,10 @@ function buildPayload_set_beneficiary(contract_address, shareholder, new_benefic
 }
 exports.buildPayload_set_beneficiary = buildPayload_set_beneficiary;
 function set_beneficiary_resetter_(admin, contract_address, beneficiary_resetter, $c) {
-    set_management_role_(admin, $.copy(contract_address), String.utf8_($.copy(exports.ROLE_BENEFICIARY_RESETTER), $c), $.copy(beneficiary_resetter), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield set_management_role_(admin, $.copy(contract_address), yield String.utf8_($.copy(exports.ROLE_BENEFICIARY_RESETTER), $c), $.copy(beneficiary_resetter), $c);
+        return;
+    });
 }
 exports.set_beneficiary_resetter_ = set_beneficiary_resetter_;
 function buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, isJSON = false) {
@@ -982,26 +1046,28 @@ function buildPayload_set_beneficiary_resetter(contract_address, beneficiary_res
 }
 exports.buildPayload_set_beneficiary_resetter = buildPayload_set_beneficiary_resetter;
 function set_management_role_(admin, contract_address, role, role_holder, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, contract_signer, roles, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address))) {
-        temp$3 = get_vesting_account_signer_internal_(vesting_contract, $c);
-        contract_signer = temp$3;
-        $c.move_to(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), contract_signer, new VestingAccountManagement({ roles: Simple_map.create_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(VestingAccountManagement)));
-    }
-    else {
-    }
-    roles = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address)).roles;
-    [temp$4, temp$5] = [roles, role];
-    if (Simple_map.contains_key_(temp$4, temp$5, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address])) {
-        $.set(Simple_map.borrow_mut_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]), $.copy(role_holder));
-    }
-    else {
-        Simple_map.add_(roles, $.copy(role), $.copy(role_holder), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, contract_signer, roles, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address)))) {
+            temp$3 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+            contract_signer = temp$3;
+            yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), contract_signer, new VestingAccountManagement({ roles: yield Simple_map.create_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(VestingAccountManagement)));
+        }
+        else {
+        }
+        roles = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingAccountManagement), $.copy(contract_address))).roles;
+        [temp$4, temp$5] = [roles, role];
+        if (yield Simple_map.contains_key_(temp$4, temp$5, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address])) {
+            $.set(yield Simple_map.borrow_mut_(roles, role, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]), $.copy(role_holder));
+        }
+        else {
+            yield Simple_map.add_(roles, $.copy(role), $.copy(role_holder), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), move_to_ts_2.AtomicTypeTag.Address]);
+        }
+        return;
+    });
 }
 exports.set_management_role_ = set_management_role_;
 function buildPayload_set_management_role(contract_address, role, role_holder, isJSON = false) {
@@ -1014,27 +1080,31 @@ function buildPayload_set_management_role(contract_address, role, role_holder, i
 }
 exports.buildPayload_set_management_role = buildPayload_set_management_role;
 function stake_pool_address_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.pool_address);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).staking).pool_address);
+    });
 }
 exports.stake_pool_address_ = stake_pool_address_;
 function terminate_vesting_contract_(admin, contract_address, $c) {
-    let temp$1, temp$2, temp$3, temp$4, active_stake, pending_active_stake, vesting_contract;
-    assert_active_vesting_contract_($.copy(contract_address), $c);
-    distribute_($.copy(contract_address), $c);
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    [active_stake, , pending_active_stake,] = Stake.get_stake_($.copy(vesting_contract.staking.pool_address), $c);
-    if (!($.copy(pending_active_stake)).eq(((0, move_to_ts_1.u64)("0")))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPENDING_STAKE_FOUND), $c));
-    }
-    vesting_contract.state = $.copy(exports.VESTING_POOL_TERMINATED);
-    vesting_contract.remaining_grant = (0, move_to_ts_1.u64)("0");
-    [temp$3, temp$4] = [vesting_contract, $.copy(active_stake)];
-    unlock_stake_(temp$3, temp$4, $c);
-    Event.emit_event_(vesting_contract.terminate_events, new TerminateEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address) }, new move_to_ts_2.SimpleStructTag(TerminateEvent)), $c, [new move_to_ts_2.SimpleStructTag(TerminateEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, active_stake, pending_active_stake, vesting_contract;
+        yield assert_active_vesting_contract_($.copy(contract_address), $c);
+        yield distribute_($.copy(contract_address), $c);
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        [active_stake, , pending_active_stake,] = yield Stake.get_stake_($.copy(((vesting_contract).staking).pool_address), $c);
+        if (!($.copy(pending_active_stake)).eq(((0, move_to_ts_1.u64)("0")))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPENDING_STAKE_FOUND), $c));
+        }
+        (vesting_contract).state = $.copy(exports.VESTING_POOL_TERMINATED);
+        (vesting_contract).remaining_grant = (0, move_to_ts_1.u64)("0");
+        [temp$3, temp$4] = [vesting_contract, $.copy(active_stake)];
+        yield unlock_stake_(temp$3, temp$4, $c);
+        yield Event.emit_event_((vesting_contract).terminate_events, new TerminateEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address) }, new move_to_ts_2.SimpleStructTag(TerminateEvent)), $c, [new move_to_ts_2.SimpleStructTag(TerminateEvent)]);
+        return;
+    });
 }
 exports.terminate_vesting_contract_ = terminate_vesting_contract_;
 function buildPayload_terminate_vesting_contract(contract_address, isJSON = false) {
@@ -1045,13 +1115,15 @@ function buildPayload_terminate_vesting_contract(contract_address, isJSON = fals
 }
 exports.buildPayload_terminate_vesting_contract = buildPayload_terminate_vesting_contract;
 function unlock_rewards_(contract_address, $c) {
-    let temp$1, contract_signer, vesting_contract;
-    assert_active_vesting_contract_($.copy(contract_address), $c);
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    temp$1 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$1;
-    Staking_contract.unlock_rewards_(contract_signer, $.copy(vesting_contract.staking.operator), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, contract_signer, vesting_contract;
+        yield assert_active_vesting_contract_($.copy(contract_address), $c);
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        temp$1 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$1;
+        yield Staking_contract.unlock_rewards_(contract_signer, $.copy(((vesting_contract).staking).operator), $c);
+        return;
+    });
 }
 exports.unlock_rewards_ = unlock_rewards_;
 function buildPayload_unlock_rewards(contract_address, isJSON = false) {
@@ -1062,26 +1134,29 @@ function buildPayload_unlock_rewards(contract_address, isJSON = false) {
 }
 exports.buildPayload_unlock_rewards = buildPayload_unlock_rewards;
 function unlock_stake_(vesting_contract, amount, $c) {
-    let temp$1, contract_signer;
-    temp$1 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$1;
-    Staking_contract.unlock_stake_(contract_signer, $.copy(vesting_contract.staking.operator), $.copy(amount), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, contract_signer;
+        temp$1 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$1;
+        yield Staking_contract.unlock_stake_(contract_signer, $.copy(((vesting_contract).staking).operator), $.copy(amount), $c);
+        return;
+    });
 }
 exports.unlock_stake_ = unlock_stake_;
 function update_operator_(admin, contract_address, new_operator, commission_percentage, $c) {
-    let temp$1, temp$2, temp$3, contract_signer, old_operator, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    temp$3 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$3;
-    old_operator = $.copy(vesting_contract.staking.operator);
-    Staking_contract.switch_operator_(contract_signer, $.copy(old_operator), $.copy(new_operator), $.copy(commission_percentage), $c);
-    vesting_contract.staking.operator = $.copy(new_operator);
-    vesting_contract.staking.commission_percentage = $.copy(commission_percentage);
-    Event.emit_event_(vesting_contract.update_operator_events, new UpdateOperatorEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), old_operator: $.copy(old_operator), new_operator: $.copy(new_operator), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, contract_signer, old_operator, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        temp$3 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$3;
+        old_operator = $.copy(((vesting_contract).staking).operator);
+        yield Staking_contract.switch_operator_(contract_signer, $.copy(old_operator), $.copy(new_operator), $.copy(commission_percentage), $c);
+        ((vesting_contract).staking).operator = $.copy(new_operator);
+        yield Event.emit_event_((vesting_contract).update_operator_events, new UpdateOperatorEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(((vesting_contract).staking).pool_address), old_operator: $.copy(old_operator), new_operator: $.copy(new_operator), commission_percentage: $.copy(commission_percentage) }, new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateOperatorEvent)]);
+        return;
+    });
 }
 exports.update_operator_ = update_operator_;
 function buildPayload_update_operator(contract_address, new_operator, commission_percentage, isJSON = false) {
@@ -1094,10 +1169,12 @@ function buildPayload_update_operator(contract_address, new_operator, commission
 }
 exports.buildPayload_update_operator = buildPayload_update_operator;
 function update_operator_with_same_commission_(admin, contract_address, new_operator, $c) {
-    let commission_percentage;
-    commission_percentage = operator_commission_percentage_($.copy(contract_address), $c);
-    update_operator_(admin, $.copy(contract_address), $.copy(new_operator), $.copy(commission_percentage), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let commission_percentage;
+        commission_percentage = yield operator_commission_percentage_($.copy(contract_address), $c);
+        yield update_operator_(admin, $.copy(contract_address), $.copy(new_operator), $.copy(commission_percentage), $c);
+        return;
+    });
 }
 exports.update_operator_with_same_commission_ = update_operator_with_same_commission_;
 function buildPayload_update_operator_with_same_commission(contract_address, new_operator, isJSON = false) {
@@ -1109,17 +1186,19 @@ function buildPayload_update_operator_with_same_commission(contract_address, new
 }
 exports.buildPayload_update_operator_with_same_commission = buildPayload_update_operator_with_same_commission;
 function update_voter_(admin, contract_address, new_voter, $c) {
-    let temp$1, temp$2, temp$3, contract_signer, old_voter, vesting_contract;
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    [temp$1, temp$2] = [admin, vesting_contract];
-    verify_admin_(temp$1, temp$2, $c);
-    temp$3 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$3;
-    old_voter = $.copy(vesting_contract.staking.voter);
-    Staking_contract.update_voter_(contract_signer, $.copy(vesting_contract.staking.operator), $.copy(new_voter), $c);
-    vesting_contract.staking.voter = $.copy(new_voter);
-    Event.emit_event_(vesting_contract.update_voter_events, new UpdateVoterEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), old_voter: $.copy(old_voter), new_voter: $.copy(new_voter) }, new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, contract_signer, old_voter, vesting_contract;
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        [temp$1, temp$2] = [admin, vesting_contract];
+        yield verify_admin_(temp$1, temp$2, $c);
+        temp$3 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$3;
+        old_voter = $.copy(((vesting_contract).staking).voter);
+        yield Staking_contract.update_voter_(contract_signer, $.copy(((vesting_contract).staking).operator), $.copy(new_voter), $c);
+        ((vesting_contract).staking).voter = $.copy(new_voter);
+        yield Event.emit_event_((vesting_contract).update_voter_events, new UpdateVoterEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(((vesting_contract).staking).pool_address), old_voter: $.copy(old_voter), new_voter: $.copy(new_voter) }, new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)), $c, [new move_to_ts_2.SimpleStructTag(UpdateVoterEvent)]);
+        return;
+    });
 }
 exports.update_voter_ = update_voter_;
 function buildPayload_update_voter(contract_address, new_voter, isJSON = false) {
@@ -1131,48 +1210,38 @@ function buildPayload_update_voter(contract_address, new_voter, isJSON = false) 
 }
 exports.buildPayload_update_voter = buildPayload_update_voter;
 function verify_admin_(admin, vesting_contract, $c) {
-    if (!((Signer.address_of_(admin, $c)).hex() === ($.copy(vesting_contract.admin)).hex())) {
-        throw $.abortCode(Error.unauthenticated_($.copy(exports.ENOT_ADMIN), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!((yield Signer.address_of_(admin, $c)).hex() === ($.copy((vesting_contract).admin)).hex())) {
+            throw $.abortCode(yield Error.unauthenticated_($.copy(exports.ENOT_ADMIN), $c));
+        }
+        return;
+    });
 }
 exports.verify_admin_ = verify_admin_;
 function vest_(contract_address, $c) {
-    let temp$1, temp$2, temp$3, last_completed_period, last_vested_period, next_period_to_vest, schedule, schedule_index, total_grant, vested_amount, vesting_contract, vesting_fraction, vesting_schedule;
-    unlock_rewards_($.copy(contract_address), $c);
-    vesting_contract = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
-    if (($.copy(vesting_contract.vesting_schedule.start_timestamp_secs)).gt(Timestamp.now_seconds_($c))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, period_vested, vested_amount, vesting_contract, vesting_schedule;
+        yield unlock_rewards_($.copy(contract_address), $c);
+        vesting_contract = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(contract_address));
+        if (($.copy(((vesting_contract).vesting_schedule).start_timestamp_secs)).gt(yield Timestamp.now_seconds_($c))) {
+            return;
+        }
+        else {
+        }
+        vested_amount = yield compute_vested_amount_(vesting_contract, $c);
+        if (($.copy(vested_amount)).gt((0, move_to_ts_1.u64)("0"))) {
+            (vesting_contract).remaining_grant = ($.copy((vesting_contract).remaining_grant)).sub($.copy(vested_amount));
+            vesting_schedule = (vesting_contract).vesting_schedule;
+            (vesting_schedule).last_vested_period = ($.copy((vesting_schedule).last_vested_period)).add((0, move_to_ts_1.u64)("1"));
+            period_vested = $.copy((vesting_schedule).last_vested_period);
+            [temp$1, temp$2] = [vesting_contract, $.copy(vested_amount)];
+            yield unlock_stake_(temp$1, temp$2, $c);
+            yield Event.emit_event_((vesting_contract).vest_events, new VestEvent({ admin: $.copy((vesting_contract).admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(((vesting_contract).staking).pool_address), period_vested: $.copy(period_vested), amount: $.copy(vested_amount) }, new move_to_ts_2.SimpleStructTag(VestEvent)), $c, [new move_to_ts_2.SimpleStructTag(VestEvent)]);
+        }
+        else {
+        }
         return;
-    }
-    else {
-    }
-    vesting_schedule = vesting_contract.vesting_schedule;
-    last_vested_period = $.copy(vesting_schedule.last_vested_period);
-    next_period_to_vest = ($.copy(last_vested_period)).add((0, move_to_ts_1.u64)("1"));
-    last_completed_period = ((Timestamp.now_seconds_($c)).sub($.copy(vesting_schedule.start_timestamp_secs))).div($.copy(vesting_schedule.period_duration));
-    if (($.copy(last_completed_period)).lt($.copy(next_period_to_vest))) {
-        return;
-    }
-    else {
-    }
-    schedule = vesting_schedule.schedule;
-    schedule_index = ($.copy(next_period_to_vest)).sub((0, move_to_ts_1.u64)("1"));
-    if (($.copy(schedule_index)).lt(Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]))) {
-        temp$1 = $.copy(Vector.borrow_(schedule, $.copy(schedule_index), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
-    }
-    else {
-        temp$1 = $.copy(Vector.borrow_(schedule, (Vector.length_(schedule, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
-    }
-    vesting_fraction = temp$1;
-    total_grant = Pool_u64.total_coins_(vesting_contract.grant_pool, $c);
-    vested_amount = Fixed_point32.multiply_u64_($.copy(total_grant), $.copy(vesting_fraction), $c);
-    vested_amount = Math64.min_($.copy(vested_amount), $.copy(vesting_contract.remaining_grant), $c);
-    vesting_contract.remaining_grant = ($.copy(vesting_contract.remaining_grant)).sub($.copy(vested_amount));
-    vesting_schedule.last_vested_period = $.copy(next_period_to_vest);
-    [temp$2, temp$3] = [vesting_contract, $.copy(vested_amount)];
-    unlock_stake_(temp$2, temp$3, $c);
-    Event.emit_event_(vesting_contract.vest_events, new VestEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), period_vested: $.copy(next_period_to_vest), amount: $.copy(vested_amount) }, new move_to_ts_2.SimpleStructTag(VestEvent)), $c, [new move_to_ts_2.SimpleStructTag(VestEvent)]);
-    return;
+    });
 }
 exports.vest_ = vest_;
 function buildPayload_vest(contract_address, isJSON = false) {
@@ -1183,33 +1252,41 @@ function buildPayload_vest(contract_address, isJSON = false) {
 }
 exports.buildPayload_vest = buildPayload_vest;
 function vesting_contracts_(admin, $c) {
-    let temp$1;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin))) {
-        temp$1 = Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]);
-    }
-    else {
-        temp$1 = $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin)).vesting_contracts);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin)))) {
+            temp$1 = yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]);
+        }
+        else {
+            temp$1 = $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(AdminStore), $.copy(admin))).vesting_contracts);
+        }
+        return temp$1;
+    });
 }
 exports.vesting_contracts_ = vesting_contracts_;
 function vesting_start_secs_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).vesting_schedule.start_timestamp_secs);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).vesting_schedule).start_timestamp_secs);
+    });
 }
 exports.vesting_start_secs_ = vesting_start_secs_;
 function voter_(vesting_contract_address, $c) {
-    assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.voter);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VestingContract), $.copy(vesting_contract_address))).staking).voter);
+    });
 }
 exports.voter_ = voter_;
 function withdraw_stake_(vesting_contract, contract_address, $c) {
-    let temp$1, contract_signer, withdrawn_coins;
-    Staking_contract.distribute_($.copy(contract_address), $.copy(vesting_contract.staking.operator), $c);
-    withdrawn_coins = Coin.balance_($.copy(contract_address), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    temp$1 = get_vesting_account_signer_internal_(vesting_contract, $c);
-    contract_signer = temp$1;
-    return Coin.withdraw_(contract_signer, $.copy(withdrawn_coins), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, contract_signer, withdrawn_coins;
+        yield Staking_contract.distribute_($.copy(contract_address), $.copy(((vesting_contract).staking).operator), $c);
+        withdrawn_coins = yield Coin.balance_($.copy(contract_address), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+        temp$1 = yield get_vesting_account_signer_internal_(vesting_contract, $c);
+        contract_signer = temp$1;
+        return yield Coin.withdraw_(contract_signer, $.copy(withdrawn_coins), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+    });
 }
 exports.withdraw_stake_ = withdraw_stake_;
 function loadParsers(repo) {
@@ -1243,11 +1320,14 @@ class App {
         return exports.moduleName;
     } }
     get AdminStore() { return AdminStore; }
-    loadAdminStore(owner, loadFull = true) {
+    loadAdminStore(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield AdminStore.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -1264,21 +1344,27 @@ class App {
     get UpdateVoterEvent() { return UpdateVoterEvent; }
     get VestEvent() { return VestEvent; }
     get VestingAccountManagement() { return VestingAccountManagement; }
-    loadVestingAccountManagement(owner, loadFull = true) {
+    loadVestingAccountManagement(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield VestingAccountManagement.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get VestingContract() { return VestingContract; }
-    loadVestingContract(owner, loadFull = true) {
+    loadVestingContract(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield VestingContract.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -1287,118 +1373,118 @@ class App {
     payload_admin_withdraw(contract_address, isJSON = false) {
         return buildPayload_admin_withdraw(contract_address, isJSON);
     }
-    admin_withdraw(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    admin_withdraw(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_admin_withdraw(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_admin_withdraw(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_distribute(contract_address, isJSON = false) {
         return buildPayload_distribute(contract_address, isJSON);
     }
-    distribute(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    distribute(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_distribute(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_distribute(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_reset_beneficiary(contract_address, shareholder, isJSON = false) {
         return buildPayload_reset_beneficiary(contract_address, shareholder, isJSON);
     }
-    reset_beneficiary(_account, contract_address, shareholder, _maxGas = 1000, _isJSON = false) {
+    reset_beneficiary(_account, contract_address, shareholder, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_reset_beneficiary(contract_address, shareholder, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_reset_beneficiary(contract_address, shareholder, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_reset_lockup(contract_address, isJSON = false) {
         return buildPayload_reset_lockup(contract_address, isJSON);
     }
-    reset_lockup(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    reset_lockup(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_reset_lockup(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_reset_lockup(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_beneficiary(contract_address, shareholder, new_beneficiary, isJSON = false) {
         return buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, isJSON);
     }
-    set_beneficiary(_account, contract_address, shareholder, new_beneficiary, _maxGas = 1000, _isJSON = false) {
+    set_beneficiary(_account, contract_address, shareholder, new_beneficiary, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_beneficiary_resetter(contract_address, beneficiary_resetter, isJSON = false) {
         return buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, isJSON);
     }
-    set_beneficiary_resetter(_account, contract_address, beneficiary_resetter, _maxGas = 1000, _isJSON = false) {
+    set_beneficiary_resetter(_account, contract_address, beneficiary_resetter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_set_management_role(contract_address, role, role_holder, isJSON = false) {
         return buildPayload_set_management_role(contract_address, role, role_holder, isJSON);
     }
-    set_management_role(_account, contract_address, role, role_holder, _maxGas = 1000, _isJSON = false) {
+    set_management_role(_account, contract_address, role, role_holder, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_management_role(contract_address, role, role_holder, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_management_role(contract_address, role, role_holder, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_terminate_vesting_contract(contract_address, isJSON = false) {
         return buildPayload_terminate_vesting_contract(contract_address, isJSON);
     }
-    terminate_vesting_contract(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    terminate_vesting_contract(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_terminate_vesting_contract(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_terminate_vesting_contract(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_unlock_rewards(contract_address, isJSON = false) {
         return buildPayload_unlock_rewards(contract_address, isJSON);
     }
-    unlock_rewards(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    unlock_rewards(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_unlock_rewards(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_unlock_rewards(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_update_operator(contract_address, new_operator, commission_percentage, isJSON = false) {
         return buildPayload_update_operator(contract_address, new_operator, commission_percentage, isJSON);
     }
-    update_operator(_account, contract_address, new_operator, commission_percentage, _maxGas = 1000, _isJSON = false) {
+    update_operator(_account, contract_address, new_operator, commission_percentage, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_update_operator_with_same_commission(contract_address, new_operator, isJSON = false) {
         return buildPayload_update_operator_with_same_commission(contract_address, new_operator, isJSON);
     }
-    update_operator_with_same_commission(_account, contract_address, new_operator, _maxGas = 1000, _isJSON = false) {
+    update_operator_with_same_commission(_account, contract_address, new_operator, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_update_voter(contract_address, new_voter, isJSON = false) {
         return buildPayload_update_voter(contract_address, new_voter, isJSON);
     }
-    update_voter(_account, contract_address, new_voter, _maxGas = 1000, _isJSON = false) {
+    update_voter(_account, contract_address, new_voter, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_update_voter(contract_address, new_voter, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_update_voter(contract_address, new_voter, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_vest(contract_address, isJSON = false) {
         return buildPayload_vest(contract_address, isJSON);
     }
-    vest(_account, contract_address, _maxGas = 1000, _isJSON = false) {
+    vest(_account, contract_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_vest(contract_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_vest(contract_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

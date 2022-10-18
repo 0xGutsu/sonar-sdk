@@ -24,8 +24,8 @@ export declare class ConsensusConfig {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function initialize_(aptos_framework: HexString, config: U8[], $c: AptosDataCache): void;
-export declare function set_(account: HexString, config: U8[], $c: AptosDataCache): void;
+export declare function initialize_(aptos_framework: HexString, config: U8[], $c: AptosDataCache): Promise<void>;
+export declare function set_(account: HexString, config: U8[], $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -35,6 +35,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get ConsensusConfig(): typeof ConsensusConfig;
-    loadConsensusConfig(owner: HexString, loadFull?: boolean): Promise<ConsensusConfig>;
+    loadConsensusConfig(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<ConsensusConfig>;
 }
 //# sourceMappingURL=consensus_config.d.ts.map

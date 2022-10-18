@@ -75,23 +75,33 @@ Aggregator.fields = [
     { name: "limit", typeTag: move_to_ts_2.AtomicTypeTag.U128 }
 ];
 function add_(aggregator, value, $c) {
-    return $.aptos_framework_aggregator_add(aggregator, value, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_aggregator_add(aggregator, value, $c);
+    });
 }
 exports.add_ = add_;
 function destroy_(aggregator, $c) {
-    return $.aptos_framework_aggregator_destroy(aggregator, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_aggregator_destroy(aggregator, $c);
+    });
 }
 exports.destroy_ = destroy_;
 function limit_(aggregator, $c) {
-    return $.copy(aggregator.limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((aggregator).limit);
+    });
 }
 exports.limit_ = limit_;
 function read_(aggregator, $c) {
-    return $.aptos_framework_aggregator_read(aggregator, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_aggregator_read(aggregator, $c);
+    });
 }
 exports.read_ = read_;
 function sub_(aggregator, value, $c) {
-    return $.aptos_framework_aggregator_sub(aggregator, value, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_aggregator_sub(aggregator, value, $c);
+    });
 }
 exports.sub_ = sub_;
 function loadParsers(repo) {

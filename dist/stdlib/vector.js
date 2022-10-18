@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.swap_remove_ = exports.swap_ = exports.singleton_ = exports.reverse_ = exports.remove_ = exports.push_back_ = exports.pop_back_ = exports.length_ = exports.is_empty_ = exports.index_of_ = exports.empty_ = exports.destroy_empty_ = exports.contains_ = exports.borrow_mut_ = exports.borrow_ = exports.append_ = exports.EINDEX_OUT_OF_BOUNDS = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -32,141 +41,173 @@ exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "vector";
 exports.EINDEX_OUT_OF_BOUNDS = (0, move_to_ts_1.u64)("131072");
 function append_(lhs, other, $c, $p) {
-    reverse_(other, $c, [$p[0]]);
-    while (!is_empty_(other, $c, [$p[0]])) {
-        {
-            push_back_(lhs, pop_back_(other, $c, [$p[0]]), $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield reverse_(other, $c, [$p[0]]);
+        while (!(yield is_empty_(other, $c, [$p[0]]))) {
+            {
+                yield push_back_(lhs, yield pop_back_(other, $c, [$p[0]]), $c, [$p[0]]);
+            }
         }
-    }
-    destroy_empty_(other, $c, [$p[0]]);
-    return;
+        yield destroy_empty_(other, $c, [$p[0]]);
+        return;
+    });
 }
 exports.append_ = append_;
 function borrow_(v, i, $c, $p) {
-    return $.std_vector_borrow(v, i, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_borrow(v, i, $c, [$p[0]]);
+    });
 }
 exports.borrow_ = borrow_;
 function borrow_mut_(v, i, $c, $p) {
-    return $.std_vector_borrow_mut(v, i, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_borrow_mut(v, i, $c, [$p[0]]);
+    });
 }
 exports.borrow_mut_ = borrow_mut_;
 function contains_(v, e, $c, $p) {
-    let i, len;
-    i = (0, move_to_ts_1.u64)("0");
-    len = length_(v, $c, [$p[0]]);
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            if ($.dyn_eq($p[0], borrow_(v, $.copy(i), $c, [$p[0]]), e)) {
-                return true;
+    return __awaiter(this, void 0, void 0, function* () {
+        let i, len;
+        i = (0, move_to_ts_1.u64)("0");
+        len = yield length_(v, $c, [$p[0]]);
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                if ($.dyn_eq($p[0], yield borrow_(v, $.copy(i), $c, [$p[0]]), e)) {
+                    return true;
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return false;
+        return false;
+    });
 }
 exports.contains_ = contains_;
 function destroy_empty_(v, $c, $p) {
-    return $.std_vector_destroy_empty(v, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_destroy_empty(v, $c, [$p[0]]);
+    });
 }
 exports.destroy_empty_ = destroy_empty_;
 function empty_($c, $p) {
-    return $.std_vector_empty($c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_empty($c, [$p[0]]);
+    });
 }
 exports.empty_ = empty_;
 function index_of_(v, e, $c, $p) {
-    let i, len;
-    i = (0, move_to_ts_1.u64)("0");
-    len = length_(v, $c, [$p[0]]);
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            if ($.dyn_eq($p[0], borrow_(v, $.copy(i), $c, [$p[0]]), e)) {
-                return [true, $.copy(i)];
+    return __awaiter(this, void 0, void 0, function* () {
+        let i, len;
+        i = (0, move_to_ts_1.u64)("0");
+        len = yield length_(v, $c, [$p[0]]);
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                if ($.dyn_eq($p[0], yield borrow_(v, $.copy(i), $c, [$p[0]]), e)) {
+                    return [true, $.copy(i)];
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return [false, (0, move_to_ts_1.u64)("0")];
+        return [false, (0, move_to_ts_1.u64)("0")];
+    });
 }
 exports.index_of_ = index_of_;
 function is_empty_(v, $c, $p) {
-    return (length_(v, $c, [$p[0]])).eq(((0, move_to_ts_1.u64)("0")));
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield length_(v, $c, [$p[0]])).eq(((0, move_to_ts_1.u64)("0")));
+    });
 }
 exports.is_empty_ = is_empty_;
 function length_(v, $c, $p) {
-    return $.std_vector_length(v, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_length(v, $c, [$p[0]]);
+    });
 }
 exports.length_ = length_;
 function pop_back_(v, $c, $p) {
-    return $.std_vector_pop_back(v, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_pop_back(v, $c, [$p[0]]);
+    });
 }
 exports.pop_back_ = pop_back_;
 function push_back_(v, e, $c, $p) {
-    return $.std_vector_push_back(v, e, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_push_back(v, e, $c, [$p[0]]);
+    });
 }
 exports.push_back_ = push_back_;
 function remove_(v, i, $c, $p) {
-    let temp$1, temp$2, len;
-    len = length_(v, $c, [$p[0]]);
-    if (($.copy(i)).ge($.copy(len))) {
-        throw $.abortCode($.copy(exports.EINDEX_OUT_OF_BOUNDS));
-    }
-    else {
-    }
-    len = ($.copy(len)).sub((0, move_to_ts_1.u64)("1"));
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            temp$2 = v;
-            temp$1 = $.copy(i);
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
-            swap_(temp$2, temp$1, $.copy(i), $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, len;
+        len = yield length_(v, $c, [$p[0]]);
+        if (($.copy(i)).ge($.copy(len))) {
+            throw $.abortCode($.copy(exports.EINDEX_OUT_OF_BOUNDS));
         }
-    }
-    return pop_back_(v, $c, [$p[0]]);
+        else {
+        }
+        len = ($.copy(len)).sub((0, move_to_ts_1.u64)("1"));
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                temp$2 = v;
+                temp$1 = $.copy(i);
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+                yield swap_(temp$2, temp$1, $.copy(i), $c, [$p[0]]);
+            }
+        }
+        return yield pop_back_(v, $c, [$p[0]]);
+    });
 }
 exports.remove_ = remove_;
 function reverse_(v, $c, $p) {
-    let back_index, front_index, len;
-    len = length_(v, $c, [$p[0]]);
-    if (($.copy(len)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return;
-    }
-    else {
-    }
-    front_index = (0, move_to_ts_1.u64)("0");
-    back_index = ($.copy(len)).sub((0, move_to_ts_1.u64)("1"));
-    while (($.copy(front_index)).lt($.copy(back_index))) {
-        {
-            swap_(v, $.copy(front_index), $.copy(back_index), $c, [$p[0]]);
-            front_index = ($.copy(front_index)).add((0, move_to_ts_1.u64)("1"));
-            back_index = ($.copy(back_index)).sub((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let back_index, front_index, len;
+        len = yield length_(v, $c, [$p[0]]);
+        if (($.copy(len)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return;
         }
-    }
-    return;
+        else {
+        }
+        front_index = (0, move_to_ts_1.u64)("0");
+        back_index = ($.copy(len)).sub((0, move_to_ts_1.u64)("1"));
+        while (($.copy(front_index)).lt($.copy(back_index))) {
+            {
+                yield swap_(v, $.copy(front_index), $.copy(back_index), $c, [$p[0]]);
+                front_index = ($.copy(front_index)).add((0, move_to_ts_1.u64)("1"));
+                back_index = ($.copy(back_index)).sub((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        return;
+    });
 }
 exports.reverse_ = reverse_;
 function singleton_(e, $c, $p) {
-    let v;
-    v = empty_($c, [$p[0]]);
-    push_back_(v, e, $c, [$p[0]]);
-    return v;
+    return __awaiter(this, void 0, void 0, function* () {
+        let v;
+        v = yield empty_($c, [$p[0]]);
+        yield push_back_(v, e, $c, [$p[0]]);
+        return v;
+    });
 }
 exports.singleton_ = singleton_;
 function swap_(v, i, j, $c, $p) {
-    return $.std_vector_swap(v, i, j, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_vector_swap(v, i, j, $c, [$p[0]]);
+    });
 }
 exports.swap_ = swap_;
 function swap_remove_(v, i, $c, $p) {
-    let last_idx;
-    if (!!is_empty_(v, $c, [$p[0]])) {
-        throw $.abortCode($.copy(exports.EINDEX_OUT_OF_BOUNDS));
-    }
-    last_idx = (length_(v, $c, [$p[0]])).sub((0, move_to_ts_1.u64)("1"));
-    swap_(v, $.copy(i), $.copy(last_idx), $c, [$p[0]]);
-    return pop_back_(v, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let last_idx;
+        if (!!(yield is_empty_(v, $c, [$p[0]]))) {
+            throw $.abortCode($.copy(exports.EINDEX_OUT_OF_BOUNDS));
+        }
+        last_idx = (yield length_(v, $c, [$p[0]])).sub((0, move_to_ts_1.u64)("1"));
+        yield swap_(v, $.copy(i), $.copy(last_idx), $c, [$p[0]]);
+        return yield pop_back_(v, $c, [$p[0]]);
+    });
 }
 exports.swap_remove_ = swap_remove_;
 function loadParsers(repo) {

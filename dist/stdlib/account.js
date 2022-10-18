@@ -32,8 +32,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.offer_signer_capability_ = exports.new_event_handle_ = exports.initialize_ = exports.increment_sequence_number_ = exports.get_signer_capability_address_ = exports.get_sequence_number_ = exports.get_guid_next_creation_num_ = exports.get_authentication_key_ = exports.exists_at_ = exports.create_signer_with_capability_ = exports.create_signer_ = exports.create_resource_address_ = exports.create_resource_account_ = exports.create_guid_ = exports.create_framework_reserved_account_ = exports.create_authorized_signer_ = exports.create_account_unchecked_ = exports.create_account_ = exports.SignerCapabilityOfferProofChallenge = exports.SignerCapability = exports.RotationProofChallenge = exports.RotationCapabilityOfferProofChallenge = exports.RotationCapability = exports.OriginatingAddress = exports.KeyRotationEvent = exports.CoinRegisterEvent = exports.CapabilityOffer = exports.Account = exports.MULTI_ED25519_SCHEME = exports.MAX_U64 = exports.EWRONG_CURRENT_PUBLIC_KEY = exports.ESEQUENCE_NUMBER_TOO_BIG = exports.ERESOURCE_ACCCOUNT_EXISTS = exports.EOUT_OF_GAS = exports.ENO_VALID_FRAMEWORK_RESERVED_ADDRESS = exports.ENO_SUCH_SIGNER_CAPABILITY = exports.ENO_CAPABILITY = exports.EMALFORMED_AUTHENTICATION_KEY = exports.EINVALID_SCHEME = exports.EINVALID_PROOF_OF_KNOWLEDGE = exports.EINVALID_ORIGINATING_ADDRESS = exports.EINVALID_ACCEPT_ROTATION_CAPABILITY = exports.ED25519_SCHEME = exports.ECANNOT_RESERVED_ADDRESS = exports.EACCOUNT_DOES_NOT_EXIST = exports.EACCOUNT_ALREADY_USED = exports.EACCOUNT_ALREADY_EXISTS = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
-exports.App = exports.loadParsers = exports.verify_key_rotation_signature_and_get_auth_key_ = exports.rotate_authentication_key_internal_ = exports.buildPayload_rotate_authentication_key = exports.rotate_authentication_key_ = exports.buildPayload_revoke_signer_capability = exports.revoke_signer_capability_ = exports.register_coin_ = exports.buildPayload_offer_signer_capability = void 0;
+exports.register_coin_ = exports.buildPayload_offer_signer_capability = exports.offer_signer_capability_ = exports.new_event_handle_ = exports.initialize_ = exports.increment_sequence_number_ = exports.get_signer_capability_address_ = exports.get_sequence_number_ = exports.get_guid_next_creation_num_ = exports.get_authentication_key_ = exports.exists_at_ = exports.create_signer_with_capability_ = exports.create_signer_ = exports.create_resource_address_ = exports.create_resource_account_ = exports.create_guid_ = exports.create_framework_reserved_account_ = exports.create_authorized_signer_ = exports.create_account_unchecked_ = exports.create_account_ = exports.SignerCapabilityOfferProofChallenge = exports.SignerCapability = exports.RotationProofChallenge = exports.RotationCapabilityOfferProofChallenge = exports.RotationCapability = exports.OriginatingAddress = exports.KeyRotationEvent = exports.CoinRegisterEvent = exports.CapabilityOffer = exports.Account = exports.MULTI_ED25519_SCHEME = exports.MAX_U64 = exports.EWRONG_CURRENT_PUBLIC_KEY = exports.ESEQUENCE_NUMBER_TOO_BIG = exports.EOUT_OF_GAS = exports.ENO_VALID_FRAMEWORK_RESERVED_ADDRESS = exports.ENO_SUCH_SIGNER_CAPABILITY = exports.ENO_CAPABILITY = exports.EMALFORMED_AUTHENTICATION_KEY = exports.EINVALID_SCHEME = exports.EINVALID_PROOF_OF_KNOWLEDGE = exports.EINVALID_ORIGINATING_ADDRESS = exports.EINVALID_ACCEPT_ROTATION_CAPABILITY = exports.ED25519_SCHEME = exports.ECANNOT_RESERVED_ADDRESS = exports.EACCOUNT_DOES_NOT_EXIST = exports.EACCOUNT_ALREADY_EXISTS = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
+exports.App = exports.loadParsers = exports.verify_key_rotation_signature_and_get_auth_key_ = exports.rotate_authentication_key_internal_ = exports.buildPayload_rotate_authentication_key = exports.rotate_authentication_key_ = exports.buildPayload_revoke_signer_capability = exports.revoke_signer_capability_ = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const move_to_ts_2 = require("@manahippo/move-to-ts");
@@ -56,7 +56,6 @@ exports.packageName = "AptosFramework";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "account";
 exports.EACCOUNT_ALREADY_EXISTS = (0, move_to_ts_1.u64)("1");
-exports.EACCOUNT_ALREADY_USED = (0, move_to_ts_1.u64)("16");
 exports.EACCOUNT_DOES_NOT_EXIST = (0, move_to_ts_1.u64)("2");
 exports.ECANNOT_RESERVED_ADDRESS = (0, move_to_ts_1.u64)("5");
 exports.ED25519_SCHEME = (0, move_to_ts_1.u8)("0");
@@ -69,7 +68,6 @@ exports.ENO_CAPABILITY = (0, move_to_ts_1.u64)("9");
 exports.ENO_SUCH_SIGNER_CAPABILITY = (0, move_to_ts_1.u64)("14");
 exports.ENO_VALID_FRAMEWORK_RESERVED_ADDRESS = (0, move_to_ts_1.u64)("11");
 exports.EOUT_OF_GAS = (0, move_to_ts_1.u64)("6");
-exports.ERESOURCE_ACCCOUNT_EXISTS = (0, move_to_ts_1.u64)("15");
 exports.ESEQUENCE_NUMBER_TOO_BIG = (0, move_to_ts_1.u64)("3");
 exports.EWRONG_CURRENT_PUBLIC_KEY = (0, move_to_ts_1.u64)("7");
 exports.MAX_U64 = (0, move_to_ts_1.u128)("18446744073709551615");
@@ -404,247 +402,268 @@ SignerCapabilityOfferProofChallenge.fields = [
     { name: "recipient_address", typeTag: move_to_ts_2.AtomicTypeTag.Address }
 ];
 function create_account_(new_address, $c) {
-    let temp$1;
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(Account), $.copy(new_address))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.EACCOUNT_ALREADY_EXISTS), $c));
-    }
-    if ((($.copy(new_address)).hex() !== (new aptos_1.HexString("0x0")).hex())) {
-        temp$1 = (($.copy(new_address)).hex() !== (new aptos_1.HexString("0x1")).hex());
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECANNOT_RESERVED_ADDRESS), $c));
-    }
-    return create_account_unchecked_($.copy(new_address), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(new_address)))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.EACCOUNT_ALREADY_EXISTS), $c));
+        }
+        if ((($.copy(new_address)).hex() !== (new aptos_1.HexString("0x0")).hex())) {
+            temp$1 = (($.copy(new_address)).hex() !== (new aptos_1.HexString("0x1")).hex());
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECANNOT_RESERVED_ADDRESS), $c));
+        }
+        return yield create_account_unchecked_($.copy(new_address), $c);
+    });
 }
 exports.create_account_ = create_account_;
 function create_account_unchecked_(new_address, $c) {
-    let authentication_key, coin_register_events, guid_creation_num, guid_for_coin, guid_for_rotation, key_rotation_events, new_account;
-    new_account = create_signer_($.copy(new_address), $c);
-    authentication_key = Bcs.to_bytes_(new_address, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    if (!(Vector.length_(authentication_key, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EMALFORMED_AUTHENTICATION_KEY), $c));
-    }
-    guid_creation_num = (0, move_to_ts_1.u64)("0");
-    guid_for_coin = Guid.create_($.copy(new_address), guid_creation_num, $c);
-    coin_register_events = Event.new_event_handle_(guid_for_coin, $c, [new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)]);
-    guid_for_rotation = Guid.create_($.copy(new_address), guid_creation_num, $c);
-    key_rotation_events = Event.new_event_handle_(guid_for_rotation, $c, [new move_to_ts_2.SimpleStructTag(KeyRotationEvent)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(Account), new_account, new Account({ authentication_key: $.copy(authentication_key), sequence_number: (0, move_to_ts_1.u64)("0"), guid_creation_num: $.copy(guid_creation_num), coin_register_events: coin_register_events, key_rotation_events: key_rotation_events, rotation_capability_offer: new CapabilityOffer({ for: Option.none_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapabilityOffer, [new move_to_ts_2.SimpleStructTag(RotationCapability)])), signer_capability_offer: new CapabilityOffer({ for: Option.none_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapabilityOffer, [new move_to_ts_2.SimpleStructTag(SignerCapability)])) }, new move_to_ts_2.SimpleStructTag(Account)));
-    return new_account;
+    return __awaiter(this, void 0, void 0, function* () {
+        let authentication_key, coin_register_events, guid_creation_num, guid_for_coin, guid_for_rotation, key_rotation_events, new_account;
+        new_account = yield create_signer_($.copy(new_address), $c);
+        authentication_key = yield Bcs.to_bytes_(new_address, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        if (!(yield Vector.length_(authentication_key, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EMALFORMED_AUTHENTICATION_KEY), $c));
+        }
+        guid_creation_num = (0, move_to_ts_1.u64)("0");
+        guid_for_coin = yield Guid.create_($.copy(new_address), guid_creation_num, $c);
+        coin_register_events = yield Event.new_event_handle_(guid_for_coin, $c, [new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)]);
+        guid_for_rotation = yield Guid.create_($.copy(new_address), guid_creation_num, $c);
+        key_rotation_events = yield Event.new_event_handle_(guid_for_rotation, $c, [new move_to_ts_2.SimpleStructTag(KeyRotationEvent)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Account), new_account, new Account({ authentication_key: $.copy(authentication_key), sequence_number: (0, move_to_ts_1.u64)("0"), guid_creation_num: $.copy(guid_creation_num), coin_register_events: coin_register_events, key_rotation_events: key_rotation_events, rotation_capability_offer: new CapabilityOffer({ for: yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapabilityOffer, [new move_to_ts_2.SimpleStructTag(RotationCapability)])), signer_capability_offer: new CapabilityOffer({ for: yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(CapabilityOffer, [new move_to_ts_2.SimpleStructTag(SignerCapability)])) }, new move_to_ts_2.SimpleStructTag(Account)));
+        return new_account;
+    });
 }
 exports.create_account_unchecked_ = create_account_unchecked_;
 function create_authorized_signer_(account, offerer_address, $c) {
-    let account_resource, addr;
-    if (!exists_at_($.copy(offerer_address), $c)) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
-    }
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(offerer_address));
-    addr = Signer.address_of_(account, $c);
-    if (!Option.contains_(account_resource.signer_capability_offer.for__, addr, $c, [move_to_ts_2.AtomicTypeTag.Address])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_SUCH_SIGNER_CAPABILITY), $c));
-    }
-    return create_signer_($.copy(offerer_address), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_resource, addr;
+        if (!(yield exists_at_($.copy(offerer_address), $c))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
+        }
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(offerer_address));
+        addr = yield Signer.address_of_(account, $c);
+        if (!(yield Option.contains_(((account_resource).signer_capability_offer).for__, addr, $c, [move_to_ts_2.AtomicTypeTag.Address]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_SUCH_SIGNER_CAPABILITY), $c));
+        }
+        return yield create_signer_($.copy(offerer_address), $c);
+    });
 }
 exports.create_authorized_signer_ = create_authorized_signer_;
 function create_framework_reserved_account_(addr, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, signer, signer_cap;
-    if ((($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex())) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
-    }
-    if (temp$1) {
-        temp$2 = true;
-    }
-    else {
-        temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
-    }
-    if (temp$2) {
-        temp$3 = true;
-    }
-    else {
-        temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
-    }
-    if (temp$3) {
-        temp$4 = true;
-    }
-    else {
-        temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
-    }
-    if (temp$4) {
-        temp$5 = true;
-    }
-    else {
-        temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
-    }
-    if (temp$5) {
-        temp$6 = true;
-    }
-    else {
-        temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
-    }
-    if (temp$6) {
-        temp$7 = true;
-    }
-    else {
-        temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
-    }
-    if (temp$7) {
-        temp$8 = true;
-    }
-    else {
-        temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
-    }
-    if (temp$8) {
-        temp$9 = true;
-    }
-    else {
-        temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
-    }
-    if (!temp$9) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ENO_VALID_FRAMEWORK_RESERVED_ADDRESS), $c));
-    }
-    signer = create_account_unchecked_($.copy(addr), $c);
-    signer_cap = new SignerCapability({ account: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(SignerCapability));
-    return [signer, signer_cap];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, signer, signer_cap;
+        if ((($.copy(addr)).hex() === (new aptos_1.HexString("0x1")).hex())) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x2")).hex());
+        }
+        if (temp$1) {
+            temp$2 = true;
+        }
+        else {
+            temp$2 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x3")).hex());
+        }
+        if (temp$2) {
+            temp$3 = true;
+        }
+        else {
+            temp$3 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x4")).hex());
+        }
+        if (temp$3) {
+            temp$4 = true;
+        }
+        else {
+            temp$4 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x5")).hex());
+        }
+        if (temp$4) {
+            temp$5 = true;
+        }
+        else {
+            temp$5 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x6")).hex());
+        }
+        if (temp$5) {
+            temp$6 = true;
+        }
+        else {
+            temp$6 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x7")).hex());
+        }
+        if (temp$6) {
+            temp$7 = true;
+        }
+        else {
+            temp$7 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x8")).hex());
+        }
+        if (temp$7) {
+            temp$8 = true;
+        }
+        else {
+            temp$8 = (($.copy(addr)).hex() === (new aptos_1.HexString("0x9")).hex());
+        }
+        if (temp$8) {
+            temp$9 = true;
+        }
+        else {
+            temp$9 = (($.copy(addr)).hex() === (new aptos_1.HexString("0xa")).hex());
+        }
+        if (!temp$9) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ENO_VALID_FRAMEWORK_RESERVED_ADDRESS), $c));
+        }
+        signer = yield create_account_unchecked_($.copy(addr), $c);
+        signer_cap = new SignerCapability({ account: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(SignerCapability));
+        return [signer, signer_cap];
+    });
 }
 exports.create_framework_reserved_account_ = create_framework_reserved_account_;
 function create_guid_(account_signer, $c) {
-    let account, addr;
-    addr = Signer.address_of_(account_signer, $c);
-    account = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    return Guid.create_($.copy(addr), account.guid_creation_num, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let account, addr;
+        addr = yield Signer.address_of_(account_signer, $c);
+        account = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        return yield Guid.create_($.copy(addr), (account).guid_creation_num, $c);
+    });
 }
 exports.create_guid_ = create_guid_;
 function create_resource_account_(source, seed, $c) {
-    let temp$1, temp$2, account, account__3, resource, resource_addr, signer_cap;
-    temp$1 = Signer.address_of_(source, $c);
-    resource_addr = create_resource_address_(temp$1, $.copy(seed), $c);
-    if (exists_at_($.copy(resource_addr), $c)) {
-        account = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Account), $.copy(resource_addr));
-        if (!Option.is_none_(account.signer_capability_offer.for__, $c, [move_to_ts_2.AtomicTypeTag.Address])) {
-            throw $.abortCode(Error.already_exists_($.copy(exports.ERESOURCE_ACCCOUNT_EXISTS), $c));
-        }
-        if (!($.copy(account.sequence_number)).eq(((0, move_to_ts_1.u64)("0")))) {
-            throw $.abortCode(Error.invalid_state_($.copy(exports.EACCOUNT_ALREADY_USED), $c));
-        }
-        temp$2 = create_signer_($.copy(resource_addr), $c);
-    }
-    else {
-        temp$2 = create_account_unchecked_($.copy(resource_addr), $c);
-    }
-    resource = temp$2;
-    account__3 = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(resource_addr));
-    account__3.signer_capability_offer.for__ = Option.some_($.copy(resource_addr), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    signer_cap = new SignerCapability({ account: $.copy(resource_addr) }, new move_to_ts_2.SimpleStructTag(SignerCapability));
-    return [resource, signer_cap];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, addr, signer, signer_cap;
+        temp$1 = yield Signer.address_of_(source, $c);
+        addr = yield create_resource_address_(temp$1, $.copy(seed), $c);
+        signer = yield create_account_unchecked_($.copy(addr), $c);
+        signer_cap = new SignerCapability({ account: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(SignerCapability));
+        return [signer, signer_cap];
+    });
 }
 exports.create_resource_account_ = create_resource_account_;
 function create_resource_address_(source, seed, $c) {
-    let bytes;
-    bytes = Bcs.to_bytes_(source, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    Vector.append_(bytes, $.copy(seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    return From_bcs.to_address_(Hash.sha3_256_($.copy(bytes), $c), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let bytes;
+        bytes = yield Bcs.to_bytes_(source, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        yield Vector.append_(bytes, $.copy(seed), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        return yield From_bcs.to_address_(yield Hash.sha3_256_($.copy(bytes), $c), $c);
+    });
 }
 exports.create_resource_address_ = create_resource_address_;
 function create_signer_(addr, $c) {
-    return $.aptos_framework_account_create_signer(addr, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_framework_account_create_signer(addr, $c);
+    });
 }
 exports.create_signer_ = create_signer_;
 function create_signer_with_capability_(capability, $c) {
-    let addr;
-    addr = capability.account;
-    return create_signer_($.copy(addr), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let addr;
+        addr = (capability).account;
+        return yield create_signer_($.copy(addr), $c);
+    });
 }
 exports.create_signer_with_capability_ = create_signer_with_capability_;
 function exists_at_(addr, $c) {
-    return $c.exists(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield $c.exists_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+    });
 }
 exports.exists_at_ = exists_at_;
 function get_authentication_key_(addr, $c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr)).authentication_key);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr))).authentication_key);
+    });
 }
 exports.get_authentication_key_ = get_authentication_key_;
 function get_guid_next_creation_num_(addr, $c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr)).guid_creation_num);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr))).guid_creation_num);
+    });
 }
 exports.get_guid_next_creation_num_ = get_guid_next_creation_num_;
 function get_sequence_number_(addr, $c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr)).sequence_number);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr))).sequence_number);
+    });
 }
 exports.get_sequence_number_ = get_sequence_number_;
 function get_signer_capability_address_(capability, $c) {
-    return $.copy(capability.account);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((capability).account);
+    });
 }
 exports.get_signer_capability_address_ = get_signer_capability_address_;
 function increment_sequence_number_(addr, $c) {
-    let account_resource, old_sequence_number;
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    old_sequence_number = $.copy(account_resource.sequence_number);
-    if (!((0, move_to_ts_1.u128)($.copy(old_sequence_number))).lt($.copy(exports.MAX_U64))) {
-        throw $.abortCode(Error.out_of_range_($.copy(exports.ESEQUENCE_NUMBER_TOO_BIG), $c));
-    }
-    account_resource.sequence_number = ($.copy(old_sequence_number)).add((0, move_to_ts_1.u64)("1"));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_resource, old_sequence_number;
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        old_sequence_number = $.copy((account_resource).sequence_number);
+        if (!((0, move_to_ts_1.u128)($.copy(old_sequence_number))).lt($.copy(exports.MAX_U64))) {
+            throw $.abortCode(yield Error.out_of_range_($.copy(exports.ESEQUENCE_NUMBER_TOO_BIG), $c));
+        }
+        (account_resource).sequence_number = ($.copy(old_sequence_number)).add((0, move_to_ts_1.u64)("1"));
+        return;
+    });
 }
 exports.increment_sequence_number_ = increment_sequence_number_;
 function initialize_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(OriginatingAddress), aptos_framework, new OriginatingAddress({ address_map: Table.new___($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(OriginatingAddress)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(OriginatingAddress), aptos_framework, new OriginatingAddress({ address_map: yield Table.new___($c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(OriginatingAddress)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function new_event_handle_(account, $c, $p) {
-    return Event.new_event_handle_(create_guid_(account, $c), $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Event.new_event_handle_(yield create_guid_(account, $c), $c, [$p[0]]);
+    });
 }
 exports.new_event_handle_ = new_event_handle_;
 function offer_signer_capability_(account, signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, $c) {
-    let temp$1, account_resource, addr, expected_auth_key, expected_auth_key__3, proof_challenge, pubkey, pubkey__2, signer_capability_sig, signer_capability_sig__4;
-    addr = Signer.address_of_(account, $c);
-    if (exists_at_($.copy(addr), $c)) {
-        temp$1 = exists_at_($.copy(recipient_address), $c);
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
-    }
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    proof_challenge = new SignerCapabilityOfferProofChallenge({ sequence_number: $.copy(account_resource.sequence_number), recipient_address: $.copy(recipient_address) }, new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge));
-    if (($.copy(account_scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
-        pubkey = Ed25519.new_unvalidated_public_key_from_bytes_($.copy(account_public_key_bytes), $c);
-        expected_auth_key = Ed25519.unvalidated_public_key_to_authentication_key_(pubkey, $c);
-        if (!$.veq($.copy(account_resource.authentication_key), $.copy(expected_auth_key))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, account_resource, addr, expected_auth_key, expected_auth_key__3, proof_challenge, pubkey, pubkey__2, signer_capability_sig, signer_capability_sig__4;
+        addr = yield Signer.address_of_(account, $c);
+        if (yield exists_at_($.copy(addr), $c)) {
+            temp$1 = yield exists_at_($.copy(recipient_address), $c);
         }
-        signer_capability_sig = Ed25519.new_signature_from_bytes_($.copy(signer_capability_sig_bytes), $c);
-        if (!Ed25519.signature_verify_strict_t_(signer_capability_sig, pubkey, proof_challenge, $c, [new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge)])) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
+        else {
+            temp$1 = false;
         }
-    }
-    else {
-        if (($.copy(account_scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
-            pubkey__2 = Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(account_public_key_bytes), $c);
-            expected_auth_key__3 = Multi_ed25519.unvalidated_public_key_to_authentication_key_(pubkey__2, $c);
-            if (!$.veq($.copy(account_resource.authentication_key), $.copy(expected_auth_key__3))) {
-                throw $.abortCode(Error.invalid_argument_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+        if (!temp$1) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
+        }
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        proof_challenge = new SignerCapabilityOfferProofChallenge({ sequence_number: $.copy((account_resource).sequence_number), recipient_address: $.copy(recipient_address) }, new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge));
+        if (($.copy(account_scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
+            pubkey = yield Ed25519.new_unvalidated_public_key_from_bytes_($.copy(account_public_key_bytes), $c);
+            expected_auth_key = yield Ed25519.unvalidated_public_key_to_authentication_key_(pubkey, $c);
+            if (!$.veq($.copy((account_resource).authentication_key), $.copy(expected_auth_key))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
             }
-            signer_capability_sig__4 = Multi_ed25519.new_signature_from_bytes_($.copy(signer_capability_sig_bytes), $c);
-            if (!Multi_ed25519.signature_verify_strict_t_(signer_capability_sig__4, pubkey__2, proof_challenge, $c, [new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge)])) {
-                throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
+            signer_capability_sig = yield Ed25519.new_signature_from_bytes_($.copy(signer_capability_sig_bytes), $c);
+            if (!(yield Ed25519.signature_verify_strict_t_(signer_capability_sig, pubkey, proof_challenge, $c, [new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge)]))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
             }
         }
         else {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            if (($.copy(account_scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
+                pubkey__2 = yield Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(account_public_key_bytes), $c);
+                expected_auth_key__3 = yield Multi_ed25519.unvalidated_public_key_to_authentication_key_(pubkey__2, $c);
+                if (!$.veq($.copy((account_resource).authentication_key), $.copy(expected_auth_key__3))) {
+                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+                }
+                signer_capability_sig__4 = yield Multi_ed25519.new_signature_from_bytes_($.copy(signer_capability_sig_bytes), $c);
+                if (!(yield Multi_ed25519.signature_verify_strict_t_(signer_capability_sig__4, pubkey__2, proof_challenge, $c, [new move_to_ts_2.SimpleStructTag(SignerCapabilityOfferProofChallenge)]))) {
+                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
+                }
+            }
+            else {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            }
         }
-    }
-    Option.swap_or_fill_(account_resource.signer_capability_offer.for__, $.copy(recipient_address), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+        yield Option.swap_or_fill_(((account_resource).signer_capability_offer).for__, $.copy(recipient_address), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        return;
+    });
 }
 exports.offer_signer_capability_ = offer_signer_capability_;
 function buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, isJSON = false) {
@@ -658,30 +677,34 @@ function buildPayload_offer_signer_capability(signer_capability_sig_bytes, accou
 }
 exports.buildPayload_offer_signer_capability = buildPayload_offer_signer_capability;
 function register_coin_(account_addr, $c, $p) {
-    let account;
-    account = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(account_addr));
-    Event.emit_event_(account.coin_register_events, new CoinRegisterEvent({ type_info: Type_info.type_of_($c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)), $c, [new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account;
+        account = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(account_addr));
+        yield Event.emit_event_((account).coin_register_events, new CoinRegisterEvent({ type_info: yield Type_info.type_of_($c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)), $c, [new move_to_ts_2.SimpleStructTag(CoinRegisterEvent)]);
+        return;
+    });
 }
 exports.register_coin_ = register_coin_;
 function revoke_signer_capability_(account, to_be_revoked_address, $c) {
-    let temp$1, account_resource, addr;
-    addr = Signer.address_of_(account, $c);
-    if (exists_at_($.copy(addr), $c)) {
-        temp$1 = exists_at_($.copy(to_be_revoked_address), $c);
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
-    }
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    if (!Option.contains_(account_resource.signer_capability_offer.for__, to_be_revoked_address, $c, [move_to_ts_2.AtomicTypeTag.Address])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_SUCH_SIGNER_CAPABILITY), $c));
-    }
-    Option.extract_(account_resource.signer_capability_offer.for__, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, account_resource, addr;
+        addr = yield Signer.address_of_(account, $c);
+        if (yield exists_at_($.copy(addr), $c)) {
+            temp$1 = yield exists_at_($.copy(to_be_revoked_address), $c);
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
+        }
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        if (!(yield Option.contains_(((account_resource).signer_capability_offer).for__, to_be_revoked_address, $c, [move_to_ts_2.AtomicTypeTag.Address]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_SUCH_SIGNER_CAPABILITY), $c));
+        }
+        yield Option.extract_(((account_resource).signer_capability_offer).for__, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        return;
+    });
 }
 exports.revoke_signer_capability_ = revoke_signer_capability_;
 function buildPayload_revoke_signer_capability(to_be_revoked_address, isJSON = false) {
@@ -692,51 +715,53 @@ function buildPayload_revoke_signer_capability(to_be_revoked_address, isJSON = f
 }
 exports.buildPayload_revoke_signer_capability = buildPayload_revoke_signer_capability;
 function rotate_authentication_key_(account, from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, $c) {
-    let temp$4, temp$5, account_resource, account_resource__6, addr, address_map, challenge, curr_address, curr_auth_key, curr_auth_key__3, from_auth_key, from_auth_key__2, from_pk, from_pk__1, new_address, new_auth_key;
-    addr = Signer.address_of_(account, $c);
-    if (!exists_at_($.copy(addr), $c)) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
-    }
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    if (($.copy(from_scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
-        from_pk = Ed25519.new_unvalidated_public_key_from_bytes_($.copy(from_public_key_bytes), $c);
-        from_auth_key = Ed25519.unvalidated_public_key_to_authentication_key_(from_pk, $c);
-        if (!$.veq($.copy(account_resource.authentication_key), $.copy(from_auth_key))) {
-            throw $.abortCode(Error.unauthenticated_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$4, temp$5, account_resource, account_resource__6, addr, address_map, challenge, curr_address, curr_auth_key, curr_auth_key__3, from_auth_key, from_auth_key__2, from_pk, from_pk__1, new_address, new_auth_key;
+        addr = yield Signer.address_of_(account, $c);
+        if (!(yield exists_at_($.copy(addr), $c))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_DOES_NOT_EXIST), $c));
         }
-    }
-    else {
-        if (($.copy(from_scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
-            from_pk__1 = Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(from_public_key_bytes), $c);
-            from_auth_key__2 = Multi_ed25519.unvalidated_public_key_to_authentication_key_(from_pk__1, $c);
-            if (!$.veq($.copy(account_resource.authentication_key), $.copy(from_auth_key__2))) {
-                throw $.abortCode(Error.unauthenticated_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        if (($.copy(from_scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
+            from_pk = yield Ed25519.new_unvalidated_public_key_from_bytes_($.copy(from_public_key_bytes), $c);
+            from_auth_key = yield Ed25519.unvalidated_public_key_to_authentication_key_(from_pk, $c);
+            if (!$.veq($.copy((account_resource).authentication_key), $.copy(from_auth_key))) {
+                throw $.abortCode(yield Error.unauthenticated_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
             }
         }
         else {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            if (($.copy(from_scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
+                from_pk__1 = yield Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(from_public_key_bytes), $c);
+                from_auth_key__2 = yield Multi_ed25519.unvalidated_public_key_to_authentication_key_(from_pk__1, $c);
+                if (!$.veq($.copy((account_resource).authentication_key), $.copy(from_auth_key__2))) {
+                    throw $.abortCode(yield Error.unauthenticated_($.copy(exports.EWRONG_CURRENT_PUBLIC_KEY), $c));
+                }
+            }
+            else {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            }
         }
-    }
-    curr_auth_key = From_bcs.to_address_($.copy(account_resource.authentication_key), $c);
-    challenge = new RotationProofChallenge({ sequence_number: $.copy(account_resource.sequence_number), originator: $.copy(addr), current_auth_key: $.copy(curr_auth_key), new_public_key: $.copy(to_public_key_bytes) }, new move_to_ts_2.SimpleStructTag(RotationProofChallenge));
-    curr_auth_key__3 = verify_key_rotation_signature_and_get_auth_key_($.copy(from_scheme), $.copy(from_public_key_bytes), $.copy(cap_rotate_key), challenge, $c);
-    new_auth_key = verify_key_rotation_signature_and_get_auth_key_($.copy(to_scheme), $.copy(to_public_key_bytes), $.copy(cap_update_table), challenge, $c);
-    address_map = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(OriginatingAddress), new aptos_1.HexString("0x1")).address_map;
-    curr_address = From_bcs.to_address_($.copy(curr_auth_key__3), $c);
-    new_address = From_bcs.to_address_($.copy(new_auth_key), $c);
-    [temp$4, temp$5] = [address_map, $.copy(curr_address)];
-    if (Table.contains_(temp$4, temp$5, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
-        if (!(($.copy(addr)).hex() === (Table.remove_(address_map, $.copy(curr_address), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])).hex())) {
-            throw $.abortCode(Error.not_found_($.copy(exports.EINVALID_ORIGINATING_ADDRESS), $c));
+        curr_auth_key = yield From_bcs.to_address_($.copy((account_resource).authentication_key), $c);
+        challenge = new RotationProofChallenge({ sequence_number: $.copy((account_resource).sequence_number), originator: $.copy(addr), current_auth_key: $.copy(curr_auth_key), new_public_key: $.copy(to_public_key_bytes) }, new move_to_ts_2.SimpleStructTag(RotationProofChallenge));
+        curr_auth_key__3 = yield verify_key_rotation_signature_and_get_auth_key_($.copy(from_scheme), $.copy(from_public_key_bytes), $.copy(cap_rotate_key), challenge, $c);
+        new_auth_key = yield verify_key_rotation_signature_and_get_auth_key_($.copy(to_scheme), $.copy(to_public_key_bytes), $.copy(cap_update_table), challenge, $c);
+        address_map = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(OriginatingAddress), new aptos_1.HexString("0x1"))).address_map;
+        curr_address = yield From_bcs.to_address_($.copy(curr_auth_key__3), $c);
+        new_address = yield From_bcs.to_address_($.copy(new_auth_key), $c);
+        [temp$4, temp$5] = [address_map, $.copy(curr_address)];
+        if (yield Table.contains_(temp$4, temp$5, $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])) {
+            if (!(($.copy(addr)).hex() === (yield Table.remove_(address_map, $.copy(curr_address), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address])).hex())) {
+                throw $.abortCode(yield Error.not_found_($.copy(exports.EINVALID_ORIGINATING_ADDRESS), $c));
+            }
         }
-    }
-    else {
-    }
-    Table.add_(address_map, $.copy(new_address), $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
-    account_resource__6 = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    Event.emit_event_(account_resource__6.key_rotation_events, new KeyRotationEvent({ old_authentication_key: $.copy(account_resource__6.authentication_key), new_authentication_key: $.copy(new_auth_key) }, new move_to_ts_2.SimpleStructTag(KeyRotationEvent)), $c, [new move_to_ts_2.SimpleStructTag(KeyRotationEvent)]);
-    account_resource__6.authentication_key = $.copy(new_auth_key);
-    return;
+        else {
+        }
+        yield Table.add_(address_map, $.copy(new_address), $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address, move_to_ts_2.AtomicTypeTag.Address]);
+        account_resource__6 = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        yield Event.emit_event_((account_resource__6).key_rotation_events, new KeyRotationEvent({ old_authentication_key: $.copy((account_resource__6).authentication_key), new_authentication_key: $.copy(new_auth_key) }, new move_to_ts_2.SimpleStructTag(KeyRotationEvent)), $c, [new move_to_ts_2.SimpleStructTag(KeyRotationEvent)]);
+        (account_resource__6).authentication_key = $.copy(new_auth_key);
+        return;
+    });
 }
 exports.rotate_authentication_key_ = rotate_authentication_key_;
 function buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, isJSON = false) {
@@ -752,44 +777,48 @@ function buildPayload_rotate_authentication_key(from_scheme, from_public_key_byt
 }
 exports.buildPayload_rotate_authentication_key = buildPayload_rotate_authentication_key;
 function rotate_authentication_key_internal_(account, new_auth_key, $c) {
-    let account_resource, addr;
-    addr = Signer.address_of_(account, $c);
-    if (!exists_at_($.copy(addr), $c)) {
-        throw $.abortCode(Error.not_found_($.copy(exports.EACCOUNT_ALREADY_EXISTS), $c));
-    }
-    if (!(Vector.length_(new_auth_key, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EMALFORMED_AUTHENTICATION_KEY), $c));
-    }
-    account_resource = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
-    account_resource.authentication_key = $.copy(new_auth_key);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_resource, addr;
+        addr = yield Signer.address_of_(account, $c);
+        if (!(yield exists_at_($.copy(addr), $c))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.EACCOUNT_ALREADY_EXISTS), $c));
+        }
+        if (!(yield Vector.length_(new_auth_key, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EMALFORMED_AUTHENTICATION_KEY), $c));
+        }
+        account_resource = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Account), $.copy(addr));
+        (account_resource).authentication_key = $.copy(new_auth_key);
+        return;
+    });
 }
 exports.rotate_authentication_key_internal_ = rotate_authentication_key_internal_;
 function verify_key_rotation_signature_and_get_auth_key_(scheme, public_key_bytes, signature, challenge, $c) {
-    let temp$3, temp$4, pk, pk__1, sig, sig__2;
-    if (($.copy(scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
-        pk = Ed25519.new_unvalidated_public_key_from_bytes_($.copy(public_key_bytes), $c);
-        sig = Ed25519.new_signature_from_bytes_($.copy(signature), $c);
-        if (!Ed25519.signature_verify_strict_t_(sig, pk, $.copy(challenge), $c, [new move_to_ts_2.SimpleStructTag(RotationProofChallenge)])) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
-        }
-        temp$4 = Ed25519.unvalidated_public_key_to_authentication_key_(pk, $c);
-    }
-    else {
-        if (($.copy(scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
-            pk__1 = Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(public_key_bytes), $c);
-            sig__2 = Multi_ed25519.new_signature_from_bytes_($.copy(signature), $c);
-            if (!Multi_ed25519.signature_verify_strict_t_(sig__2, pk__1, $.copy(challenge), $c, [new move_to_ts_2.SimpleStructTag(RotationProofChallenge)])) {
-                throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$3, temp$4, pk, pk__1, sig, sig__2;
+        if (($.copy(scheme)).eq(($.copy(exports.ED25519_SCHEME)))) {
+            pk = yield Ed25519.new_unvalidated_public_key_from_bytes_($.copy(public_key_bytes), $c);
+            sig = yield Ed25519.new_signature_from_bytes_($.copy(signature), $c);
+            if (!(yield Ed25519.signature_verify_strict_t_(sig, pk, $.copy(challenge), $c, [new move_to_ts_2.SimpleStructTag(RotationProofChallenge)]))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
             }
-            temp$3 = Multi_ed25519.unvalidated_public_key_to_authentication_key_(pk__1, $c);
+            temp$4 = yield Ed25519.unvalidated_public_key_to_authentication_key_(pk, $c);
         }
         else {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            if (($.copy(scheme)).eq(($.copy(exports.MULTI_ED25519_SCHEME)))) {
+                pk__1 = yield Multi_ed25519.new_unvalidated_public_key_from_bytes_($.copy(public_key_bytes), $c);
+                sig__2 = yield Multi_ed25519.new_signature_from_bytes_($.copy(signature), $c);
+                if (!(yield Multi_ed25519.signature_verify_strict_t_(sig__2, pk__1, $.copy(challenge), $c, [new move_to_ts_2.SimpleStructTag(RotationProofChallenge)]))) {
+                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_PROOF_OF_KNOWLEDGE), $c));
+                }
+                temp$3 = yield Multi_ed25519.unvalidated_public_key_to_authentication_key_(pk__1, $c);
+            }
+            else {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_SCHEME), $c));
+            }
+            temp$4 = temp$3;
         }
-        temp$4 = temp$3;
-    }
-    return temp$4;
+        return temp$4;
+    });
 }
 exports.verify_key_rotation_signature_and_get_auth_key_ = verify_key_rotation_signature_and_get_auth_key_;
 function loadParsers(repo) {
@@ -818,11 +847,14 @@ class App {
         return exports.moduleName;
     } }
     get Account() { return Account; }
-    loadAccount(owner, loadFull = true) {
+    loadAccount(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Account.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -831,11 +863,14 @@ class App {
     get CoinRegisterEvent() { return CoinRegisterEvent; }
     get KeyRotationEvent() { return KeyRotationEvent; }
     get OriginatingAddress() { return OriginatingAddress; }
-    loadOriginatingAddress(owner, loadFull = true) {
+    loadOriginatingAddress(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield OriginatingAddress.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -848,28 +883,28 @@ class App {
     payload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, isJSON = false) {
         return buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, isJSON);
     }
-    offer_signer_capability(_account, signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, _maxGas = 1000, _isJSON = false) {
+    offer_signer_capability(_account, signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_revoke_signer_capability(to_be_revoked_address, isJSON = false) {
         return buildPayload_revoke_signer_capability(to_be_revoked_address, isJSON);
     }
-    revoke_signer_capability(_account, to_be_revoked_address, _maxGas = 1000, _isJSON = false) {
+    revoke_signer_capability(_account, to_be_revoked_address, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_revoke_signer_capability(to_be_revoked_address, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_revoke_signer_capability(to_be_revoked_address, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, isJSON = false) {
         return buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, isJSON);
     }
-    rotate_authentication_key(_account, from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, _maxGas = 1000, _isJSON = false) {
+    rotate_authentication_key(_account, from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

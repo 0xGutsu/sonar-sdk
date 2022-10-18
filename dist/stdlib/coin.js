@@ -369,233 +369,287 @@ WithdrawEvent.fields = [
     { name: "amount", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function allow_supply_upgrades_(aptos_framework, allowed, $c) {
-    let allow_upgrades;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    allow_upgrades = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(SupplyConfig), new aptos_1.HexString("0x1")).allow_upgrades;
-    $.set(allow_upgrades, allowed);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let allow_upgrades;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        allow_upgrades = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(SupplyConfig), new aptos_1.HexString("0x1"))).allow_upgrades;
+        $.set(allow_upgrades, allowed);
+        return;
+    });
 }
 exports.allow_supply_upgrades_ = allow_supply_upgrades_;
 function balance_(owner, $c, $p) {
-    if (!is_account_registered_($.copy(owner), $c, [$p[0]])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
-    }
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(owner)).coin.value);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_account_registered_($.copy(owner), $c, [$p[0]]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
+        }
+        return $.copy(((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(owner))).coin).value);
+    });
 }
 exports.balance_ = balance_;
 function burn_(coin, _cap, $c, $p) {
-    let maybe_supply, supply;
-    let { value: amount } = coin;
-    if (!($.copy(amount)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_COIN_AMOUNT), $c));
-    }
-    maybe_supply = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).supply;
-    if (Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
-        supply = Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-        Optional_aggregator.sub_(supply, (0, move_to_ts_1.u128)($.copy(amount)), $c);
-    }
-    else {
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let maybe_supply, supply;
+        let { value: amount } = coin;
+        if (!($.copy(amount)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_COIN_AMOUNT), $c));
+        }
+        maybe_supply = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).supply;
+        if (yield Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
+            supply = yield Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+            yield Optional_aggregator.sub_(supply, (0, move_to_ts_1.u128)($.copy(amount)), $c);
+        }
+        else {
+        }
+        return;
+    });
 }
 exports.burn_ = burn_;
 function burn_from_(account_addr, amount, burn_cap, $c, $p) {
-    let coin_store, coin_to_burn;
-    if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let coin_store, coin_to_burn;
+        if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return;
+        }
+        else {
+        }
+        coin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+        coin_to_burn = yield extract_((coin_store).coin, $.copy(amount), $c, [$p[0]]);
+        yield burn_(coin_to_burn, burn_cap, $c, [$p[0]]);
         return;
-    }
-    else {
-    }
-    coin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
-    coin_to_burn = extract_(coin_store.coin, $.copy(amount), $c, [$p[0]]);
-    burn_(coin_to_burn, burn_cap, $c, [$p[0]]);
-    return;
+    });
 }
 exports.burn_from_ = burn_from_;
 function coin_address_($c, $p) {
-    let type_info;
-    type_info = Type_info.type_of_($c, [$p[0]]);
-    return Type_info.account_address_(type_info, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let type_info;
+        type_info = yield Type_info.type_of_($c, [$p[0]]);
+        return yield Type_info.account_address_(type_info, $c);
+    });
 }
 exports.coin_address_ = coin_address_;
 function decimals_($c, $p) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).decimals);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).decimals);
+    });
 }
 exports.decimals_ = decimals_;
 function deposit_(account_addr, coin, $c, $p) {
-    let coin_store;
-    if (!is_account_registered_($.copy(account_addr), $c, [$p[0]])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
-    }
-    coin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
-    if (!!$.copy(coin_store.frozen)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.EFROZEN), $c));
-    }
-    Event.emit_event_(coin_store.deposit_events, new DepositEvent({ amount: $.copy(coin.value) }, new move_to_ts_2.SimpleStructTag(DepositEvent)), $c, [new move_to_ts_2.SimpleStructTag(DepositEvent)]);
-    merge_(coin_store.coin, coin, $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let coin_store;
+        if (!(yield is_account_registered_($.copy(account_addr), $c, [$p[0]]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
+        }
+        coin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+        if (!!$.copy((coin_store).frozen)) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.EFROZEN), $c));
+        }
+        yield Event.emit_event_((coin_store).deposit_events, new DepositEvent({ amount: $.copy((coin).value) }, new move_to_ts_2.SimpleStructTag(DepositEvent)), $c, [new move_to_ts_2.SimpleStructTag(DepositEvent)]);
+        yield merge_((coin_store).coin, coin, $c, [$p[0]]);
+        return;
+    });
 }
 exports.deposit_ = deposit_;
 function destroy_burn_cap_(burn_cap, $c, $p) {
-    $.copy(burn_cap);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        $.copy(burn_cap);
+        return;
+    });
 }
 exports.destroy_burn_cap_ = destroy_burn_cap_;
 function destroy_freeze_cap_(freeze_cap, $c, $p) {
-    $.copy(freeze_cap);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        $.copy(freeze_cap);
+        return;
+    });
 }
 exports.destroy_freeze_cap_ = destroy_freeze_cap_;
 function destroy_mint_cap_(mint_cap, $c, $p) {
-    $.copy(mint_cap);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        $.copy(mint_cap);
+        return;
+    });
 }
 exports.destroy_mint_cap_ = destroy_mint_cap_;
 function destroy_zero_(zero_coin, $c, $p) {
-    let { value: value } = zero_coin;
-    if (!($.copy(value)).eq(((0, move_to_ts_1.u64)("0")))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EDESTRUCTION_OF_NONZERO_TOKEN), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let { value: value } = zero_coin;
+        if (!($.copy(value)).eq(((0, move_to_ts_1.u64)("0")))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EDESTRUCTION_OF_NONZERO_TOKEN), $c));
+        }
+        return;
+    });
 }
 exports.destroy_zero_ = destroy_zero_;
 function extract_(coin, amount, $c, $p) {
-    if (!($.copy(coin.value)).ge($.copy(amount))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINSUFFICIENT_BALANCE), $c));
-    }
-    coin.value = ($.copy(coin.value)).sub($.copy(amount));
-    return new Coin({ value: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy((coin).value)).ge($.copy(amount))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINSUFFICIENT_BALANCE), $c));
+        }
+        (coin).value = ($.copy((coin).value)).sub($.copy(amount));
+        return new Coin({ value: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    });
 }
 exports.extract_ = extract_;
 function extract_all_(coin, $c, $p) {
-    let total_value;
-    total_value = $.copy(coin.value);
-    coin.value = (0, move_to_ts_1.u64)("0");
-    return new Coin({ value: $.copy(total_value) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        let total_value;
+        total_value = $.copy((coin).value);
+        (coin).value = (0, move_to_ts_1.u64)("0");
+        return new Coin({ value: $.copy(total_value) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    });
 }
 exports.extract_all_ = extract_all_;
 function freeze_coin_store_(account_addr, _freeze_cap, $c, $p) {
-    let coin_store;
-    coin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
-    coin_store.frozen = true;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let coin_store;
+        coin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+        (coin_store).frozen = true;
+        return;
+    });
 }
 exports.freeze_coin_store_ = freeze_coin_store_;
 function initialize_(account, name, symbol, decimals, monitor_supply, $c, $p) {
-    return initialize_internal_(account, $.copy(name), $.copy(symbol), $.copy(decimals), monitor_supply, false, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield initialize_internal_(account, $.copy(name), $.copy(symbol), $.copy(decimals), monitor_supply, false, $c, [$p[0]]);
+    });
 }
 exports.initialize_ = initialize_;
 function initialize_internal_(account, name, symbol, decimals, monitor_supply, parallelizable, $c, $p) {
-    let temp$1, temp$2, temp$3, temp$4, account_addr, coin_info;
-    account_addr = Signer.address_of_(account, $c);
-    if (!((coin_address_($c, [$p[0]])).hex() === ($.copy(account_addr)).hex())) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECOIN_INFO_ADDRESS_MISMATCH), $c));
-    }
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), $.copy(account_addr))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ECOIN_INFO_ALREADY_PUBLISHED), $c));
-    }
-    if (!(String.length_(name, $c)).le($.copy(exports.MAX_COIN_NAME_LENGTH))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECOIN_NAME_TOO_LONG), $c));
-    }
-    if (!(String.length_(symbol, $c)).le($.copy(exports.MAX_COIN_SYMBOL_LENGTH))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECOIN_SYMBOL_TOO_LONG), $c));
-    }
-    temp$4 = $.copy(name);
-    temp$3 = $.copy(symbol);
-    temp$2 = $.copy(decimals);
-    if (monitor_supply) {
-        temp$1 = Option.some_(Optional_aggregator.new___($.copy(exports.MAX_U128), parallelizable, $c), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-    }
-    coin_info = new CoinInfo({ name: temp$4, symbol: temp$3, decimals: temp$2, supply: temp$1 }, new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), account, coin_info);
-    return [new BurnCapability({}, new move_to_ts_2.SimpleStructTag(BurnCapability, [$p[0]])), new FreezeCapability({}, new move_to_ts_2.SimpleStructTag(FreezeCapability, [$p[0]])), new MintCapability({}, new move_to_ts_2.SimpleStructTag(MintCapability, [$p[0]]))];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, account_addr, coin_info;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!((yield coin_address_($c, [$p[0]])).hex() === ($.copy(account_addr)).hex())) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECOIN_INFO_ADDRESS_MISMATCH), $c));
+        }
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), $.copy(account_addr)))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ECOIN_INFO_ALREADY_PUBLISHED), $c));
+        }
+        if (!(yield String.length_(name, $c)).le($.copy(exports.MAX_COIN_NAME_LENGTH))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECOIN_NAME_TOO_LONG), $c));
+        }
+        if (!(yield String.length_(symbol, $c)).le($.copy(exports.MAX_COIN_SYMBOL_LENGTH))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECOIN_SYMBOL_TOO_LONG), $c));
+        }
+        temp$4 = $.copy(name);
+        temp$3 = $.copy(symbol);
+        temp$2 = $.copy(decimals);
+        if (monitor_supply) {
+            temp$1 = yield Option.some_(yield Optional_aggregator.new___($.copy(exports.MAX_U128), parallelizable, $c), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+        }
+        coin_info = new CoinInfo({ name: temp$4, symbol: temp$3, decimals: temp$2, supply: temp$1 }, new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), account, coin_info);
+        return [new BurnCapability({}, new move_to_ts_2.SimpleStructTag(BurnCapability, [$p[0]])), new FreezeCapability({}, new move_to_ts_2.SimpleStructTag(FreezeCapability, [$p[0]])), new MintCapability({}, new move_to_ts_2.SimpleStructTag(MintCapability, [$p[0]]))];
+    });
 }
 exports.initialize_internal_ = initialize_internal_;
 function initialize_supply_config_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(SupplyConfig), aptos_framework, new SupplyConfig({ allow_upgrades: false }, new move_to_ts_2.SimpleStructTag(SupplyConfig)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(SupplyConfig), aptos_framework, new SupplyConfig({ allow_upgrades: false }, new move_to_ts_2.SimpleStructTag(SupplyConfig)));
+        return;
+    });
 }
 exports.initialize_supply_config_ = initialize_supply_config_;
 function initialize_with_parallelizable_supply_(account, name, symbol, decimals, monitor_supply, $c, $p) {
-    System_addresses.assert_aptos_framework_(account, $c);
-    return initialize_internal_(account, $.copy(name), $.copy(symbol), $.copy(decimals), monitor_supply, true, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(account, $c);
+        return yield initialize_internal_(account, $.copy(name), $.copy(symbol), $.copy(decimals), monitor_supply, true, $c, [$p[0]]);
+    });
 }
 exports.initialize_with_parallelizable_supply_ = initialize_with_parallelizable_supply_;
 function is_account_registered_(account_addr, $c, $p) {
-    return $c.exists(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+    });
 }
 exports.is_account_registered_ = is_account_registered_;
 function is_coin_initialized_($c, $p) {
-    return $c.exists(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield $c.exists_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]));
+    });
 }
 exports.is_coin_initialized_ = is_coin_initialized_;
 function merge_(dst_coin, source_coin, $c, $p) {
-    ;
-    dst_coin.value = ($.copy(dst_coin.value)).add($.copy(source_coin.value));
-    source_coin;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        ;
+        (dst_coin).value = ($.copy((dst_coin).value)).add($.copy((source_coin).value));
+        source_coin;
+        return;
+    });
 }
 exports.merge_ = merge_;
 function mint_(amount, _cap, $c, $p) {
-    let maybe_supply, supply;
-    if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
-        return zero_($c, [$p[0]]);
-    }
-    else {
-    }
-    maybe_supply = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).supply;
-    if (Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
-        supply = Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-        Optional_aggregator.add_(supply, (0, move_to_ts_1.u128)($.copy(amount)), $c);
-    }
-    else {
-    }
-    return new Coin({ value: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        let maybe_supply, supply;
+        if (($.copy(amount)).eq(((0, move_to_ts_1.u64)("0")))) {
+            return yield zero_($c, [$p[0]]);
+        }
+        else {
+        }
+        maybe_supply = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).supply;
+        if (yield Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
+            supply = yield Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+            yield Optional_aggregator.add_(supply, (0, move_to_ts_1.u128)($.copy(amount)), $c);
+        }
+        else {
+        }
+        return new Coin({ value: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    });
 }
 exports.mint_ = mint_;
 function name_($c, $p) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).name);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).name);
+    });
 }
 exports.name_ = name_;
 function register_(account, $c, $p) {
-    let account_addr, coin_store;
-    account_addr = Signer.address_of_(account, $c);
-    if (!!is_account_registered_($.copy(account_addr), $c, [$p[0]])) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ECOIN_STORE_ALREADY_PUBLISHED), $c));
-    }
-    Account.register_coin_($.copy(account_addr), $c, [$p[0]]);
-    coin_store = new CoinStore({ coin: new Coin({ value: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]])), frozen: false, deposit_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(DepositEvent)]), withdraw_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(WithdrawEvent)]) }, new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), account, coin_store);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, coin_store;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!!(yield is_account_registered_($.copy(account_addr), $c, [$p[0]]))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ECOIN_STORE_ALREADY_PUBLISHED), $c));
+        }
+        yield Account.register_coin_($.copy(account_addr), $c, [$p[0]]);
+        coin_store = new CoinStore({ coin: new Coin({ value: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]])), frozen: false, deposit_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(DepositEvent)]), withdraw_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(WithdrawEvent)]) }, new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), account, coin_store);
+        return;
+    });
 }
 exports.register_ = register_;
 function supply_($c, $p) {
-    let temp$1, maybe_supply, supply, value;
-    maybe_supply = $c.borrow_global(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).supply;
-    if (Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
-        supply = Option.borrow_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-        value = Optional_aggregator.read_(supply, $c);
-        temp$1 = Option.some_($.copy(value), $c, [move_to_ts_2.AtomicTypeTag.U128]);
-    }
-    else {
-        temp$1 = Option.none_($c, [move_to_ts_2.AtomicTypeTag.U128]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, maybe_supply, supply, value;
+        maybe_supply = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).supply;
+        if (yield Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
+            supply = yield Option.borrow_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+            value = yield Optional_aggregator.read_(supply, $c);
+            temp$1 = yield Option.some_($.copy(value), $c, [move_to_ts_2.AtomicTypeTag.U128]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U128]);
+        }
+        return temp$1;
+    });
 }
 exports.supply_ = supply_;
 function symbol_($c, $p) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), coin_address_($c, [$p[0]])).symbol);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), yield coin_address_($c, [$p[0]]))).symbol);
+    });
 }
 exports.symbol_ = symbol_;
 function transfer_(from, to, amount, $c, $p) {
-    let coin;
-    coin = withdraw_(from, $.copy(amount), $c, [$p[0]]);
-    deposit_($.copy(to), coin, $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let coin;
+        coin = yield withdraw_(from, $.copy(amount), $c, [$p[0]]);
+        yield deposit_($.copy(to), coin, $c, [$p[0]]);
+        return;
+    });
 }
 exports.transfer_ = transfer_;
 function buildPayload_transfer(to, amount, $p, /* <CoinType>*/ isJSON = false) {
@@ -607,33 +661,37 @@ function buildPayload_transfer(to, amount, $p, /* <CoinType>*/ isJSON = false) {
 }
 exports.buildPayload_transfer = buildPayload_transfer;
 function unfreeze_coin_store_(account_addr, _freeze_cap, $c, $p) {
-    let coin_store;
-    coin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
-    coin_store.frozen = false;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let coin_store;
+        coin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+        (coin_store).frozen = false;
+        return;
+    });
 }
 exports.unfreeze_coin_store_ = unfreeze_coin_store_;
 function upgrade_supply_(account, $c, $p) {
-    let account_addr, maybe_supply, supply;
-    account_addr = Signer.address_of_(account, $c);
-    if (!((coin_address_($c, [$p[0]])).hex() === ($.copy(account_addr)).hex())) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECOIN_INFO_ADDRESS_MISMATCH), $c));
-    }
-    if (!$.copy($c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(SupplyConfig), new aptos_1.HexString("0x1")).allow_upgrades)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ECOIN_SUPPLY_UPGRADE_NOT_SUPPORTED), $c));
-    }
-    maybe_supply = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), $.copy(account_addr)).supply;
-    if (Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
-        supply = Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
-        if (!Optional_aggregator.is_parallelizable_(supply, $c)) {
-            Optional_aggregator.switch_(supply, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, maybe_supply, supply;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!((yield coin_address_($c, [$p[0]])).hex() === ($.copy(account_addr)).hex())) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECOIN_INFO_ADDRESS_MISMATCH), $c));
+        }
+        if (!$.copy((yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(SupplyConfig), new aptos_1.HexString("0x1"))).allow_upgrades)) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ECOIN_SUPPLY_UPGRADE_NOT_SUPPORTED), $c));
+        }
+        maybe_supply = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinInfo, [$p[0]]), $.copy(account_addr))).supply;
+        if (yield Option.is_some_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])])) {
+            supply = yield Option.borrow_mut_(maybe_supply, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "optional_aggregator", "OptionalAggregator", [])]);
+            if (!(yield Optional_aggregator.is_parallelizable_(supply, $c))) {
+                yield Optional_aggregator.switch_(supply, $c);
+            }
+            else {
+            }
         }
         else {
         }
-    }
-    else {
-    }
-    return;
+        return;
+    });
 }
 exports.upgrade_supply_ = upgrade_supply_;
 function buildPayload_upgrade_supply($p, /* <CoinType>*/ isJSON = false) {
@@ -642,25 +700,31 @@ function buildPayload_upgrade_supply($p, /* <CoinType>*/ isJSON = false) {
 }
 exports.buildPayload_upgrade_supply = buildPayload_upgrade_supply;
 function value_(coin, $c, $p) {
-    return $.copy(coin.value);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((coin).value);
+    });
 }
 exports.value_ = value_;
 function withdraw_(account, amount, $c, $p) {
-    let account_addr, coin_store;
-    account_addr = Signer.address_of_(account, $c);
-    if (!is_account_registered_($.copy(account_addr), $c, [$p[0]])) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
-    }
-    coin_store = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
-    if (!!$.copy(coin_store.frozen)) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.EFROZEN), $c));
-    }
-    Event.emit_event_(coin_store.withdraw_events, new WithdrawEvent({ amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(WithdrawEvent)), $c, [new move_to_ts_2.SimpleStructTag(WithdrawEvent)]);
-    return extract_(coin_store.coin, $.copy(amount), $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, coin_store;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!(yield is_account_registered_($.copy(account_addr), $c, [$p[0]]))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ECOIN_STORE_NOT_PUBLISHED), $c));
+        }
+        coin_store = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+        if (!!$.copy((coin_store).frozen)) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.EFROZEN), $c));
+        }
+        yield Event.emit_event_((coin_store).withdraw_events, new WithdrawEvent({ amount: $.copy(amount) }, new move_to_ts_2.SimpleStructTag(WithdrawEvent)), $c, [new move_to_ts_2.SimpleStructTag(WithdrawEvent)]);
+        return yield extract_((coin_store).coin, $.copy(amount), $c, [$p[0]]);
+    });
 }
 exports.withdraw_ = withdraw_;
 function zero_($c, $p) {
-    return new Coin({ value: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Coin({ value: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Coin, [$p[0]]));
+    });
 }
 exports.zero_ = zero_;
 function loadParsers(repo) {
@@ -690,21 +754,27 @@ class App {
     get BurnCapability() { return BurnCapability; }
     get Coin() { return Coin; }
     get CoinInfo() { return CoinInfo; }
-    loadCoinInfo(owner, $p, /* <CoinType> */ loadFull = true) {
+    loadCoinInfo(owner, $p, /* <CoinType> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield CoinInfo.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get CoinStore() { return CoinStore; }
-    loadCoinStore(owner, $p, /* <CoinType> */ loadFull = true) {
+    loadCoinStore(owner, $p, /* <CoinType> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield CoinStore.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -713,11 +783,14 @@ class App {
     get FreezeCapability() { return FreezeCapability; }
     get MintCapability() { return MintCapability; }
     get SupplyConfig() { return SupplyConfig; }
-    loadSupplyConfig(owner, loadFull = true) {
+    loadSupplyConfig(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield SupplyConfig.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -726,19 +799,19 @@ class App {
     payload_transfer(to, amount, $p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_transfer(to, amount, $p, isJSON);
     }
-    transfer(_account, to, amount, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    transfer(_account, to, amount, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_transfer(to, amount, $p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_transfer(to, amount, $p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_upgrade_supply($p, /* <CoinType>*/ isJSON = false) {
         return buildPayload_upgrade_supply($p, isJSON);
     }
-    upgrade_supply(_account, $p, /* <CoinType>*/ _maxGas = 1000, _isJSON = false) {
+    upgrade_supply(_account, $p, /* <CoinType>*/ option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_upgrade_supply($p, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_upgrade_supply($p, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

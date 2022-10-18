@@ -154,373 +154,511 @@ Scalar.fields = [
     { name: "data", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8) }
 ];
 function basepoint_($c) {
-    let handle;
-    [handle,] = point_decompress_internal_($.copy(exports.BASE_POINT), $c);
-    return new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        let handle;
+        [handle,] = yield point_decompress_internal_($.copy(exports.BASE_POINT), $c);
+        return new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.basepoint_ = basepoint_;
 function basepoint_compressed_($c) {
-    return new CompressedRistretto({ data: $.copy(exports.BASE_POINT) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new CompressedRistretto({ data: $.copy(exports.BASE_POINT) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    });
 }
 exports.basepoint_compressed_ = basepoint_compressed_;
 function basepoint_double_mul_(a, some_point, b, $c) {
-    return new RistrettoPoint({ handle: basepoint_double_mul_internal_($.copy(a.data), some_point, $.copy(b.data), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield basepoint_double_mul_internal_($.copy((a).data), some_point, $.copy((b).data), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.basepoint_double_mul_ = basepoint_double_mul_;
 function basepoint_double_mul_internal_(a, some_point, b, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.basepoint_double_mul_internal_ = basepoint_double_mul_internal_;
 function basepoint_mul_(a, $c) {
-    return new RistrettoPoint({ handle: basepoint_mul_internal_($.copy(a.data), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield basepoint_mul_internal_($.copy((a).data), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.basepoint_mul_ = basepoint_mul_;
 function basepoint_mul_internal_(a, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.basepoint_mul_internal_ = basepoint_mul_internal_;
 function multi_scalar_mul_(points, scalars, $c) {
-    if (!!Vector.is_empty_(points, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.E_ZERO_POINTS), $c));
-    }
-    if (!!Vector.is_empty_(scalars, $c, [new move_to_ts_2.SimpleStructTag(Scalar)])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.E_ZERO_SCALARS), $c));
-    }
-    if (!(Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)])).eq((Vector.length_(scalars, $c, [new move_to_ts_2.SimpleStructTag(Scalar)])))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.E_DIFFERENT_NUM_POINTS_AND_SCALARS), $c));
-    }
-    return new RistrettoPoint({ handle: multi_scalar_mul_internal_(points, scalars, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint), new move_to_ts_2.SimpleStructTag(Scalar)]) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!!(yield Vector.is_empty_(points, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.E_ZERO_POINTS), $c));
+        }
+        if (!!(yield Vector.is_empty_(scalars, $c, [new move_to_ts_2.SimpleStructTag(Scalar)]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.E_ZERO_SCALARS), $c));
+        }
+        if (!(yield Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)])).eq((yield Vector.length_(scalars, $c, [new move_to_ts_2.SimpleStructTag(Scalar)])))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.E_DIFFERENT_NUM_POINTS_AND_SCALARS), $c));
+        }
+        return new RistrettoPoint({ handle: yield multi_scalar_mul_internal_(points, scalars, $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint), new move_to_ts_2.SimpleStructTag(Scalar)]) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.multi_scalar_mul_ = multi_scalar_mul_;
 function multi_scalar_mul_internal_(points, scalars, $c, $p) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.multi_scalar_mul_internal_ = multi_scalar_mul_internal_;
 function new_compressed_point_from_bytes_(bytes, $c) {
-    let temp$1;
-    if (point_is_canonical_internal_($.copy(bytes), $c)) {
-        temp$1 = Option.some_(new CompressedRistretto({ data: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto)), $c, [new move_to_ts_2.SimpleStructTag(CompressedRistretto)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(CompressedRistretto)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield point_is_canonical_internal_($.copy(bytes), $c)) {
+            temp$1 = yield Option.some_(new CompressedRistretto({ data: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto)), $c, [new move_to_ts_2.SimpleStructTag(CompressedRistretto)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(CompressedRistretto)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_compressed_point_from_bytes_ = new_compressed_point_from_bytes_;
 function new_point_from_64_uniform_bytes_(bytes, $c) {
-    let temp$1;
-    if ((Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("64")))) {
-        temp$1 = Option.some_(new RistrettoPoint({ handle: new_point_from_64_uniform_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint)), $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if ((yield Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("64")))) {
+            temp$1 = yield Option.some_(new RistrettoPoint({ handle: yield new_point_from_64_uniform_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint)), $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_point_from_64_uniform_bytes_ = new_point_from_64_uniform_bytes_;
 function new_point_from_64_uniform_bytes_internal_(bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.new_point_from_64_uniform_bytes_internal_ = new_point_from_64_uniform_bytes_internal_;
 function new_point_from_bytes_(bytes, $c) {
-    let temp$1, handle, is_canonical;
-    [handle, is_canonical] = point_decompress_internal_($.copy(bytes), $c);
-    if (is_canonical) {
-        temp$1 = Option.some_(new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint)), $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, handle, is_canonical;
+        [handle, is_canonical] = yield point_decompress_internal_($.copy(bytes), $c);
+        if (is_canonical) {
+            temp$1 = yield Option.some_(new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint)), $c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(RistrettoPoint)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_point_from_bytes_ = new_point_from_bytes_;
 function new_point_from_sha512_(sha512, $c) {
-    return new RistrettoPoint({ handle: new_point_from_sha512_internal_($.copy(sha512), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield new_point_from_sha512_internal_($.copy(sha512), $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.new_point_from_sha512_ = new_point_from_sha512_;
 function new_point_from_sha512_internal_(sha512, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.new_point_from_sha512_internal_ = new_point_from_sha512_internal_;
 function new_scalar_from_bytes_(bytes, $c) {
-    let temp$1;
-    if (scalar_is_canonical_internal_($.copy(bytes), $c)) {
-        temp$1 = Option.some_(new Scalar({ data: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield scalar_is_canonical_internal_($.copy(bytes), $c)) {
+            temp$1 = yield Option.some_(new Scalar({ data: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_scalar_from_bytes_ = new_scalar_from_bytes_;
 function new_scalar_from_sha512_(sha512_input, $c) {
-    return new Scalar({ data: scalar_from_sha512_internal_($.copy(sha512_input), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_from_sha512_internal_($.copy(sha512_input), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.new_scalar_from_sha512_ = new_scalar_from_sha512_;
 function new_scalar_from_u128_(sixteen_bytes, $c) {
-    return new Scalar({ data: scalar_from_u128_internal_($.copy(sixteen_bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_from_u128_internal_($.copy(sixteen_bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.new_scalar_from_u128_ = new_scalar_from_u128_;
 function new_scalar_from_u64_(eight_bytes, $c) {
-    return new Scalar({ data: scalar_from_u64_internal_($.copy(eight_bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_from_u64_internal_($.copy(eight_bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.new_scalar_from_u64_ = new_scalar_from_u64_;
 function new_scalar_from_u8_(byte, $c) {
-    let byte_zero, s;
-    s = scalar_zero_($c);
-    byte_zero = Vector.borrow_mut_(s.data, (0, move_to_ts_1.u64)("0"), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    $.set(byte_zero, $.copy(byte));
-    return $.copy(s);
+    return __awaiter(this, void 0, void 0, function* () {
+        let byte_zero, s;
+        s = yield scalar_zero_($c);
+        byte_zero = yield Vector.borrow_mut_((s).data, (0, move_to_ts_1.u64)("0"), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        $.set(byte_zero, $.copy(byte));
+        return $.copy(s);
+    });
 }
 exports.new_scalar_from_u8_ = new_scalar_from_u8_;
 function new_scalar_reduced_from_32_bytes_(bytes, $c) {
-    let temp$1;
-    if ((Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
-        temp$1 = Option.some_(new Scalar({ data: scalar_reduced_from_32_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if ((yield Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("32")))) {
+            temp$1 = yield Option.some_(new Scalar({ data: yield scalar_reduced_from_32_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_scalar_reduced_from_32_bytes_ = new_scalar_reduced_from_32_bytes_;
 function new_scalar_uniform_from_64_bytes_(bytes, $c) {
-    let temp$1;
-    if ((Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("64")))) {
-        temp$1 = Option.some_(new Scalar({ data: scalar_uniform_from_64_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if ((yield Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(((0, move_to_ts_1.u64)("64")))) {
+            temp$1 = yield Option.some_(new Scalar({ data: yield scalar_uniform_from_64_bytes_internal_($.copy(bytes), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_scalar_uniform_from_64_bytes_ = new_scalar_uniform_from_64_bytes_;
 function point_add_(a, b, $c) {
-    return new RistrettoPoint({ handle: point_add_internal_(a, b, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield point_add_internal_(a, b, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_add_ = point_add_;
 function point_add_assign_(a, b, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2, temp$3] = [a, b, true];
-    point_add_internal_(temp$1, temp$2, temp$3, $c);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2, temp$3] = [a, b, true];
+        yield point_add_internal_(temp$1, temp$2, temp$3, $c);
+        return a;
+    });
 }
 exports.point_add_assign_ = point_add_assign_;
 function point_add_internal_(a, b, in_place, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_add_internal_ = point_add_internal_;
 function point_compress_(point, $c) {
-    return new CompressedRistretto({ data: point_compress_internal_(point, $c) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new CompressedRistretto({ data: yield point_compress_internal_(point, $c) }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    });
 }
 exports.point_compress_ = point_compress_;
 function point_compress_internal_(point, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_compress_internal_ = point_compress_internal_;
 function point_decompress_(point, $c) {
-    let handle;
-    [handle,] = point_decompress_internal_($.copy(point.data), $c);
-    return new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        let handle;
+        [handle,] = yield point_decompress_internal_($.copy((point).data), $c);
+        return new RistrettoPoint({ handle: $.copy(handle) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_decompress_ = point_decompress_;
 function point_decompress_internal_(maybe_non_canonical_bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_decompress_internal_ = point_decompress_internal_;
 function point_equals_(g, h, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_equals_ = point_equals_;
 function point_identity_($c) {
-    return new RistrettoPoint({ handle: point_identity_internal_($c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield point_identity_internal_($c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_identity_ = point_identity_;
 function point_identity_compressed_($c) {
-    return new CompressedRistretto({ data: [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new CompressedRistretto({ data: [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(CompressedRistretto));
+    });
 }
 exports.point_identity_compressed_ = point_identity_compressed_;
 function point_identity_internal_($c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_identity_internal_ = point_identity_internal_;
 function point_is_canonical_internal_(bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_is_canonical_internal_ = point_is_canonical_internal_;
 function point_mul_(point, a, $c) {
-    return new RistrettoPoint({ handle: point_mul_internal_(point, $.copy(a.data), false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield point_mul_internal_(point, $.copy((a).data), false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_mul_ = point_mul_;
 function point_mul_assign_(point, a, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2, temp$3] = [point, $.copy(a.data), true];
-    point_mul_internal_(temp$1, temp$2, temp$3, $c);
-    return point;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2, temp$3] = [point, $.copy((a).data), true];
+        yield point_mul_internal_(temp$1, temp$2, temp$3, $c);
+        return point;
+    });
 }
 exports.point_mul_assign_ = point_mul_assign_;
 function point_mul_internal_(point, a, in_place, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_mul_internal_ = point_mul_internal_;
 function point_neg_(a, $c) {
-    return new RistrettoPoint({ handle: point_neg_internal_(a, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield point_neg_internal_(a, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_neg_ = point_neg_;
 function point_neg_assign_(a, $c) {
-    let temp$1, temp$2;
-    [temp$1, temp$2] = [a, true];
-    point_neg_internal_(temp$1, temp$2, $c);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        [temp$1, temp$2] = [a, true];
+        yield point_neg_internal_(temp$1, temp$2, $c);
+        return a;
+    });
 }
 exports.point_neg_assign_ = point_neg_assign_;
 function point_neg_internal_(a, in_place, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_neg_internal_ = point_neg_internal_;
 function point_sub_(a, b, $c) {
-    return new RistrettoPoint({ handle: point_sub_internal_(a, b, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new RistrettoPoint({ handle: yield point_sub_internal_(a, b, false, $c) }, new move_to_ts_2.SimpleStructTag(RistrettoPoint));
+    });
 }
 exports.point_sub_ = point_sub_;
 function point_sub_assign_(a, b, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2, temp$3] = [a, b, true];
-    point_sub_internal_(temp$1, temp$2, temp$3, $c);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2, temp$3] = [a, b, true];
+        yield point_sub_internal_(temp$1, temp$2, temp$3, $c);
+        return a;
+    });
 }
 exports.point_sub_assign_ = point_sub_assign_;
 function point_sub_internal_(a, b, in_place, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.point_sub_internal_ = point_sub_internal_;
 function point_to_bytes_(point, $c) {
-    return $.copy(point.data);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((point).data);
+    });
 }
 exports.point_to_bytes_ = point_to_bytes_;
 function scalar_add_(a, b, $c) {
-    return new Scalar({ data: scalar_add_internal_($.copy(a.data), $.copy(b.data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_add_internal_($.copy((a).data), $.copy((b).data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_add_ = scalar_add_;
 function scalar_add_assign_(a, b, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2] = [a, b];
-    temp$3 = scalar_add_(temp$1, temp$2, $c);
-    a.data = $.copy(temp$3.data);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2] = [a, b];
+        temp$3 = yield scalar_add_(temp$1, temp$2, $c);
+        (a).data = $.copy((temp$3).data);
+        return a;
+    });
 }
 exports.scalar_add_assign_ = scalar_add_assign_;
 function scalar_add_internal_(a_bytes, b_bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_add_internal_ = scalar_add_internal_;
 function scalar_equals_(lhs, rhs, $c) {
-    return $.veq($.copy(lhs.data), $.copy(rhs.data));
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.veq($.copy((lhs).data), $.copy((rhs).data));
+    });
 }
 exports.scalar_equals_ = scalar_equals_;
 function scalar_from_sha512_internal_(sha512_input, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_from_sha512_internal_ = scalar_from_sha512_internal_;
 function scalar_from_u128_internal_(num, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_from_u128_internal_ = scalar_from_u128_internal_;
 function scalar_from_u64_internal_(num, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_from_u64_internal_ = scalar_from_u64_internal_;
 function scalar_invert_(s, $c) {
-    let temp$1;
-    if (scalar_is_zero_(s, $c)) {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    else {
-        temp$1 = Option.some_(new Scalar({ data: scalar_invert_internal_($.copy(s.data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield scalar_is_zero_(s, $c)) {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        else {
+            temp$1 = yield Option.some_(new Scalar({ data: yield scalar_invert_internal_($.copy((s).data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar)), $c, [new move_to_ts_2.SimpleStructTag(Scalar)]);
+        }
+        return temp$1;
+    });
 }
 exports.scalar_invert_ = scalar_invert_;
 function scalar_invert_internal_(bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_invert_internal_ = scalar_invert_internal_;
 function scalar_is_canonical_internal_(s, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_is_canonical_internal_ = scalar_is_canonical_internal_;
 function scalar_is_one_(s, $c) {
-    return $.veq($.copy(s.data), [(0, move_to_ts_1.u8)("1"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.veq($.copy((s).data), [(0, move_to_ts_1.u8)("1"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")]);
+    });
 }
 exports.scalar_is_one_ = scalar_is_one_;
 function scalar_is_zero_(s, $c) {
-    return $.veq($.copy(s.data), [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.veq($.copy((s).data), [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")]);
+    });
 }
 exports.scalar_is_zero_ = scalar_is_zero_;
 function scalar_mul_(a, b, $c) {
-    return new Scalar({ data: scalar_mul_internal_($.copy(a.data), $.copy(b.data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_mul_internal_($.copy((a).data), $.copy((b).data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_mul_ = scalar_mul_;
 function scalar_mul_assign_(a, b, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2] = [a, b];
-    temp$3 = scalar_mul_(temp$1, temp$2, $c);
-    a.data = $.copy(temp$3.data);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2] = [a, b];
+        temp$3 = yield scalar_mul_(temp$1, temp$2, $c);
+        (a).data = $.copy((temp$3).data);
+        return a;
+    });
 }
 exports.scalar_mul_assign_ = scalar_mul_assign_;
 function scalar_mul_internal_(a_bytes, b_bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_mul_internal_ = scalar_mul_internal_;
 function scalar_neg_(a, $c) {
-    return new Scalar({ data: scalar_neg_internal_($.copy(a.data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_neg_internal_($.copy((a).data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_neg_ = scalar_neg_;
 function scalar_neg_assign_(a, $c) {
-    let temp$1;
-    temp$1 = scalar_neg_(a, $c);
-    a.data = $.copy(temp$1.data);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        temp$1 = yield scalar_neg_(a, $c);
+        (a).data = $.copy((temp$1).data);
+        return a;
+    });
 }
 exports.scalar_neg_assign_ = scalar_neg_assign_;
 function scalar_neg_internal_(a_bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_neg_internal_ = scalar_neg_internal_;
 function scalar_one_($c) {
-    return new Scalar({ data: [(0, move_to_ts_1.u8)("1"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: [(0, move_to_ts_1.u8)("1"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_one_ = scalar_one_;
 function scalar_reduced_from_32_bytes_internal_(bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_reduced_from_32_bytes_internal_ = scalar_reduced_from_32_bytes_internal_;
 function scalar_sub_(a, b, $c) {
-    return new Scalar({ data: scalar_sub_internal_($.copy(a.data), $.copy(b.data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: yield scalar_sub_internal_($.copy((a).data), $.copy((b).data), $c) }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_sub_ = scalar_sub_;
 function scalar_sub_assign_(a, b, $c) {
-    let temp$1, temp$2, temp$3;
-    [temp$1, temp$2] = [a, b];
-    temp$3 = scalar_sub_(temp$1, temp$2, $c);
-    a.data = $.copy(temp$3.data);
-    return a;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3;
+        [temp$1, temp$2] = [a, b];
+        temp$3 = yield scalar_sub_(temp$1, temp$2, $c);
+        (a).data = $.copy((temp$3).data);
+        return a;
+    });
 }
 exports.scalar_sub_assign_ = scalar_sub_assign_;
 function scalar_sub_internal_(a_bytes, b_bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_sub_internal_ = scalar_sub_internal_;
 function scalar_to_bytes_(s, $c) {
-    return $.copy(s.data);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((s).data);
+    });
 }
 exports.scalar_to_bytes_ = scalar_to_bytes_;
 function scalar_uniform_from_64_bytes_internal_(bytes, $c) {
-    throw 'Not Implemented';
+    return __awaiter(this, void 0, void 0, function* () {
+        throw 'Not Implemented';
+    });
 }
 exports.scalar_uniform_from_64_bytes_internal_ = scalar_uniform_from_64_bytes_internal_;
 function scalar_zero_($c) {
-    return new Scalar({ data: [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(Scalar));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Scalar({ data: [(0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0"), (0, move_to_ts_1.u8)("0")] }, new move_to_ts_2.SimpleStructTag(Scalar));
+    });
 }
 exports.scalar_zero_ = scalar_zero_;
 function loadParsers(repo) {

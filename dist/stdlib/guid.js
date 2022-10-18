@@ -99,38 +99,54 @@ ID.fields = [
     { name: "addr", typeTag: move_to_ts_2.AtomicTypeTag.Address }
 ];
 function create_(addr, creation_num_ref, $c) {
-    let creation_num;
-    creation_num = $.copy(creation_num_ref);
-    $.set(creation_num_ref, ($.copy(creation_num)).add((0, move_to_ts_1.u64)("1")));
-    return new GUID({ id: new ID({ creation_num: $.copy(creation_num), addr: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(ID)) }, new move_to_ts_2.SimpleStructTag(GUID));
+    return __awaiter(this, void 0, void 0, function* () {
+        let creation_num;
+        creation_num = $.copy(creation_num_ref);
+        $.set(creation_num_ref, ($.copy(creation_num)).add((0, move_to_ts_1.u64)("1")));
+        return new GUID({ id: new ID({ creation_num: $.copy(creation_num), addr: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(ID)) }, new move_to_ts_2.SimpleStructTag(GUID));
+    });
 }
 exports.create_ = create_;
 function create_id_(addr, creation_num, $c) {
-    return new ID({ creation_num: $.copy(creation_num), addr: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(ID));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new ID({ creation_num: $.copy(creation_num), addr: $.copy(addr) }, new move_to_ts_2.SimpleStructTag(ID));
+    });
 }
 exports.create_id_ = create_id_;
 function creation_num_(guid, $c) {
-    return $.copy(guid.id.creation_num);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy(((guid).id).creation_num);
+    });
 }
 exports.creation_num_ = creation_num_;
 function creator_address_(guid, $c) {
-    return $.copy(guid.id.addr);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy(((guid).id).addr);
+    });
 }
 exports.creator_address_ = creator_address_;
 function eq_id_(guid, id, $c) {
-    return $.deep_eq(guid.id, id);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.deep_eq((guid).id, id);
+    });
 }
 exports.eq_id_ = eq_id_;
 function id_(guid, $c) {
-    return $.copy(guid.id);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((guid).id);
+    });
 }
 exports.id_ = id_;
 function id_creation_num_(id, $c) {
-    return $.copy(id.creation_num);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((id).creation_num);
+    });
 }
 exports.id_creation_num_ = id_creation_num_;
 function id_creator_address_(id, $c) {
-    return $.copy(id.addr);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((id).addr);
+    });
 }
 exports.id_creator_address_ = id_creator_address_;
 function loadParsers(repo) {

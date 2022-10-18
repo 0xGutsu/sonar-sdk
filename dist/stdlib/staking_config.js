@@ -101,126 +101,147 @@ StakingConfig.fields = [
     { name: "voting_power_increase_limit", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function get_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1")));
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy(yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1")));
+    });
 }
 exports.get_ = get_;
 function get_allow_validator_set_change_(config, $c) {
-    return $.copy(config.allow_validator_set_change);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((config).allow_validator_set_change);
+    });
 }
 exports.get_allow_validator_set_change_ = get_allow_validator_set_change_;
 function get_recurring_lockup_duration_(config, $c) {
-    return $.copy(config.recurring_lockup_duration_secs);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((config).recurring_lockup_duration_secs);
+    });
 }
 exports.get_recurring_lockup_duration_ = get_recurring_lockup_duration_;
 function get_required_stake_(config, $c) {
-    return [$.copy(config.minimum_stake), $.copy(config.maximum_stake)];
+    return __awaiter(this, void 0, void 0, function* () {
+        return [$.copy((config).minimum_stake), $.copy((config).maximum_stake)];
+    });
 }
 exports.get_required_stake_ = get_required_stake_;
 function get_reward_rate_(config, $c) {
-    return [$.copy(config.rewards_rate), $.copy(config.rewards_rate_denominator)];
+    return __awaiter(this, void 0, void 0, function* () {
+        return [$.copy((config).rewards_rate), $.copy((config).rewards_rate_denominator)];
+    });
 }
 exports.get_reward_rate_ = get_reward_rate_;
 function get_voting_power_increase_limit_(config, $c) {
-    return $.copy(config.voting_power_increase_limit);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((config).voting_power_increase_limit);
+    });
 }
 exports.get_voting_power_increase_limit_ = get_voting_power_increase_limit_;
 function initialize_(aptos_framework, minimum_stake, maximum_stake, recurring_lockup_duration_secs, allow_validator_set_change, rewards_rate, rewards_rate_denominator, voting_power_increase_limit, $c) {
-    let temp$1;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
-    if (!($.copy(recurring_lockup_duration_secs)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_LOCKUP_DURATION), $c));
-    }
-    if (!($.copy(rewards_rate_denominator)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_REWARDS_RATE_DENOMINATOR), $c));
-    }
-    if (($.copy(voting_power_increase_limit)).gt((0, move_to_ts_1.u64)("0"))) {
-        temp$1 = ($.copy(voting_power_increase_limit)).le((0, move_to_ts_1.u64)("50"));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
-    }
-    if (!($.copy(rewards_rate)).le($.copy(exports.MAX_REWARDS_RATE))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
-    }
-    if (!($.copy(rewards_rate)).le($.copy(rewards_rate_denominator))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(StakingConfig), aptos_framework, new StakingConfig({ minimum_stake: $.copy(minimum_stake), maximum_stake: $.copy(maximum_stake), recurring_lockup_duration_secs: $.copy(recurring_lockup_duration_secs), allow_validator_set_change: allow_validator_set_change, rewards_rate: $.copy(rewards_rate), rewards_rate_denominator: $.copy(rewards_rate_denominator), voting_power_increase_limit: $.copy(voting_power_increase_limit) }, new move_to_ts_2.SimpleStructTag(StakingConfig)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
+        if (!($.copy(rewards_rate_denominator)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_REWARDS_RATE_DENOMINATOR), $c));
+        }
+        if (($.copy(voting_power_increase_limit)).gt((0, move_to_ts_1.u64)("0"))) {
+            temp$1 = ($.copy(voting_power_increase_limit)).le((0, move_to_ts_1.u64)("50"));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
+        }
+        if (!($.copy(rewards_rate)).le($.copy(exports.MAX_REWARDS_RATE))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
+        }
+        if (!($.copy(rewards_rate)).le($.copy(rewards_rate_denominator))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(StakingConfig), aptos_framework, new StakingConfig({ minimum_stake: $.copy(minimum_stake), maximum_stake: $.copy(maximum_stake), recurring_lockup_duration_secs: $.copy(recurring_lockup_duration_secs), allow_validator_set_change: allow_validator_set_change, rewards_rate: $.copy(rewards_rate), rewards_rate_denominator: $.copy(rewards_rate_denominator), voting_power_increase_limit: $.copy(voting_power_increase_limit) }, new move_to_ts_2.SimpleStructTag(StakingConfig)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function update_recurring_lockup_duration_secs_(aptos_framework, new_recurring_lockup_duration_secs, $c) {
-    let staking_config;
-    if (!($.copy(new_recurring_lockup_duration_secs)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_LOCKUP_DURATION), $c));
-    }
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    staking_config = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
-    staking_config.recurring_lockup_duration_secs = $.copy(new_recurring_lockup_duration_secs);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_config;
+        if (!($.copy(new_recurring_lockup_duration_secs)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_LOCKUP_DURATION), $c));
+        }
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        staking_config = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
+        (staking_config).recurring_lockup_duration_secs = $.copy(new_recurring_lockup_duration_secs);
+        return;
+    });
 }
 exports.update_recurring_lockup_duration_secs_ = update_recurring_lockup_duration_secs_;
 function update_required_stake_(aptos_framework, minimum_stake, maximum_stake, $c) {
-    let staking_config;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
-    staking_config = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
-    staking_config.minimum_stake = $.copy(minimum_stake);
-    staking_config.maximum_stake = $.copy(maximum_stake);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_config;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
+        staking_config = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
+        (staking_config).minimum_stake = $.copy(minimum_stake);
+        (staking_config).maximum_stake = $.copy(maximum_stake);
+        return;
+    });
 }
 exports.update_required_stake_ = update_required_stake_;
 function update_rewards_rate_(aptos_framework, new_rewards_rate, new_rewards_rate_denominator, $c) {
-    let staking_config;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!($.copy(new_rewards_rate_denominator)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_REWARDS_RATE_DENOMINATOR), $c));
-    }
-    if (!($.copy(new_rewards_rate)).le($.copy(exports.MAX_REWARDS_RATE))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
-    }
-    if (!($.copy(new_rewards_rate)).le($.copy(new_rewards_rate_denominator))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
-    }
-    staking_config = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
-    staking_config.rewards_rate = $.copy(new_rewards_rate);
-    staking_config.rewards_rate_denominator = $.copy(new_rewards_rate_denominator);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let staking_config;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!($.copy(new_rewards_rate_denominator)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_REWARDS_RATE_DENOMINATOR), $c));
+        }
+        if (!($.copy(new_rewards_rate)).le($.copy(exports.MAX_REWARDS_RATE))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
+        }
+        if (!($.copy(new_rewards_rate)).le($.copy(new_rewards_rate_denominator))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_REWARDS_RATE), $c));
+        }
+        staking_config = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
+        (staking_config).rewards_rate = $.copy(new_rewards_rate);
+        (staking_config).rewards_rate_denominator = $.copy(new_rewards_rate_denominator);
+        return;
+    });
 }
 exports.update_rewards_rate_ = update_rewards_rate_;
 function update_voting_power_increase_limit_(aptos_framework, new_voting_power_increase_limit, $c) {
-    let temp$1, staking_config;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (($.copy(new_voting_power_increase_limit)).gt((0, move_to_ts_1.u64)("0"))) {
-        temp$1 = ($.copy(new_voting_power_increase_limit)).le((0, move_to_ts_1.u64)("50"));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
-    }
-    staking_config = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
-    staking_config.voting_power_increase_limit = $.copy(new_voting_power_increase_limit);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, staking_config;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (($.copy(new_voting_power_increase_limit)).gt((0, move_to_ts_1.u64)("0"))) {
+            temp$1 = ($.copy(new_voting_power_increase_limit)).le((0, move_to_ts_1.u64)("50"));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
+        }
+        staking_config = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StakingConfig), new aptos_1.HexString("0x1"));
+        (staking_config).voting_power_increase_limit = $.copy(new_voting_power_increase_limit);
+        return;
+    });
 }
 exports.update_voting_power_increase_limit_ = update_voting_power_increase_limit_;
 function validate_required_stake_(minimum_stake, maximum_stake, $c) {
-    let temp$1;
-    if (($.copy(minimum_stake)).le($.copy(maximum_stake))) {
-        temp$1 = ($.copy(maximum_stake)).gt((0, move_to_ts_1.u64)("0"));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_STAKE_RANGE), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (($.copy(minimum_stake)).le($.copy(maximum_stake))) {
+            temp$1 = ($.copy(maximum_stake)).gt((0, move_to_ts_1.u64)("0"));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_STAKE_RANGE), $c));
+        }
+        return;
+    });
 }
 exports.validate_required_stake_ = validate_required_stake_;
 function loadParsers(repo) {
@@ -240,11 +261,14 @@ class App {
         return exports.moduleName;
     } }
     get StakingConfig() { return StakingConfig; }
-    loadStakingConfig(owner, loadFull = true) {
+    loadStakingConfig(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield StakingConfig.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

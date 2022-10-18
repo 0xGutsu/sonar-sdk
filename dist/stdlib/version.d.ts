@@ -3,6 +3,7 @@ import { AptosDataCache, AptosParserRepo, AptosLocalCache } from "@manahippo/mov
 import { U64 } from "@manahippo/move-to-ts";
 import { TypeParamDeclType, FieldDeclType } from "@manahippo/move-to-ts";
 import { StructTag, TypeTag } from "@manahippo/move-to-ts";
+import { OptionTransaction } from "@manahippo/move-to-ts";
 import { HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types } from "aptos";
 export declare const packageName = "AptosFramework";
 export declare const moduleAddress: HexString;
@@ -40,9 +41,9 @@ export declare class Version {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function initialize_(aptos_framework: HexString, initial_version: U64, $c: AptosDataCache): void;
-export declare function initialize_for_test_(core_resources: HexString, $c: AptosDataCache): void;
-export declare function set_version_(account: HexString, major: U64, $c: AptosDataCache): void;
+export declare function initialize_(aptos_framework: HexString, initial_version: U64, $c: AptosDataCache): Promise<void>;
+export declare function initialize_for_test_(core_resources: HexString, $c: AptosDataCache): Promise<void>;
+export declare function set_version_(account: HexString, major: U64, $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_set_version(major: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
@@ -53,10 +54,10 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get SetVersionCapability(): typeof SetVersionCapability;
-    loadSetVersionCapability(owner: HexString, loadFull?: boolean): Promise<SetVersionCapability>;
+    loadSetVersionCapability(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<SetVersionCapability>;
     get Version(): typeof Version;
-    loadVersion(owner: HexString, loadFull?: boolean): Promise<Version>;
+    loadVersion(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<Version>;
     payload_set_version(major: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    set_version(_account: AptosAccount, major: U64, _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    set_version(_account: AptosAccount, major: U64, option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
 }
 //# sourceMappingURL=version.d.ts.map

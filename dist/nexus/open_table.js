@@ -37,8 +37,8 @@ const $ = __importStar(require("@manahippo/move-to-ts"));
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const aptos_1 = require("aptos");
 const Stdlib = __importStar(require("../stdlib"));
-exports.packageName = "Nexus";
-exports.moduleAddress = new aptos_1.HexString("0x91f6206a9ee4f969adf1e987b11a6a7ff4848fdb63b90f05ecd8a1a73b0e3efa");
+exports.packageName = "nexus";
+exports.moduleAddress = new aptos_1.HexString("0x7897a29478fbe6c29a476d245ad93149dcd998c9db81981f6adfa15db8bb0629");
 exports.moduleName = "open_table";
 class OpenTable {
     constructor(proto, typeTag) {
@@ -74,29 +74,39 @@ OpenTable.fields = [
     { name: "keys", typeTag: new move_to_ts_1.VectorTag(new $.TypeParamIdx(0)) }
 ];
 function add_(open_table, key, value, $c, $p) {
-    Stdlib.Table.add_(open_table.base_table, $.copy(key), value, $c, [$p[0], $p[1]]);
-    Stdlib.Vector.push_back_(open_table.keys, $.copy(key), $c, [$p[0]]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Stdlib.Table.add_((open_table).base_table, $.copy(key), value, $c, [$p[0], $p[1]]);
+        yield Stdlib.Vector.push_back_((open_table).keys, $.copy(key), $c, [$p[0]]);
+        return;
+    });
 }
 exports.add_ = add_;
 function borrow_(open_table, key, $c, $p) {
-    return Stdlib.Table.borrow_(open_table.base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Stdlib.Table.borrow_((open_table).base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.borrow_ = borrow_;
 function borrow_mut_(open_table, key, $c, $p) {
-    return Stdlib.Table.borrow_mut_(open_table.base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Stdlib.Table.borrow_mut_((open_table).base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.borrow_mut_ = borrow_mut_;
 function contains_(open_table, key, $c, $p) {
-    return Stdlib.Table.contains_(open_table.base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Stdlib.Table.contains_((open_table).base_table, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.contains_ = contains_;
 function empty_($c, $p) {
-    return new OpenTable({ base_table: Stdlib.Table.new___($c, [$p[0], $p[1]]), keys: Stdlib.Vector.empty_($c, [$p[0]]) }, new move_to_ts_1.SimpleStructTag(OpenTable, [$p[0], $p[1]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new OpenTable({ base_table: yield Stdlib.Table.new___($c, [$p[0], $p[1]]), keys: yield Stdlib.Vector.empty_($c, [$p[0]]) }, new move_to_ts_1.SimpleStructTag(OpenTable, [$p[0], $p[1]]));
+    });
 }
 exports.empty_ = empty_;
 function loadParsers(repo) {
-    repo.addParser("0x91f6206a9ee4f969adf1e987b11a6a7ff4848fdb63b90f05ecd8a1a73b0e3efa::open_table::OpenTable", OpenTable.OpenTableParser);
+    repo.addParser("0x7897a29478fbe6c29a476d245ad93149dcd998c9db81981f6adfa15db8bb0629::open_table::OpenTable", OpenTable.OpenTableParser);
 }
 exports.loadParsers = loadParsers;
 class App {

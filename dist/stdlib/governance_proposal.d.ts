@@ -19,8 +19,8 @@ export declare class GovernanceProposal {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_empty_proposal_($c: AptosDataCache): GovernanceProposal;
-export declare function create_proposal_($c: AptosDataCache): GovernanceProposal;
+export declare function create_empty_proposal_($c: AptosDataCache): Promise<GovernanceProposal>;
+export declare function create_proposal_($c: AptosDataCache): Promise<GovernanceProposal>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = exports.loadParsers = exports.sha3_256_ = exports.sha2_256_ = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
@@ -30,11 +39,15 @@ exports.packageName = "MoveStdlib";
 exports.moduleAddress = new aptos_1.HexString("0x1");
 exports.moduleName = "hash";
 function sha2_256_(data, $c) {
-    return $.std_hash_sha2_256(data, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_hash_sha2_256(data, $c);
+    });
 }
 exports.sha2_256_ = sha2_256_;
 function sha3_256_(data, $c) {
-    return $.std_hash_sha3_256(data, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.std_hash_sha3_256(data, $c);
+    });
 }
 exports.sha3_256_ = sha3_256_;
 function loadParsers(repo) {

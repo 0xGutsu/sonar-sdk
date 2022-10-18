@@ -116,89 +116,123 @@ Table.fields = [
     { name: "handle", typeTag: move_to_ts_1.AtomicTypeTag.Address }
 ];
 function add_(table, key, val, $c, $p) {
-    return add_box_(table, $.copy(key), new Box({ val: val }, new move_to_ts_1.SimpleStructTag(Box, [$p[1]])), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield add_box_(table, $.copy(key), new Box({ val: val }, new move_to_ts_1.SimpleStructTag(Box, [$p[1]])), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    });
 }
 exports.add_ = add_;
 function add_box_(table, key, val, $c, $p) {
-    return $.aptos_std_table_add_box(table, key, val, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_add_box(table, key, val, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.add_box_ = add_box_;
 function borrow_(table, key, $c, $p) {
-    return borrow_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]).val;
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield borrow_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])])).val;
+    });
 }
 exports.borrow_ = borrow_;
 function borrow_box_(table, key, $c, $p) {
-    return $.aptos_std_table_borrow_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_borrow_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.borrow_box_ = borrow_box_;
 function borrow_box_mut_(table, key, $c, $p) {
-    return $.aptos_std_table_borrow_box_mut(table, key, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_borrow_box_mut(table, key, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.borrow_box_mut_ = borrow_box_mut_;
 function borrow_mut_(table, key, $c, $p) {
-    return borrow_box_mut_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]).val;
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield borrow_box_mut_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])])).val;
+    });
 }
 exports.borrow_mut_ = borrow_mut_;
 function borrow_mut_with_default_(table, key, default__, $c, $p) {
-    let temp$1, temp$2;
-    [temp$1, temp$2] = [table, $.copy(key)];
-    if (!contains_(temp$1, temp$2, $c, [$p[0], $p[1]])) {
-        add_(table, $.copy(key), default__, $c, [$p[0], $p[1]]);
-    }
-    else {
-    }
-    return borrow_mut_(table, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        [temp$1, temp$2] = [table, $.copy(key)];
+        if (!(yield contains_(temp$1, temp$2, $c, [$p[0], $p[1]]))) {
+            yield add_(table, $.copy(key), default__, $c, [$p[0], $p[1]]);
+        }
+        else {
+        }
+        return yield borrow_mut_(table, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.borrow_mut_with_default_ = borrow_mut_with_default_;
 function contains_(table, key, $c, $p) {
-    return contains_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield contains_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    });
 }
 exports.contains_ = contains_;
 function contains_box_(table, key, $c, $p) {
-    return $.aptos_std_table_contains_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_contains_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.contains_box_ = contains_box_;
 function destroy_(table, $c, $p) {
-    destroy_empty_box_(table, $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
-    return drop_unchecked_box_(table, $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield destroy_empty_box_(table, $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+        return yield drop_unchecked_box_(table, $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+    });
 }
 exports.destroy_ = destroy_;
 function destroy_empty_box_(table, $c, $p) {
-    return $.aptos_std_table_destroy_empty_box(table, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_destroy_empty_box(table, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.destroy_empty_box_ = destroy_empty_box_;
 function drop_unchecked_box_(table, $c, $p) {
-    return $.aptos_std_table_drop_unchecked_box(table, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_drop_unchecked_box(table, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.drop_unchecked_box_ = drop_unchecked_box_;
 function new___($c, $p) {
-    return new Table({ handle: new_table_handle_($c, [$p[0], $p[1]]) }, new move_to_ts_1.SimpleStructTag(Table, [$p[0], $p[1]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Table({ handle: yield new_table_handle_($c, [$p[0], $p[1]]) }, new move_to_ts_1.SimpleStructTag(Table, [$p[0], $p[1]]));
+    });
 }
 exports.new___ = new___;
 function new_table_handle_($c, $p) {
-    return $.aptos_std_table_new_table_handle($c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_new_table_handle($c, [$p[0], $p[1]]);
+    });
 }
 exports.new_table_handle_ = new_table_handle_;
 function remove_(table, key, $c, $p) {
-    let { val: val } = remove_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
-    return val;
+    return __awaiter(this, void 0, void 0, function* () {
+        let { val: val } = yield remove_box_(table, $.copy(key), $c, [$p[0], $p[1], new move_to_ts_1.SimpleStructTag(Box, [$p[1]])]);
+        return val;
+    });
 }
 exports.remove_ = remove_;
 function remove_box_(table, key, $c, $p) {
-    return $.aptos_std_table_remove_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_table_remove_box(table, key, $c, [$p[0], $p[1], $p[2]]);
+    });
 }
 exports.remove_box_ = remove_box_;
 function upsert_(table, key, value, $c, $p) {
-    let temp$1, temp$2, ref;
-    [temp$1, temp$2] = [table, $.copy(key)];
-    if (!contains_(temp$1, temp$2, $c, [$p[0], $p[1]])) {
-        add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
-    }
-    else {
-        ref = borrow_mut_(table, $.copy(key), $c, [$p[0], $p[1]]);
-        $.set(ref, value);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, ref;
+        [temp$1, temp$2] = [table, $.copy(key)];
+        if (!(yield contains_(temp$1, temp$2, $c, [$p[0], $p[1]]))) {
+            yield add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
+        }
+        else {
+            ref = yield borrow_mut_(table, $.copy(key), $c, [$p[0], $p[1]]);
+            $.set(ref, value);
+        }
+        return;
+    });
 }
 exports.upsert_ = upsert_;
 function loadParsers(repo) {
@@ -219,11 +253,14 @@ class App {
         return exports.moduleName;
     } }
     get Box() { return Box; }
-    loadBox(owner, $p, /* <V> */ loadFull = true) {
+    loadBox(owner, $p, /* <V> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Box.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

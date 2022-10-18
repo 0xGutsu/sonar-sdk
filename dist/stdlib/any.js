@@ -76,18 +76,24 @@ Any.fields = [
     { name: "data", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8) }
 ];
 function pack_(x, $c, $p) {
-    return new Any({ type_name: Type_info.type_name_($c, [$p[0]]), data: Bcs.to_bytes_(x, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(Any));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Any({ type_name: yield Type_info.type_name_($c, [$p[0]]), data: yield Bcs.to_bytes_(x, $c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(Any));
+    });
 }
 exports.pack_ = pack_;
 function type_name_(x, $c) {
-    return x.type_name;
+    return __awaiter(this, void 0, void 0, function* () {
+        return (x).type_name;
+    });
 }
 exports.type_name_ = type_name_;
 function unpack_(x, $c, $p) {
-    if (!$.deep_eq(Type_info.type_name_($c, [$p[0]]), $.copy(x.type_name))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ETYPE_MISMATCH), $c));
-    }
-    return From_bcs.from_bytes_($.copy(x.data), $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!$.deep_eq(yield Type_info.type_name_($c, [$p[0]]), $.copy((x).type_name))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ETYPE_MISMATCH), $c));
+        }
+        return yield From_bcs.from_bytes_($.copy((x).data), $c, [$p[0]]);
+    });
 }
 exports.unpack_ = unpack_;
 function loadParsers(repo) {

@@ -60,14 +60,14 @@ export declare class NewEpochEvent {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function current_epoch_($c: AptosDataCache): U64;
-export declare function disable_reconfiguration_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function emit_genesis_reconfiguration_event_($c: AptosDataCache): void;
-export declare function enable_reconfiguration_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function last_reconfiguration_time_($c: AptosDataCache): U64;
-export declare function reconfiguration_enabled_($c: AptosDataCache): boolean;
-export declare function reconfigure_($c: AptosDataCache): void;
+export declare function current_epoch_($c: AptosDataCache): Promise<U64>;
+export declare function disable_reconfiguration_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function emit_genesis_reconfiguration_event_($c: AptosDataCache): Promise<void>;
+export declare function enable_reconfiguration_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function last_reconfiguration_time_($c: AptosDataCache): Promise<U64>;
+export declare function reconfiguration_enabled_($c: AptosDataCache): Promise<boolean>;
+export declare function reconfigure_($c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -77,9 +77,9 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get Configuration(): typeof Configuration;
-    loadConfiguration(owner: HexString, loadFull?: boolean): Promise<Configuration>;
+    loadConfiguration(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<Configuration>;
     get DisableReconfiguration(): typeof DisableReconfiguration;
-    loadDisableReconfiguration(owner: HexString, loadFull?: boolean): Promise<DisableReconfiguration>;
+    loadDisableReconfiguration(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<DisableReconfiguration>;
     get NewEpochEvent(): typeof NewEpochEvent;
 }
 //# sourceMappingURL=reconfiguration.d.ts.map

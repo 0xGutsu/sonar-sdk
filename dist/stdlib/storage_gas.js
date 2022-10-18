@@ -244,207 +244,235 @@ UsageGasConfig.fields = [
     { name: "write_curve", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "storage_gas", "GasCurve", []) }
 ];
 function base_8192_exponential_curve_(min_gas, max_gas, $c) {
-    return new_gas_curve_($.copy(min_gas), $.copy(max_gas), [new_point_((0, move_to_ts_1.u64)("1000"), (0, move_to_ts_1.u64)("2"), $c), new_point_((0, move_to_ts_1.u64)("2000"), (0, move_to_ts_1.u64)("6"), $c), new_point_((0, move_to_ts_1.u64)("3000"), (0, move_to_ts_1.u64)("17"), $c), new_point_((0, move_to_ts_1.u64)("4000"), (0, move_to_ts_1.u64)("44"), $c), new_point_((0, move_to_ts_1.u64)("5000"), (0, move_to_ts_1.u64)("109"), $c), new_point_((0, move_to_ts_1.u64)("6000"), (0, move_to_ts_1.u64)("271"), $c), new_point_((0, move_to_ts_1.u64)("7000"), (0, move_to_ts_1.u64)("669"), $c), new_point_((0, move_to_ts_1.u64)("8000"), (0, move_to_ts_1.u64)("1648"), $c), new_point_((0, move_to_ts_1.u64)("9000"), (0, move_to_ts_1.u64)("4061"), $c), new_point_((0, move_to_ts_1.u64)("9500"), (0, move_to_ts_1.u64)("6372"), $c), new_point_((0, move_to_ts_1.u64)("9900"), (0, move_to_ts_1.u64)("9138"), $c)], $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield new_gas_curve_($.copy(min_gas), $.copy(max_gas), [yield new_point_((0, move_to_ts_1.u64)("1000"), (0, move_to_ts_1.u64)("2"), $c), yield new_point_((0, move_to_ts_1.u64)("2000"), (0, move_to_ts_1.u64)("6"), $c), yield new_point_((0, move_to_ts_1.u64)("3000"), (0, move_to_ts_1.u64)("17"), $c), yield new_point_((0, move_to_ts_1.u64)("4000"), (0, move_to_ts_1.u64)("44"), $c), yield new_point_((0, move_to_ts_1.u64)("5000"), (0, move_to_ts_1.u64)("109"), $c), yield new_point_((0, move_to_ts_1.u64)("6000"), (0, move_to_ts_1.u64)("271"), $c), yield new_point_((0, move_to_ts_1.u64)("7000"), (0, move_to_ts_1.u64)("669"), $c), yield new_point_((0, move_to_ts_1.u64)("8000"), (0, move_to_ts_1.u64)("1648"), $c), yield new_point_((0, move_to_ts_1.u64)("9000"), (0, move_to_ts_1.u64)("4061"), $c), yield new_point_((0, move_to_ts_1.u64)("9500"), (0, move_to_ts_1.u64)("6372"), $c), yield new_point_((0, move_to_ts_1.u64)("9900"), (0, move_to_ts_1.u64)("9138"), $c)], $c);
+    });
 }
 exports.base_8192_exponential_curve_ = base_8192_exponential_curve_;
 function calculate_create_gas_(config, usage, $c) {
-    return calculate_gas_($.copy(config.target_usage), $.copy(usage), config.create_curve, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield calculate_gas_($.copy((config).target_usage), $.copy(usage), (config).create_curve, $c);
+    });
 }
 exports.calculate_create_gas_ = calculate_create_gas_;
 function calculate_gas_(max_usage, current_usage, curve, $c) {
-    let temp$1, temp$10, temp$11, temp$12, temp$13, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, capped_current_usage, current_usage_bps, i, j, left, mid, num_points, points, right, y_interpolated;
-    if (($.copy(current_usage)).gt($.copy(max_usage))) {
-        temp$1 = $.copy(max_usage);
-    }
-    else {
-        temp$1 = $.copy(current_usage);
-    }
-    capped_current_usage = temp$1;
-    points = curve.points;
-    num_points = Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(Point)]);
-    current_usage_bps = (($.copy(capped_current_usage)).mul($.copy(exports.BASIS_POINT_DENOMINATION))).div($.copy(max_usage));
-    if (($.copy(num_points)).eq(((0, move_to_ts_1.u64)("0")))) {
-        temp$3 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
-        temp$4 = temp$3;
-        temp$2 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
-        [temp$12, temp$13] = [temp$4, temp$2];
-    }
-    else {
-        if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, (0, move_to_ts_1.u64)("0"), $c, [new move_to_ts_2.SimpleStructTag(Point)]).x))) {
-            temp$5 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
-            [temp$10, temp$11] = [temp$5, Vector.borrow_(points, (0, move_to_ts_1.u64)("0"), $c, [new move_to_ts_2.SimpleStructTag(Point)])];
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$10, temp$11, temp$12, temp$13, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, capped_current_usage, current_usage_bps, i, j, left, mid, num_points, points, right, y_interpolated;
+        if (($.copy(current_usage)).gt($.copy(max_usage))) {
+            temp$1 = $.copy(max_usage);
         }
         else {
-            if (($.copy(Vector.borrow_(points, ($.copy(num_points)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)]).x)).le($.copy(current_usage_bps))) {
-                temp$7 = Vector.borrow_(points, ($.copy(num_points)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
-                temp$6 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
-                [temp$8, temp$9] = [temp$7, temp$6];
+            temp$1 = $.copy(current_usage);
+        }
+        capped_current_usage = temp$1;
+        points = (curve).points;
+        num_points = yield Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(Point)]);
+        current_usage_bps = (($.copy(capped_current_usage)).mul($.copy(exports.BASIS_POINT_DENOMINATION))).div($.copy(max_usage));
+        if (($.copy(num_points)).eq(((0, move_to_ts_1.u64)("0")))) {
+            temp$3 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
+            temp$4 = temp$3;
+            temp$2 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
+            [temp$12, temp$13] = [temp$4, temp$2];
+        }
+        else {
+            if (($.copy(current_usage_bps)).lt($.copy((yield Vector.borrow_(points, (0, move_to_ts_1.u64)("0"), $c, [new move_to_ts_2.SimpleStructTag(Point)])).x))) {
+                temp$5 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
+                [temp$10, temp$11] = [temp$5, yield Vector.borrow_(points, (0, move_to_ts_1.u64)("0"), $c, [new move_to_ts_2.SimpleStructTag(Point)])];
             }
             else {
-                [i, j] = [(0, move_to_ts_1.u64)("0"), ($.copy(num_points)).sub((0, move_to_ts_1.u64)("2"))];
-                while (true) {
-                    {
-                        ;
-                    }
-                    if (!(($.copy(i)).lt($.copy(j))))
-                        break;
-                    {
-                        mid = ($.copy(j)).sub((($.copy(j)).sub($.copy(i))).div((0, move_to_ts_1.u64)("2")));
-                        if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, $.copy(mid), $c, [new move_to_ts_2.SimpleStructTag(Point)]).x))) {
-                            ;
-                            j = ($.copy(mid)).sub((0, move_to_ts_1.u64)("1"));
-                        }
-                        else {
-                            ;
-                            i = $.copy(mid);
-                        }
-                    }
+                if (($.copy((yield Vector.borrow_(points, ($.copy(num_points)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)])).x)).le($.copy(current_usage_bps))) {
+                    temp$7 = yield Vector.borrow_(points, ($.copy(num_points)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
+                    temp$6 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
+                    [temp$8, temp$9] = [temp$7, temp$6];
                 }
-                [temp$8, temp$9] = [Vector.borrow_(points, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(Point)]), Vector.borrow_(points, ($.copy(i)).add((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)])];
+                else {
+                    [i, j] = [(0, move_to_ts_1.u64)("0"), ($.copy(num_points)).sub((0, move_to_ts_1.u64)("2"))];
+                    while (true) {
+                        {
+                            ;
+                        }
+                        if (!(($.copy(i)).lt($.copy(j))))
+                            break;
+                        {
+                            mid = ($.copy(j)).sub((($.copy(j)).sub($.copy(i))).div((0, move_to_ts_1.u64)("2")));
+                            if (($.copy(current_usage_bps)).lt($.copy((yield Vector.borrow_(points, $.copy(mid), $c, [new move_to_ts_2.SimpleStructTag(Point)])).x))) {
+                                ;
+                                j = ($.copy(mid)).sub((0, move_to_ts_1.u64)("1"));
+                            }
+                            else {
+                                ;
+                                i = $.copy(mid);
+                            }
+                        }
+                    }
+                    [temp$8, temp$9] = [yield Vector.borrow_(points, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(Point)]), yield Vector.borrow_(points, ($.copy(i)).add((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)])];
+                }
+                [temp$10, temp$11] = [temp$8, temp$9];
             }
-            [temp$10, temp$11] = [temp$8, temp$9];
+            [temp$12, temp$13] = [temp$10, temp$11];
         }
-        [temp$12, temp$13] = [temp$10, temp$11];
-    }
-    [left, right] = [temp$12, temp$13];
-    y_interpolated = interpolate_($.copy(left.x), $.copy(right.x), $.copy(left.y), $.copy(right.y), $.copy(current_usage_bps), $c);
-    return interpolate_((0, move_to_ts_1.u64)("0"), $.copy(exports.BASIS_POINT_DENOMINATION), $.copy(curve.min_gas), $.copy(curve.max_gas), $.copy(y_interpolated), $c);
+        [left, right] = [temp$12, temp$13];
+        y_interpolated = yield interpolate_($.copy((left).x), $.copy((right).x), $.copy((left).y), $.copy((right).y), $.copy(current_usage_bps), $c);
+        return yield interpolate_((0, move_to_ts_1.u64)("0"), $.copy(exports.BASIS_POINT_DENOMINATION), $.copy((curve).min_gas), $.copy((curve).max_gas), $.copy(y_interpolated), $c);
+    });
 }
 exports.calculate_gas_ = calculate_gas_;
 function calculate_read_gas_(config, usage, $c) {
-    return calculate_gas_($.copy(config.target_usage), $.copy(usage), config.read_curve, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield calculate_gas_($.copy((config).target_usage), $.copy(usage), (config).read_curve, $c);
+    });
 }
 exports.calculate_read_gas_ = calculate_read_gas_;
 function calculate_write_gas_(config, usage, $c) {
-    return calculate_gas_($.copy(config.target_usage), $.copy(usage), config.write_curve, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield calculate_gas_($.copy((config).target_usage), $.copy(usage), (config).write_curve, $c);
+    });
 }
 exports.calculate_write_gas_ = calculate_write_gas_;
 function initialize_(aptos_framework, $c) {
-    let byte_config, item_config;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ESTORAGE_GAS_CONFIG), $c));
-    }
-    item_config = new UsageGasConfig({ target_usage: (0, move_to_ts_1.u64)("1000000000"), read_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("80000"), ((0, move_to_ts_1.u64)("80000")).mul((0, move_to_ts_1.u64)("100")), $c), create_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("2000000"), ((0, move_to_ts_1.u64)("2000000")).mul((0, move_to_ts_1.u64)("100")), $c), write_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("400000"), ((0, move_to_ts_1.u64)("400000")).mul((0, move_to_ts_1.u64)("100")), $c) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
-    byte_config = new UsageGasConfig({ target_usage: (0, move_to_ts_1.u64)("500000000000"), read_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("40"), ((0, move_to_ts_1.u64)("40")).mul((0, move_to_ts_1.u64)("100")), $c), create_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("1000"), ((0, move_to_ts_1.u64)("1000")).mul((0, move_to_ts_1.u64)("100")), $c), write_curve: base_8192_exponential_curve_((0, move_to_ts_1.u64)("200"), ((0, move_to_ts_1.u64)("200")).mul((0, move_to_ts_1.u64)("100")), $c) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(StorageGasConfig), aptos_framework, new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new move_to_ts_2.SimpleStructTag(StorageGasConfig)));
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.ESTORAGE_GAS), $c));
-    }
-    $c.move_to(new move_to_ts_2.SimpleStructTag(StorageGas), aptos_framework, new StorageGas({ per_item_read: (0, move_to_ts_1.u64)("80000"), per_item_create: (0, move_to_ts_1.u64)("2000000"), per_item_write: (0, move_to_ts_1.u64)("400000"), per_byte_read: (0, move_to_ts_1.u64)("40"), per_byte_create: (0, move_to_ts_1.u64)("1000"), per_byte_write: (0, move_to_ts_1.u64)("200") }, new move_to_ts_2.SimpleStructTag(StorageGas)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let byte_config, item_config;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ESTORAGE_GAS_CONFIG), $c));
+        }
+        item_config = new UsageGasConfig({ target_usage: (0, move_to_ts_1.u64)("1000000000"), read_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("80000"), ((0, move_to_ts_1.u64)("80000")).mul((0, move_to_ts_1.u64)("100")), $c), create_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("2000000"), ((0, move_to_ts_1.u64)("2000000")).mul((0, move_to_ts_1.u64)("100")), $c), write_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("400000"), ((0, move_to_ts_1.u64)("400000")).mul((0, move_to_ts_1.u64)("100")), $c) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
+        byte_config = new UsageGasConfig({ target_usage: (0, move_to_ts_1.u64)("500000000000"), read_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("40"), ((0, move_to_ts_1.u64)("40")).mul((0, move_to_ts_1.u64)("100")), $c), create_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("1000"), ((0, move_to_ts_1.u64)("1000")).mul((0, move_to_ts_1.u64)("100")), $c), write_curve: yield base_8192_exponential_curve_((0, move_to_ts_1.u64)("200"), ((0, move_to_ts_1.u64)("200")).mul((0, move_to_ts_1.u64)("100")), $c) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(StorageGasConfig), aptos_framework, new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new move_to_ts_2.SimpleStructTag(StorageGasConfig)));
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.ESTORAGE_GAS), $c));
+        }
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(StorageGas), aptos_framework, new StorageGas({ per_item_read: (0, move_to_ts_1.u64)("8000"), per_item_create: (0, move_to_ts_1.u64)("1280000"), per_item_write: (0, move_to_ts_1.u64)("160000"), per_byte_read: (0, move_to_ts_1.u64)("1000"), per_byte_create: (0, move_to_ts_1.u64)("10000"), per_byte_write: (0, move_to_ts_1.u64)("10000") }, new move_to_ts_2.SimpleStructTag(StorageGas)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function interpolate_(x0, x1, y0, y1, x, $c) {
-    return ($.copy(y0)).add(((($.copy(x)).sub($.copy(x0))).mul(($.copy(y1)).sub($.copy(y0)))).div(($.copy(x1)).sub($.copy(x0))));
+    return __awaiter(this, void 0, void 0, function* () {
+        return ($.copy(y0)).add(((($.copy(x)).sub($.copy(x0))).mul(($.copy(y1)).sub($.copy(y0)))).div(($.copy(x1)).sub($.copy(x0))));
+    });
 }
 exports.interpolate_ = interpolate_;
 function new_gas_curve_(min_gas, max_gas, points, $c) {
-    if (!($.copy(max_gas)).ge($.copy(min_gas))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_GAS_RANGE), $c));
-    }
-    if (!($.copy(max_gas)).le(($.copy(exports.MAX_U64)).div($.copy(exports.BASIS_POINT_DENOMINATION)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_GAS_RANGE), $c));
-    }
-    validate_points_(points, $c);
-    return new GasCurve({ min_gas: $.copy(min_gas), max_gas: $.copy(max_gas), points: $.copy(points) }, new move_to_ts_2.SimpleStructTag(GasCurve));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy(max_gas)).ge($.copy(min_gas))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_GAS_RANGE), $c));
+        }
+        if (!($.copy(max_gas)).le(($.copy(exports.MAX_U64)).div($.copy(exports.BASIS_POINT_DENOMINATION)))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_GAS_RANGE), $c));
+        }
+        yield validate_points_(points, $c);
+        return new GasCurve({ min_gas: $.copy(min_gas), max_gas: $.copy(max_gas), points: $.copy(points) }, new move_to_ts_2.SimpleStructTag(GasCurve));
+    });
 }
 exports.new_gas_curve_ = new_gas_curve_;
 function new_point_(x, y, $c) {
-    let temp$1;
-    if (($.copy(x)).le($.copy(exports.BASIS_POINT_DENOMINATION))) {
-        temp$1 = ($.copy(y)).le($.copy(exports.BASIS_POINT_DENOMINATION));
-    }
-    else {
-        temp$1 = false;
-    }
-    if (!temp$1) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_POINT_RANGE), $c));
-    }
-    return new Point({ x: $.copy(x), y: $.copy(y) }, new move_to_ts_2.SimpleStructTag(Point));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (($.copy(x)).le($.copy(exports.BASIS_POINT_DENOMINATION))) {
+            temp$1 = ($.copy(y)).le($.copy(exports.BASIS_POINT_DENOMINATION));
+        }
+        else {
+            temp$1 = false;
+        }
+        if (!temp$1) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_POINT_RANGE), $c));
+        }
+        return new Point({ x: $.copy(x), y: $.copy(y) }, new move_to_ts_2.SimpleStructTag(Point));
+    });
 }
 exports.new_point_ = new_point_;
 function new_storage_gas_config_(item_config, byte_config, $c) {
-    return new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new move_to_ts_2.SimpleStructTag(StorageGasConfig));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new move_to_ts_2.SimpleStructTag(StorageGasConfig));
+    });
 }
 exports.new_storage_gas_config_ = new_storage_gas_config_;
 function new_usage_gas_config_(target_usage, read_curve, create_curve, write_curve, $c) {
-    if (!($.copy(target_usage)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EZERO_TARGET_USAGE), $c));
-    }
-    if (!($.copy(target_usage)).le(($.copy(exports.MAX_U64)).div($.copy(exports.BASIS_POINT_DENOMINATION)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ETARGET_USAGE_TOO_BIG), $c));
-    }
-    return new UsageGasConfig({ target_usage: $.copy(target_usage), read_curve: $.copy(read_curve), create_curve: $.copy(create_curve), write_curve: $.copy(write_curve) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy(target_usage)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EZERO_TARGET_USAGE), $c));
+        }
+        if (!($.copy(target_usage)).le(($.copy(exports.MAX_U64)).div($.copy(exports.BASIS_POINT_DENOMINATION)))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ETARGET_USAGE_TOO_BIG), $c));
+        }
+        return new UsageGasConfig({ target_usage: $.copy(target_usage), read_curve: $.copy(read_curve), create_curve: $.copy(create_curve), write_curve: $.copy(write_curve) }, new move_to_ts_2.SimpleStructTag(UsageGasConfig));
+    });
 }
 exports.new_usage_gas_config_ = new_usage_gas_config_;
 function on_reconfig_($c) {
-    let bytes, gas, gas_config, items;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ESTORAGE_GAS_CONFIG), $c));
-    }
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1"))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ESTORAGE_GAS), $c));
-    }
-    [items, bytes] = State_storage.current_items_and_bytes_($c);
-    gas_config = $c.borrow_global(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1"));
-    gas = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1"));
-    gas.per_item_read = calculate_read_gas_(gas_config.item_config, $.copy(items), $c);
-    gas.per_item_create = calculate_create_gas_(gas_config.item_config, $.copy(items), $c);
-    gas.per_item_write = calculate_write_gas_(gas_config.item_config, $.copy(items), $c);
-    gas.per_byte_read = calculate_read_gas_(gas_config.byte_config, $.copy(bytes), $c);
-    gas.per_byte_create = calculate_create_gas_(gas_config.byte_config, $.copy(bytes), $c);
-    gas.per_byte_write = calculate_write_gas_(gas_config.byte_config, $.copy(bytes), $c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let bytes, gas, gas_config, items;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ESTORAGE_GAS_CONFIG), $c));
+        }
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1")))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ESTORAGE_GAS), $c));
+        }
+        [items, bytes] = yield State_storage.current_items_and_bytes_($c);
+        gas_config = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1"));
+        gas = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StorageGas), new aptos_1.HexString("0x1"));
+        (gas).per_item_read = yield calculate_read_gas_((gas_config).item_config, $.copy(items), $c);
+        (gas).per_item_create = yield calculate_create_gas_((gas_config).item_config, $.copy(items), $c);
+        (gas).per_item_write = yield calculate_write_gas_((gas_config).item_config, $.copy(items), $c);
+        (gas).per_byte_read = yield calculate_read_gas_((gas_config).byte_config, $.copy(bytes), $c);
+        (gas).per_byte_create = yield calculate_create_gas_((gas_config).byte_config, $.copy(bytes), $c);
+        (gas).per_byte_write = yield calculate_write_gas_((gas_config).byte_config, $.copy(bytes), $c);
+        return;
+    });
 }
 exports.on_reconfig_ = on_reconfig_;
 function set_config_(aptos_framework, config, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    $.set($c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1")), $.copy(config));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        $.set(yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(StorageGasConfig), new aptos_1.HexString("0x1")), $.copy(config));
+        return;
+    });
 }
 exports.set_config_ = set_config_;
 function validate_points_(points, $c) {
-    let temp$1, temp$2, temp$3, temp$4, temp$5, cur, i, len, next;
-    len = Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(Point)]);
-    ;
-    i = (0, move_to_ts_1.u64)("0");
-    while (true) {
-        {
-            ;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, temp$4, temp$5, cur, i, len, next;
+        len = yield Vector.length_(points, $c, [new move_to_ts_2.SimpleStructTag(Point)]);
+        ;
+        i = (0, move_to_ts_1.u64)("0");
+        while (true) {
+            {
+                ;
+            }
+            if (!(($.copy(i)).le($.copy(len))))
+                break;
+            {
+                if (($.copy(i)).eq(((0, move_to_ts_1.u64)("0")))) {
+                    temp$1 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
+                    temp$2 = temp$1;
+                }
+                else {
+                    temp$2 = yield Vector.borrow_(points, ($.copy(i)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
+                }
+                cur = temp$2;
+                if (($.copy(i)).eq(($.copy(len)))) {
+                    temp$3 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
+                    temp$4 = temp$3;
+                }
+                else {
+                    temp$4 = yield Vector.borrow_(points, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
+                }
+                next = temp$4;
+                if (($.copy((cur).x)).lt($.copy((next).x))) {
+                    temp$5 = ($.copy((cur).y)).le($.copy((next).y));
+                }
+                else {
+                    temp$5 = false;
+                }
+                if (!temp$5) {
+                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_MONOTONICALLY_NON_DECREASING_CURVE), $c));
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
+            }
         }
-        if (!(($.copy(i)).le($.copy(len))))
-            break;
-        {
-            if (($.copy(i)).eq(((0, move_to_ts_1.u64)("0")))) {
-                temp$1 = new Point({ x: (0, move_to_ts_1.u64)("0"), y: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(Point));
-                temp$2 = temp$1;
-            }
-            else {
-                temp$2 = Vector.borrow_(points, ($.copy(i)).sub((0, move_to_ts_1.u64)("1")), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
-            }
-            cur = temp$2;
-            if (($.copy(i)).eq(($.copy(len)))) {
-                temp$3 = new Point({ x: $.copy(exports.BASIS_POINT_DENOMINATION), y: $.copy(exports.BASIS_POINT_DENOMINATION) }, new move_to_ts_2.SimpleStructTag(Point));
-                temp$4 = temp$3;
-            }
-            else {
-                temp$4 = Vector.borrow_(points, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(Point)]);
-            }
-            next = temp$4;
-            if (($.copy(cur.x)).lt($.copy(next.x))) {
-                temp$5 = ($.copy(cur.y)).le($.copy(next.y));
-            }
-            else {
-                temp$5 = false;
-            }
-            if (!temp$5) {
-                throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_MONOTONICALLY_NON_DECREASING_CURVE), $c));
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
-        }
-    }
-    return;
+        return;
+    });
 }
 exports.validate_points_ = validate_points_;
 function loadParsers(repo) {
@@ -470,21 +498,27 @@ class App {
     get GasCurve() { return GasCurve; }
     get Point() { return Point; }
     get StorageGas() { return StorageGas; }
-    loadStorageGas(owner, loadFull = true) {
+    loadStorageGas(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield StorageGas.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get StorageGasConfig() { return StorageGasConfig; }
-    loadStorageGasConfig(owner, loadFull = true) {
+    loadStorageGasConfig(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield StorageGasConfig.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

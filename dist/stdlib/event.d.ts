@@ -23,12 +23,12 @@ export declare class EventHandle {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function counter_(handle_ref: EventHandle, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function destroy_handle_(handle: EventHandle, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function emit_event_(handle_ref: EventHandle, msg: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function guid_(handle_ref: EventHandle, $c: AptosDataCache, $p: TypeTag[]): Guid.GUID;
-export declare function new_event_handle_(guid: Guid.GUID, $c: AptosDataCache, $p: TypeTag[]): EventHandle;
-export declare function write_to_event_store_(guid: U8[], count: U64, msg: any, $c: AptosDataCache, $p: TypeTag[]): void;
+export declare function counter_(handle_ref: EventHandle, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function destroy_handle_(handle: EventHandle, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function emit_event_(handle_ref: EventHandle, msg: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function guid_(handle_ref: EventHandle, $c: AptosDataCache, $p: TypeTag[]): Promise<Guid.GUID>;
+export declare function new_event_handle_(guid: Guid.GUID, $c: AptosDataCache, $p: TypeTag[]): Promise<EventHandle>;
+export declare function write_to_event_store_(guid: U8[], count: U64, msg: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

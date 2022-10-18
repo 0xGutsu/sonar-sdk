@@ -35,18 +35,18 @@ export declare class StakingConfig {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function get_($c: AptosDataCache): StakingConfig;
-export declare function get_allow_validator_set_change_(config: StakingConfig, $c: AptosDataCache): boolean;
-export declare function get_recurring_lockup_duration_(config: StakingConfig, $c: AptosDataCache): U64;
-export declare function get_required_stake_(config: StakingConfig, $c: AptosDataCache): [U64, U64];
-export declare function get_reward_rate_(config: StakingConfig, $c: AptosDataCache): [U64, U64];
-export declare function get_voting_power_increase_limit_(config: StakingConfig, $c: AptosDataCache): U64;
-export declare function initialize_(aptos_framework: HexString, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, $c: AptosDataCache): void;
-export declare function update_recurring_lockup_duration_secs_(aptos_framework: HexString, new_recurring_lockup_duration_secs: U64, $c: AptosDataCache): void;
-export declare function update_required_stake_(aptos_framework: HexString, minimum_stake: U64, maximum_stake: U64, $c: AptosDataCache): void;
-export declare function update_rewards_rate_(aptos_framework: HexString, new_rewards_rate: U64, new_rewards_rate_denominator: U64, $c: AptosDataCache): void;
-export declare function update_voting_power_increase_limit_(aptos_framework: HexString, new_voting_power_increase_limit: U64, $c: AptosDataCache): void;
-export declare function validate_required_stake_(minimum_stake: U64, maximum_stake: U64, $c: AptosDataCache): void;
+export declare function get_($c: AptosDataCache): Promise<StakingConfig>;
+export declare function get_allow_validator_set_change_(config: StakingConfig, $c: AptosDataCache): Promise<boolean>;
+export declare function get_recurring_lockup_duration_(config: StakingConfig, $c: AptosDataCache): Promise<U64>;
+export declare function get_required_stake_(config: StakingConfig, $c: AptosDataCache): Promise<[U64, U64]>;
+export declare function get_reward_rate_(config: StakingConfig, $c: AptosDataCache): Promise<[U64, U64]>;
+export declare function get_voting_power_increase_limit_(config: StakingConfig, $c: AptosDataCache): Promise<U64>;
+export declare function initialize_(aptos_framework: HexString, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, $c: AptosDataCache): Promise<void>;
+export declare function update_recurring_lockup_duration_secs_(aptos_framework: HexString, new_recurring_lockup_duration_secs: U64, $c: AptosDataCache): Promise<void>;
+export declare function update_required_stake_(aptos_framework: HexString, minimum_stake: U64, maximum_stake: U64, $c: AptosDataCache): Promise<void>;
+export declare function update_rewards_rate_(aptos_framework: HexString, new_rewards_rate: U64, new_rewards_rate_denominator: U64, $c: AptosDataCache): Promise<void>;
+export declare function update_voting_power_increase_limit_(aptos_framework: HexString, new_voting_power_increase_limit: U64, $c: AptosDataCache): Promise<void>;
+export declare function validate_required_stake_(minimum_stake: U64, maximum_stake: U64, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -56,6 +56,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get StakingConfig(): typeof StakingConfig;
-    loadStakingConfig(owner: HexString, loadFull?: boolean): Promise<StakingConfig>;
+    loadStakingConfig(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<StakingConfig>;
 }
 //# sourceMappingURL=staking_config.d.ts.map

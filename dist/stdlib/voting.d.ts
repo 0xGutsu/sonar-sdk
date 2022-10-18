@@ -18,12 +18,10 @@ export declare const EPROPOSAL_CANNOT_BE_RESOLVED: U64;
 export declare const EPROPOSAL_EMPTY_EXECUTION_HASH: U64;
 export declare const EPROPOSAL_EXECUTION_HASH_NOT_MATCHING: U64;
 export declare const EPROPOSAL_VOTING_ALREADY_ENDED: U64;
-export declare const ERESOLUTION_CANNOT_BE_ATOMIC: U64;
 export declare const EVOTING_FORUM_ALREADY_REGISTERED: U64;
 export declare const PROPOSAL_STATE_FAILED: U64;
 export declare const PROPOSAL_STATE_PENDING: U64;
 export declare const PROPOSAL_STATE_SUCCEEDED: U64;
-export declare const RESOLVABLE_TIME_METADATA_KEY: U8[];
 export declare class CreateProposalEvent {
     typeTag: TypeTag;
     static moduleAddress: HexString;
@@ -150,17 +148,17 @@ export declare class VotingForum {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function can_be_resolved_early_(proposal: Proposal, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function create_proposal_(proposer: HexString, voting_forum_address: HexString, execution_content: any, execution_hash: U8[], min_vote_threshold: U128, expiration_secs: U64, early_resolution_vote_threshold: Option.Option, metadata: Simple_map.SimpleMap, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function get_execution_hash_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): U8[];
-export declare function get_proposal_expiration_secs_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function get_proposal_state_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): U64;
-export declare function is_resolved_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function is_voting_closed_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function is_voting_period_over_(proposal: Proposal, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function register_(account: HexString, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function resolve_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function vote_(_proof: any, voting_forum_address: HexString, proposal_id: U64, num_votes: U64, should_pass: boolean, $c: AptosDataCache, $p: TypeTag[]): void;
+export declare function can_be_resolved_early_(proposal: Proposal, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function create_proposal_(proposer: HexString, voting_forum_address: HexString, execution_content: any, execution_hash: U8[], min_vote_threshold: U128, expiration_secs: U64, early_resolution_vote_threshold: Option.Option, metadata: Simple_map.SimpleMap, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function get_execution_hash_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<U8[]>;
+export declare function get_proposal_expiration_secs_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function get_proposal_state_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<U64>;
+export declare function is_resolved_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function is_voting_closed_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function is_voting_period_over_(proposal: Proposal, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function register_(account: HexString, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function resolve_(voting_forum_address: HexString, proposal_id: U64, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function vote_(_proof: any, voting_forum_address: HexString, proposal_id: U64, num_votes: U64, should_pass: boolean, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -176,6 +174,6 @@ export declare class App {
     get VoteEvent(): typeof VoteEvent;
     get VotingEvents(): typeof VotingEvents;
     get VotingForum(): typeof VotingForum;
-    loadVotingForum(owner: HexString, $p: TypeTag[], /* <ProposalType> */ loadFull?: boolean): Promise<VotingForum>;
+    loadVotingForum(owner: HexString, $p: TypeTag[], /* <ProposalType> */ loadFull?: boolean, fillCache?: boolean): Promise<VotingForum>;
 }
 //# sourceMappingURL=voting.d.ts.map

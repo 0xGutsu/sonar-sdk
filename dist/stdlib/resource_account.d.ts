@@ -3,6 +3,7 @@ import { AptosDataCache, AptosParserRepo, AptosLocalCache } from "@manahippo/mov
 import { U8, U64 } from "@manahippo/move-to-ts";
 import { TypeParamDeclType, FieldDeclType } from "@manahippo/move-to-ts";
 import { StructTag, TypeTag } from "@manahippo/move-to-ts";
+import { OptionTransaction } from "@manahippo/move-to-ts";
 import { HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types } from "aptos";
 import * as Account from "./account";
 import * as Simple_map from "./simple_map";
@@ -27,14 +28,14 @@ export declare class Container {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_resource_account_(origin: HexString, seed: U8[], optional_auth_key: U8[], $c: AptosDataCache): void;
+export declare function create_resource_account_(origin: HexString, seed: U8[], optional_auth_key: U8[], $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_create_resource_account(seed: U8[], optional_auth_key: U8[], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function create_resource_account_and_fund_(origin: HexString, seed: U8[], optional_auth_key: U8[], fund_amount: U64, $c: AptosDataCache): void;
+export declare function create_resource_account_and_fund_(origin: HexString, seed: U8[], optional_auth_key: U8[], fund_amount: U64, $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_create_resource_account_and_fund(seed: U8[], optional_auth_key: U8[], fund_amount: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function create_resource_account_and_publish_package_(origin: HexString, seed: U8[], metadata_serialized: U8[], code: U8[][], $c: AptosDataCache): void;
+export declare function create_resource_account_and_publish_package_(origin: HexString, seed: U8[], metadata_serialized: U8[], code: U8[][], $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_create_resource_account_and_publish_package(seed: U8[], metadata_serialized: U8[], code: U8[][], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function retrieve_resource_account_cap_(resource: HexString, source_addr: HexString, $c: AptosDataCache): Account.SignerCapability;
-export declare function rotate_account_authentication_key_and_store_capability_(origin: HexString, resource: HexString, resource_signer_cap: Account.SignerCapability, optional_auth_key: U8[], $c: AptosDataCache): void;
+export declare function retrieve_resource_account_cap_(resource: HexString, source_addr: HexString, $c: AptosDataCache): Promise<Account.SignerCapability>;
+export declare function rotate_account_authentication_key_and_store_capability_(origin: HexString, resource: HexString, resource_signer_cap: Account.SignerCapability, optional_auth_key: U8[], $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -44,12 +45,12 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get Container(): typeof Container;
-    loadContainer(owner: HexString, loadFull?: boolean): Promise<Container>;
+    loadContainer(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<Container>;
     payload_create_resource_account(seed: U8[], optional_auth_key: U8[], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    create_resource_account(_account: AptosAccount, seed: U8[], optional_auth_key: U8[], _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    create_resource_account(_account: AptosAccount, seed: U8[], optional_auth_key: U8[], option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
     payload_create_resource_account_and_fund(seed: U8[], optional_auth_key: U8[], fund_amount: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    create_resource_account_and_fund(_account: AptosAccount, seed: U8[], optional_auth_key: U8[], fund_amount: U64, _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    create_resource_account_and_fund(_account: AptosAccount, seed: U8[], optional_auth_key: U8[], fund_amount: U64, option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
     payload_create_resource_account_and_publish_package(seed: U8[], metadata_serialized: U8[], code: U8[][], isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    create_resource_account_and_publish_package(_account: AptosAccount, seed: U8[], metadata_serialized: U8[], code: U8[][], _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    create_resource_account_and_publish_package(_account: AptosAccount, seed: U8[], metadata_serialized: U8[], code: U8[][], option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
 }
 //# sourceMappingURL=resource_account.d.ts.map

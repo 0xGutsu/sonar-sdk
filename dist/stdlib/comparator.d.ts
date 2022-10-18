@@ -24,11 +24,11 @@ export declare class Result {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function compare_(left: any, right: any, $c: AptosDataCache, $p: TypeTag[]): Result;
-export declare function compare_u8_vector_(left: U8[], right: U8[], $c: AptosDataCache): Result;
-export declare function is_equal_(result: Result, $c: AptosDataCache): boolean;
-export declare function is_greater_than_(result: Result, $c: AptosDataCache): boolean;
-export declare function is_smaller_than_(result: Result, $c: AptosDataCache): boolean;
+export declare function compare_(left: any, right: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Result>;
+export declare function compare_u8_vector_(left: U8[], right: U8[], $c: AptosDataCache): Promise<Result>;
+export declare function is_equal_(result: Result, $c: AptosDataCache): Promise<boolean>;
+export declare function is_greater_than_(result: Result, $c: AptosDataCache): Promise<boolean>;
+export declare function is_smaller_than_(result: Result, $c: AptosDataCache): Promise<boolean>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

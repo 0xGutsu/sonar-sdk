@@ -124,31 +124,37 @@ Version.fields = [
     { name: "major", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function initialize_(aptos_framework, initial_version, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(Version), aptos_framework, new Version({ major: $.copy(initial_version) }, new move_to_ts_2.SimpleStructTag(Version)));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(SetVersionCapability), aptos_framework, new SetVersionCapability({}, new move_to_ts_2.SimpleStructTag(SetVersionCapability)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Version), aptos_framework, new Version({ major: $.copy(initial_version) }, new move_to_ts_2.SimpleStructTag(Version)));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(SetVersionCapability), aptos_framework, new SetVersionCapability({}, new move_to_ts_2.SimpleStructTag(SetVersionCapability)));
+        return;
+    });
 }
 exports.initialize_ = initialize_;
 function initialize_for_test_(core_resources, $c) {
-    System_addresses.assert_core_resource_(core_resources, $c);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(SetVersionCapability), core_resources, new SetVersionCapability({}, new move_to_ts_2.SimpleStructTag(SetVersionCapability)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_core_resource_(core_resources, $c);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(SetVersionCapability), core_resources, new SetVersionCapability({}, new move_to_ts_2.SimpleStructTag(SetVersionCapability)));
+        return;
+    });
 }
 exports.initialize_for_test_ = initialize_for_test_;
 function set_version_(account, major, $c) {
-    let config, old_major;
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(SetVersionCapability), Signer.address_of_(account, $c))) {
-        throw $.abortCode(Error.permission_denied_($.copy(exports.ENOT_AUTHORIZED), $c));
-    }
-    old_major = $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(Version), new aptos_1.HexString("0x1")).major);
-    if (!($.copy(old_major)).lt($.copy(major))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_MAJOR_VERSION_NUMBER), $c));
-    }
-    config = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Version), new aptos_1.HexString("0x1"));
-    config.major = $.copy(major);
-    Reconfiguration.reconfigure_($c);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let config, old_major;
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(SetVersionCapability), yield Signer.address_of_(account, $c)))) {
+            throw $.abortCode(yield Error.permission_denied_($.copy(exports.ENOT_AUTHORIZED), $c));
+        }
+        old_major = $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Version), new aptos_1.HexString("0x1"))).major);
+        if (!($.copy(old_major)).lt($.copy(major))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_MAJOR_VERSION_NUMBER), $c));
+        }
+        config = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Version), new aptos_1.HexString("0x1"));
+        (config).major = $.copy(major);
+        yield Reconfiguration.reconfigure_($c);
+        return;
+    });
 }
 exports.set_version_ = set_version_;
 function buildPayload_set_version(major, isJSON = false) {
@@ -176,21 +182,27 @@ class App {
         return exports.moduleName;
     } }
     get SetVersionCapability() { return SetVersionCapability; }
-    loadSetVersionCapability(owner, loadFull = true) {
+    loadSetVersionCapability(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield SetVersionCapability.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get Version() { return Version; }
-    loadVersion(owner, loadFull = true) {
+    loadVersion(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Version.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -198,10 +210,10 @@ class App {
     payload_set_version(major, isJSON = false) {
         return buildPayload_set_version(major, isJSON);
     }
-    set_version(_account, major, _maxGas = 1000, _isJSON = false) {
+    set_version(_account, major, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_set_version(major, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_set_version(major, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

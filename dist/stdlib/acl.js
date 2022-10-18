@@ -72,39 +72,49 @@ ACL.fields = [
     { name: "list", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.Address) }
 ];
 function add_(acl, addr, $c) {
-    let temp$1, temp$2;
-    [temp$1, temp$2] = [acl.list, addr];
-    if (!!Vector.contains_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address])) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ECONTAIN), $c));
-    }
-    Vector.push_back_(acl.list, $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2;
+        [temp$1, temp$2] = [(acl).list, addr];
+        if (!!(yield Vector.contains_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address]))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ECONTAIN), $c));
+        }
+        yield Vector.push_back_((acl).list, $.copy(addr), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        return;
+    });
 }
 exports.add_ = add_;
 function assert_contains_(acl, addr, $c) {
-    if (!contains_(acl, $.copy(addr), $c)) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ENOT_CONTAIN), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield contains_(acl, $.copy(addr), $c))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ENOT_CONTAIN), $c));
+        }
+        return;
+    });
 }
 exports.assert_contains_ = assert_contains_;
 function contains_(acl, addr, $c) {
-    return Vector.contains_(acl.list, addr, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Vector.contains_((acl).list, addr, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+    });
 }
 exports.contains_ = contains_;
 function empty_($c) {
-    return new ACL({ list: Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(ACL));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new ACL({ list: yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Address]) }, new move_to_ts_2.SimpleStructTag(ACL));
+    });
 }
 exports.empty_ = empty_;
 function remove_(acl, addr, $c) {
-    let temp$1, temp$2, found, index;
-    [temp$1, temp$2] = [acl.list, addr];
-    [found, index] = Vector.index_of_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    if (!found) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.ENOT_CONTAIN), $c));
-    }
-    Vector.remove_(acl.list, $.copy(index), $c, [move_to_ts_2.AtomicTypeTag.Address]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, found, index;
+        [temp$1, temp$2] = [(acl).list, addr];
+        [found, index] = yield Vector.index_of_(temp$1, temp$2, $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        if (!found) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.ENOT_CONTAIN), $c));
+        }
+        yield Vector.remove_((acl).list, $.copy(index), $c, [move_to_ts_2.AtomicTypeTag.Address]);
+        return;
+    });
 }
 exports.remove_ = remove_;
 function loadParsers(repo) {

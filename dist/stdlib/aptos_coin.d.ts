@@ -3,6 +3,7 @@ import { AptosDataCache, AptosParserRepo, AptosLocalCache } from "@manahippo/mov
 import { U64 } from "@manahippo/move-to-ts";
 import { TypeParamDeclType, FieldDeclType } from "@manahippo/move-to-ts";
 import { StructTag, TypeTag } from "@manahippo/move-to-ts";
+import { OptionTransaction } from "@manahippo/move-to-ts";
 import { HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types } from "aptos";
 import * as Coin from "./coin";
 import * as Option from "./option";
@@ -73,16 +74,16 @@ export declare class MintCapStore {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function claim_mint_capability_(account: HexString, $c: AptosDataCache): void;
+export declare function claim_mint_capability_(account: HexString, $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_claim_mint_capability(isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function configure_accounts_for_test_(aptos_framework: HexString, core_resources: HexString, mint_cap: Coin.MintCapability, $c: AptosDataCache): void;
-export declare function delegate_mint_capability_(account: HexString, to: HexString, $c: AptosDataCache): void;
+export declare function configure_accounts_for_test_(aptos_framework: HexString, core_resources: HexString, mint_cap: Coin.MintCapability, $c: AptosDataCache): Promise<void>;
+export declare function delegate_mint_capability_(account: HexString, to: HexString, $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_delegate_mint_capability(to: HexString, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-export declare function destroy_mint_cap_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function find_delegation_(addr: HexString, $c: AptosDataCache): Option.Option;
-export declare function has_mint_capability_(account: HexString, $c: AptosDataCache): boolean;
-export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): [Coin.BurnCapability, Coin.MintCapability];
-export declare function mint_(account: HexString, dst_addr: HexString, amount: U64, $c: AptosDataCache): void;
+export declare function destroy_mint_cap_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function find_delegation_(addr: HexString, $c: AptosDataCache): Promise<Option.Option>;
+export declare function has_mint_capability_(account: HexString, $c: AptosDataCache): Promise<boolean>;
+export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): Promise<[Coin.BurnCapability, Coin.MintCapability]>;
+export declare function mint_(account: HexString, dst_addr: HexString, amount: U64, $c: AptosDataCache): Promise<void>;
 export declare function buildPayload_mint(dst_addr: HexString, amount: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
@@ -93,17 +94,17 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get AptosCoin(): typeof AptosCoin;
-    loadAptosCoin(owner: HexString, loadFull?: boolean): Promise<AptosCoin>;
+    loadAptosCoin(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<AptosCoin>;
     get DelegatedMintCapability(): typeof DelegatedMintCapability;
     get Delegations(): typeof Delegations;
-    loadDelegations(owner: HexString, loadFull?: boolean): Promise<Delegations>;
+    loadDelegations(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<Delegations>;
     get MintCapStore(): typeof MintCapStore;
-    loadMintCapStore(owner: HexString, loadFull?: boolean): Promise<MintCapStore>;
+    loadMintCapStore(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<MintCapStore>;
     payload_claim_mint_capability(isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    claim_mint_capability(_account: AptosAccount, _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    claim_mint_capability(_account: AptosAccount, option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
     payload_delegate_mint_capability(to: HexString, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    delegate_mint_capability(_account: AptosAccount, to: HexString, _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    delegate_mint_capability(_account: AptosAccount, to: HexString, option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
     payload_mint(dst_addr: HexString, amount: U64, isJSON?: boolean): TxnBuilderTypes.TransactionPayloadEntryFunction | Types.TransactionPayload_EntryFunctionPayload;
-    mint(_account: AptosAccount, dst_addr: HexString, amount: U64, _maxGas?: number, _isJSON?: boolean): Promise<Types.UserTransaction>;
+    mint(_account: AptosAccount, dst_addr: HexString, amount: U64, option?: OptionTransaction, _isJSON?: boolean): Promise<Types.UserTransaction>;
 }
 //# sourceMappingURL=aptos_coin.d.ts.map

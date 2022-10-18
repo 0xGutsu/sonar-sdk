@@ -74,31 +74,43 @@ EventHandle.fields = [
     { name: "guid", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "guid", "GUID", []) }
 ];
 function counter_(handle_ref, $c, $p) {
-    return $.copy(handle_ref.counter);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((handle_ref).counter);
+    });
 }
 exports.counter_ = counter_;
 function destroy_handle_(handle, $c, $p) {
-    handle;
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        handle;
+        return;
+    });
 }
 exports.destroy_handle_ = destroy_handle_;
 function emit_event_(handle_ref, msg, $c, $p) {
-    write_to_event_store_(Bcs.to_bytes_(handle_ref.guid, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "guid", "GUID", [])]), $.copy(handle_ref.counter), msg, $c, [$p[0]]);
-    ;
-    handle_ref.counter = ($.copy(handle_ref.counter)).add((0, move_to_ts_1.u64)("1"));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield write_to_event_store_(yield Bcs.to_bytes_((handle_ref).guid, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "guid", "GUID", [])]), $.copy((handle_ref).counter), msg, $c, [$p[0]]);
+        ;
+        (handle_ref).counter = ($.copy((handle_ref).counter)).add((0, move_to_ts_1.u64)("1"));
+        return;
+    });
 }
 exports.emit_event_ = emit_event_;
 function guid_(handle_ref, $c, $p) {
-    return handle_ref.guid;
+    return __awaiter(this, void 0, void 0, function* () {
+        return (handle_ref).guid;
+    });
 }
 exports.guid_ = guid_;
 function new_event_handle_(guid, $c, $p) {
-    return new EventHandle({ counter: (0, move_to_ts_1.u64)("0"), guid: guid }, new move_to_ts_2.SimpleStructTag(EventHandle, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new EventHandle({ counter: (0, move_to_ts_1.u64)("0"), guid: guid }, new move_to_ts_2.SimpleStructTag(EventHandle, [$p[0]]));
+    });
 }
 exports.new_event_handle_ = new_event_handle_;
 function write_to_event_store_(guid, count, msg, $c, $p) {
-    return $.aptos_std_event_write_to_event_store(guid, count, msg, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_event_write_to_event_store(guid, count, msg, $c, [$p[0]]);
+    });
 }
 exports.write_to_event_store_ = write_to_event_store_;
 function loadParsers(repo) {

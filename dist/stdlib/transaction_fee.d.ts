@@ -24,8 +24,8 @@ export declare class AptosCoinCapabilities {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function burn_fee_(account: HexString, fee: U64, $c: AptosDataCache): void;
-export declare function store_aptos_coin_burn_cap_(aptos_framework: HexString, burn_cap: Coin.BurnCapability, $c: AptosDataCache): void;
+export declare function burn_fee_(account: HexString, fee: U64, $c: AptosDataCache): Promise<void>;
+export declare function store_aptos_coin_burn_cap_(aptos_framework: HexString, burn_cap: Coin.BurnCapability, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -35,6 +35,6 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get AptosCoinCapabilities(): typeof AptosCoinCapabilities;
-    loadAptosCoinCapabilities(owner: HexString, loadFull?: boolean): Promise<AptosCoinCapabilities>;
+    loadAptosCoinCapabilities(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<AptosCoinCapabilities>;
 }
 //# sourceMappingURL=transaction_fee.d.ts.map

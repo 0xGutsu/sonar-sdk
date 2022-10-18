@@ -56,11 +56,11 @@ export declare class Usage {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function current_items_and_bytes_($c: AptosDataCache): [U64, U64];
-export declare function get_state_storage_usage_only_at_epoch_beginning_($c: AptosDataCache): Usage;
-export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function on_new_block_(epoch: U64, $c: AptosDataCache): void;
-export declare function on_reconfig_($c: AptosDataCache): void;
+export declare function current_items_and_bytes_($c: AptosDataCache): Promise<[U64, U64]>;
+export declare function get_state_storage_usage_only_at_epoch_beginning_($c: AptosDataCache): Promise<Usage>;
+export declare function initialize_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function on_new_block_(epoch: U64, $c: AptosDataCache): Promise<void>;
+export declare function on_reconfig_($c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -70,9 +70,9 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get GasParameter(): typeof GasParameter;
-    loadGasParameter(owner: HexString, loadFull?: boolean): Promise<GasParameter>;
+    loadGasParameter(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<GasParameter>;
     get StateStorageUsage(): typeof StateStorageUsage;
-    loadStateStorageUsage(owner: HexString, loadFull?: boolean): Promise<StateStorageUsage>;
+    loadStateStorageUsage(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<StateStorageUsage>;
     get Usage(): typeof Usage;
 }
 //# sourceMappingURL=state_storage.d.ts.map

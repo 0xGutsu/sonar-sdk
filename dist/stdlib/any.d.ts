@@ -24,9 +24,9 @@ export declare class Any {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function pack_(x: any, $c: AptosDataCache, $p: TypeTag[]): Any;
-export declare function type_name_(x: Any, $c: AptosDataCache): String.String;
-export declare function unpack_(x: Any, $c: AptosDataCache, $p: TypeTag[]): any;
+export declare function pack_(x: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Any>;
+export declare function type_name_(x: Any, $c: AptosDataCache): Promise<String.String>;
+export declare function unpack_(x: Any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

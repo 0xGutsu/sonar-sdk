@@ -75,116 +75,130 @@ BitVector.fields = [
     { name: "bit_field", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.Bool) }
 ];
 function is_index_set_(bitvector, bit_index, $c) {
-    if (!($.copy(bit_index)).lt(Vector.length_(bitvector.bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
-        throw $.abortCode($.copy(exports.EINDEX));
-    }
-    return $.copy(Vector.borrow_(bitvector.bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy(bit_index)).lt(yield Vector.length_((bitvector).bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
+            throw $.abortCode($.copy(exports.EINDEX));
+        }
+        return $.copy(yield Vector.borrow_((bitvector).bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]));
+    });
 }
 exports.is_index_set_ = is_index_set_;
 function length_(bitvector, $c) {
-    return Vector.length_(bitvector.bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Vector.length_((bitvector).bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+    });
 }
 exports.length_ = length_;
 function longest_set_sequence_starting_at_(bitvector, start_index, $c) {
-    let index;
-    if (!($.copy(start_index)).lt($.copy(bitvector.length))) {
-        throw $.abortCode($.copy(exports.EINDEX));
-    }
-    index = $.copy(start_index);
-    while (($.copy(index)).lt($.copy(bitvector.length))) {
-        {
-            if (!is_index_set_(bitvector, $.copy(index), $c)) {
-                break;
-            }
-            else {
-            }
-            index = ($.copy(index)).add((0, move_to_ts_1.u64)("1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        let index;
+        if (!($.copy(start_index)).lt($.copy((bitvector).length))) {
+            throw $.abortCode($.copy(exports.EINDEX));
         }
-    }
-    return ($.copy(index)).sub($.copy(start_index));
+        index = $.copy(start_index);
+        while (($.copy(index)).lt($.copy((bitvector).length))) {
+            {
+                if (!(yield is_index_set_(bitvector, $.copy(index), $c))) {
+                    break;
+                }
+                else {
+                }
+                index = ($.copy(index)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        return ($.copy(index)).sub($.copy(start_index));
+    });
 }
 exports.longest_set_sequence_starting_at_ = longest_set_sequence_starting_at_;
 function new___(length, $c) {
-    let bit_field, counter;
-    if (!($.copy(length)).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode($.copy(exports.ELENGTH));
-    }
-    if (!($.copy(length)).lt($.copy(exports.MAX_SIZE))) {
-        throw $.abortCode($.copy(exports.ELENGTH));
-    }
-    counter = (0, move_to_ts_1.u64)("0");
-    bit_field = Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Bool]);
-    while (true) {
-        {
-            ;
+    return __awaiter(this, void 0, void 0, function* () {
+        let bit_field, counter;
+        if (!($.copy(length)).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode($.copy(exports.ELENGTH));
         }
-        if (!(($.copy(counter)).lt($.copy(length))))
-            break;
-        {
-            Vector.push_back_(bit_field, false, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
-            counter = ($.copy(counter)).add((0, move_to_ts_1.u64)("1"));
+        if (!($.copy(length)).lt($.copy(exports.MAX_SIZE))) {
+            throw $.abortCode($.copy(exports.ELENGTH));
         }
-    }
-    ;
-    return new BitVector({ length: $.copy(length), bit_field: $.copy(bit_field) }, new move_to_ts_2.SimpleStructTag(BitVector));
+        counter = (0, move_to_ts_1.u64)("0");
+        bit_field = yield Vector.empty_($c, [move_to_ts_2.AtomicTypeTag.Bool]);
+        while (true) {
+            {
+                ;
+            }
+            if (!(($.copy(counter)).lt($.copy(length))))
+                break;
+            {
+                yield Vector.push_back_(bit_field, false, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+                counter = ($.copy(counter)).add((0, move_to_ts_1.u64)("1"));
+            }
+        }
+        ;
+        return new BitVector({ length: $.copy(length), bit_field: $.copy(bit_field) }, new move_to_ts_2.SimpleStructTag(BitVector));
+    });
 }
 exports.new___ = new___;
 function set_(bitvector, bit_index, $c) {
-    let x;
-    if (!($.copy(bit_index)).lt(Vector.length_(bitvector.bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
-        throw $.abortCode($.copy(exports.EINDEX));
-    }
-    x = Vector.borrow_mut_(bitvector.bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
-    $.set(x, true);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let x;
+        if (!($.copy(bit_index)).lt(yield Vector.length_((bitvector).bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
+            throw $.abortCode($.copy(exports.EINDEX));
+        }
+        x = yield Vector.borrow_mut_((bitvector).bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+        $.set(x, true);
+        return;
+    });
 }
 exports.set_ = set_;
 function shift_left_(bitvector, amount, $c) {
-    let temp$2, temp$3, elem, i, i__1, len;
-    if (($.copy(amount)).ge($.copy(bitvector.length))) {
-        len = Vector.length_(bitvector.bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
-        i = (0, move_to_ts_1.u64)("0");
-        while (($.copy(i)).lt($.copy(len))) {
-            {
-                elem = Vector.borrow_mut_(bitvector.bit_field, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
-                $.set(elem, false);
-                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
-            }
-        }
-    }
-    else {
-        i__1 = $.copy(amount);
-        while (($.copy(i__1)).lt($.copy(bitvector.length))) {
-            {
-                [temp$2, temp$3] = [bitvector, $.copy(i__1)];
-                if (is_index_set_(temp$2, temp$3, $c)) {
-                    set_(bitvector, ($.copy(i__1)).sub($.copy(amount)), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$2, temp$3, elem, i, i__1, len;
+        if (($.copy(amount)).ge($.copy((bitvector).length))) {
+            len = yield Vector.length_((bitvector).bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+            i = (0, move_to_ts_1.u64)("0");
+            while (($.copy(i)).lt($.copy(len))) {
+                {
+                    elem = yield Vector.borrow_mut_((bitvector).bit_field, $.copy(i), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+                    $.set(elem, false);
+                    i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
                 }
-                else {
-                    unset_(bitvector, ($.copy(i__1)).sub($.copy(amount)), $c);
+            }
+        }
+        else {
+            i__1 = $.copy(amount);
+            while (($.copy(i__1)).lt($.copy((bitvector).length))) {
+                {
+                    [temp$2, temp$3] = [bitvector, $.copy(i__1)];
+                    if (yield is_index_set_(temp$2, temp$3, $c)) {
+                        yield set_(bitvector, ($.copy(i__1)).sub($.copy(amount)), $c);
+                    }
+                    else {
+                        yield unset_(bitvector, ($.copy(i__1)).sub($.copy(amount)), $c);
+                    }
+                    i__1 = ($.copy(i__1)).add((0, move_to_ts_1.u64)("1"));
                 }
-                i__1 = ($.copy(i__1)).add((0, move_to_ts_1.u64)("1"));
+            }
+            i__1 = ($.copy((bitvector).length)).sub($.copy(amount));
+            while (($.copy(i__1)).lt($.copy((bitvector).length))) {
+                {
+                    yield unset_(bitvector, $.copy(i__1), $c);
+                    i__1 = ($.copy(i__1)).add((0, move_to_ts_1.u64)("1"));
+                }
             }
         }
-        i__1 = ($.copy(bitvector.length)).sub($.copy(amount));
-        while (($.copy(i__1)).lt($.copy(bitvector.length))) {
-            {
-                unset_(bitvector, $.copy(i__1), $c);
-                i__1 = ($.copy(i__1)).add((0, move_to_ts_1.u64)("1"));
-            }
-        }
-    }
-    return;
+        return;
+    });
 }
 exports.shift_left_ = shift_left_;
 function unset_(bitvector, bit_index, $c) {
-    let x;
-    if (!($.copy(bit_index)).lt(Vector.length_(bitvector.bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
-        throw $.abortCode($.copy(exports.EINDEX));
-    }
-    x = Vector.borrow_mut_(bitvector.bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
-    $.set(x, false);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let x;
+        if (!($.copy(bit_index)).lt(yield Vector.length_((bitvector).bit_field, $c, [move_to_ts_2.AtomicTypeTag.Bool]))) {
+            throw $.abortCode($.copy(exports.EINDEX));
+        }
+        x = yield Vector.borrow_mut_((bitvector).bit_field, $.copy(bit_index), $c, [move_to_ts_2.AtomicTypeTag.Bool]);
+        $.set(x, false);
+        return;
+    });
 }
 exports.unset_ = unset_;
 function loadParsers(repo) {

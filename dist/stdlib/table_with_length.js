@@ -79,73 +79,95 @@ TableWithLength.fields = [
     { name: "length", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function add_(table, key, val, $c, $p) {
-    Table.add_(table.inner, $.copy(key), val, $c, [$p[0], $p[1]]);
-    table.length = ($.copy(table.length)).add((0, move_to_ts_1.u64)("1"));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Table.add_((table).inner, $.copy(key), val, $c, [$p[0], $p[1]]);
+        (table).length = ($.copy((table).length)).add((0, move_to_ts_1.u64)("1"));
+        return;
+    });
 }
 exports.add_ = add_;
 function borrow_(table, key, $c, $p) {
-    return Table.borrow_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Table.borrow_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.borrow_ = borrow_;
 function borrow_mut_(table, key, $c, $p) {
-    return Table.borrow_mut_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Table.borrow_mut_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.borrow_mut_ = borrow_mut_;
 function borrow_mut_with_default_(table, key, default__, $c, $p) {
-    let temp$1;
-    if (Table.contains_(table.inner, $.copy(key), $c, [$p[0], $p[1]])) {
-        temp$1 = Table.borrow_mut_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
-    }
-    else {
-        Table.add_(table.inner, $.copy(key), default__, $c, [$p[0], $p[1]]);
-        table.length = ($.copy(table.length)).add((0, move_to_ts_1.u64)("1"));
-        temp$1 = Table.borrow_mut_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield Table.contains_((table).inner, $.copy(key), $c, [$p[0], $p[1]])) {
+            temp$1 = yield Table.borrow_mut_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+        }
+        else {
+            yield Table.add_((table).inner, $.copy(key), default__, $c, [$p[0], $p[1]]);
+            (table).length = ($.copy((table).length)).add((0, move_to_ts_1.u64)("1"));
+            temp$1 = yield Table.borrow_mut_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+        }
+        return temp$1;
+    });
 }
 exports.borrow_mut_with_default_ = borrow_mut_with_default_;
 function contains_(table, key, $c, $p) {
-    return Table.contains_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield Table.contains_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+    });
 }
 exports.contains_ = contains_;
 function destroy_empty_(table, $c, $p) {
-    if (!($.copy(table.length)).eq(((0, move_to_ts_1.u64)("0")))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ENOT_EMPTY), $c));
-    }
-    let { inner: inner } = table;
-    return Table.destroy_(inner, $c, [$p[0], $p[1]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!($.copy((table).length)).eq(((0, move_to_ts_1.u64)("0")))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ENOT_EMPTY), $c));
+        }
+        let { inner: inner } = table;
+        return yield Table.destroy_(inner, $c, [$p[0], $p[1]]);
+    });
 }
 exports.destroy_empty_ = destroy_empty_;
 function empty_(table, $c, $p) {
-    return ($.copy(table.length)).eq(((0, move_to_ts_1.u64)("0")));
+    return __awaiter(this, void 0, void 0, function* () {
+        return ($.copy((table).length)).eq(((0, move_to_ts_1.u64)("0")));
+    });
 }
 exports.empty_ = empty_;
 function length_(table, $c, $p) {
-    return $.copy(table.length);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((table).length);
+    });
 }
 exports.length_ = length_;
 function new___($c, $p) {
-    return new TableWithLength({ inner: Table.new___($c, [$p[0], $p[1]]), length: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(TableWithLength, [$p[0], $p[1]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new TableWithLength({ inner: yield Table.new___($c, [$p[0], $p[1]]), length: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(TableWithLength, [$p[0], $p[1]]));
+    });
 }
 exports.new___ = new___;
 function remove_(table, key, $c, $p) {
-    let val;
-    val = Table.remove_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
-    table.length = ($.copy(table.length)).sub((0, move_to_ts_1.u64)("1"));
-    return val;
+    return __awaiter(this, void 0, void 0, function* () {
+        let val;
+        val = yield Table.remove_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+        (table).length = ($.copy((table).length)).sub((0, move_to_ts_1.u64)("1"));
+        return val;
+    });
 }
 exports.remove_ = remove_;
 function upsert_(table, key, value, $c, $p) {
-    let ref;
-    if (!Table.contains_(table.inner, $.copy(key), $c, [$p[0], $p[1]])) {
-        add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
-    }
-    else {
-        ref = Table.borrow_mut_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
-        $.set(ref, value);
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let ref;
+        if (!(yield Table.contains_((table).inner, $.copy(key), $c, [$p[0], $p[1]]))) {
+            yield add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
+        }
+        else {
+            ref = yield Table.borrow_mut_((table).inner, $.copy(key), $c, [$p[0], $p[1]]);
+            $.set(ref, value);
+        }
+        return;
+    });
 }
 exports.upsert_ = upsert_;
 function loadParsers(repo) {

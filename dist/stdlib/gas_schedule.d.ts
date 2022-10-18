@@ -59,9 +59,9 @@ export declare class GasScheduleV2 {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function initialize_(aptos_framework: HexString, gas_schedule_blob: U8[], $c: AptosDataCache): void;
-export declare function set_gas_schedule_(aptos_framework: HexString, gas_schedule_blob: U8[], $c: AptosDataCache): void;
-export declare function set_storage_gas_config_(aptos_framework: HexString, config: Storage_gas.StorageGasConfig, $c: AptosDataCache): void;
+export declare function initialize_(aptos_framework: HexString, gas_schedule_blob: U8[], $c: AptosDataCache): Promise<void>;
+export declare function set_gas_schedule_(aptos_framework: HexString, gas_schedule_blob: U8[], $c: AptosDataCache): Promise<void>;
+export declare function set_storage_gas_config_(aptos_framework: HexString, config: Storage_gas.StorageGasConfig, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -72,8 +72,8 @@ export declare class App {
     get moduleName(): string;
     get GasEntry(): typeof GasEntry;
     get GasSchedule(): typeof GasSchedule;
-    loadGasSchedule(owner: HexString, loadFull?: boolean): Promise<GasSchedule>;
+    loadGasSchedule(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<GasSchedule>;
     get GasScheduleV2(): typeof GasScheduleV2;
-    loadGasScheduleV2(owner: HexString, loadFull?: boolean): Promise<GasScheduleV2>;
+    loadGasScheduleV2(owner: HexString, loadFull?: boolean, fillCache?: boolean): Promise<GasScheduleV2>;
 }
 //# sourceMappingURL=gas_schedule.d.ts.map

@@ -168,87 +168,121 @@ ValidatedPublicKey.fields = [
     { name: "bytes", typeTag: new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8) }
 ];
 function new_signature_from_bytes_(bytes, $c) {
-    if (!(Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(($.copy(exports.SIGNATURE_NUM_BYTES)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.E_WRONG_SIGNATURE_SIZE), $c));
-    }
-    return new Signature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Signature));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(($.copy(exports.SIGNATURE_NUM_BYTES)))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.E_WRONG_SIGNATURE_SIZE), $c));
+        }
+        return new Signature({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(Signature));
+    });
 }
 exports.new_signature_from_bytes_ = new_signature_from_bytes_;
 function new_signed_message_(data, $c, $p) {
-    return new SignedMessage({ type_info: Type_info.type_of_($c, [$p[0]]), inner: data }, new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]]));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new SignedMessage({ type_info: yield Type_info.type_of_($c, [$p[0]]), inner: data }, new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]]));
+    });
 }
 exports.new_signed_message_ = new_signed_message_;
 function new_unvalidated_public_key_from_bytes_(bytes, $c) {
-    if (!(Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(($.copy(exports.PUBLIC_KEY_NUM_BYTES)))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.E_WRONG_PUBKEY_SIZE), $c));
-    }
-    return new UnvalidatedPublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield Vector.length_(bytes, $c, [move_to_ts_2.AtomicTypeTag.U8])).eq(($.copy(exports.PUBLIC_KEY_NUM_BYTES)))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.E_WRONG_PUBKEY_SIZE), $c));
+        }
+        return new UnvalidatedPublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    });
 }
 exports.new_unvalidated_public_key_from_bytes_ = new_unvalidated_public_key_from_bytes_;
 function new_validated_public_key_from_bytes_(bytes, $c) {
-    let temp$1;
-    if (public_key_validate_internal_($.copy(bytes), $c)) {
-        temp$1 = Option.some_(new ValidatedPublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)), $c, [new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)]);
-    }
-    else {
-        temp$1 = Option.none_($c, [new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1;
+        if (yield public_key_validate_internal_($.copy(bytes), $c)) {
+            temp$1 = yield Option.some_(new ValidatedPublicKey({ bytes: $.copy(bytes) }, new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)), $c, [new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)]);
+        }
+        else {
+            temp$1 = yield Option.none_($c, [new move_to_ts_2.SimpleStructTag(ValidatedPublicKey)]);
+        }
+        return temp$1;
+    });
 }
 exports.new_validated_public_key_from_bytes_ = new_validated_public_key_from_bytes_;
 function public_key_bytes_to_authentication_key_(pk_bytes, $c) {
-    Vector.push_back_(pk_bytes, $.copy(exports.SIGNATURE_SCHEME_ID), $c, [move_to_ts_2.AtomicTypeTag.U8]);
-    return Hash.sha3_256_($.copy(pk_bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield Vector.push_back_(pk_bytes, $.copy(exports.SIGNATURE_SCHEME_ID), $c, [move_to_ts_2.AtomicTypeTag.U8]);
+        return yield Hash.sha3_256_($.copy(pk_bytes), $c);
+    });
 }
 exports.public_key_bytes_to_authentication_key_ = public_key_bytes_to_authentication_key_;
 function public_key_into_unvalidated_(pk, $c) {
-    return new UnvalidatedPublicKey({ bytes: $.copy(pk.bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new UnvalidatedPublicKey({ bytes: $.copy((pk).bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    });
 }
 exports.public_key_into_unvalidated_ = public_key_into_unvalidated_;
 function public_key_to_unvalidated_(pk, $c) {
-    return new UnvalidatedPublicKey({ bytes: $.copy(pk.bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    return __awaiter(this, void 0, void 0, function* () {
+        return new UnvalidatedPublicKey({ bytes: $.copy((pk).bytes) }, new move_to_ts_2.SimpleStructTag(UnvalidatedPublicKey));
+    });
 }
 exports.public_key_to_unvalidated_ = public_key_to_unvalidated_;
 function public_key_validate_(pk, $c) {
-    return new_validated_public_key_from_bytes_($.copy(pk.bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield new_validated_public_key_from_bytes_($.copy((pk).bytes), $c);
+    });
 }
 exports.public_key_validate_ = public_key_validate_;
 function public_key_validate_internal_(bytes, $c) {
-    return $.aptos_std_ed25519_public_key_validate_internal(bytes, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_ed25519_public_key_validate_internal(bytes, $c);
+    });
 }
 exports.public_key_validate_internal_ = public_key_validate_internal_;
 function signature_to_bytes_(sig, $c) {
-    return $.copy(sig.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((sig).bytes);
+    });
 }
 exports.signature_to_bytes_ = signature_to_bytes_;
 function signature_verify_strict_(signature, public_key, message, $c) {
-    return signature_verify_strict_internal_($.copy(signature.bytes), $.copy(public_key.bytes), $.copy(message), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield signature_verify_strict_internal_($.copy((signature).bytes), $.copy((public_key).bytes), $.copy(message), $c);
+    });
 }
 exports.signature_verify_strict_ = signature_verify_strict_;
 function signature_verify_strict_internal_(signature, public_key, message, $c) {
-    return $.aptos_std_ed25519_signature_verify_strict_internal(signature, public_key, message, $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.aptos_std_ed25519_signature_verify_strict_internal(signature, public_key, message, $c);
+    });
 }
 exports.signature_verify_strict_internal_ = signature_verify_strict_internal_;
 function signature_verify_strict_t_(signature, public_key, data, $c, $p) {
-    let encoded;
-    encoded = new SignedMessage({ type_info: Type_info.type_of_($c, [$p[0]]), inner: data }, new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]]));
-    return signature_verify_strict_internal_($.copy(signature.bytes), $.copy(public_key.bytes), Bcs.to_bytes_(encoded, $c, [new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]])]), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        let encoded;
+        encoded = new SignedMessage({ type_info: yield Type_info.type_of_($c, [$p[0]]), inner: data }, new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]]));
+        return yield signature_verify_strict_internal_($.copy((signature).bytes), $.copy((public_key).bytes), yield Bcs.to_bytes_(encoded, $c, [new move_to_ts_2.SimpleStructTag(SignedMessage, [$p[0]])]), $c);
+    });
 }
 exports.signature_verify_strict_t_ = signature_verify_strict_t_;
 function unvalidated_public_key_to_authentication_key_(pk, $c) {
-    return public_key_bytes_to_authentication_key_($.copy(pk.bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield public_key_bytes_to_authentication_key_($.copy((pk).bytes), $c);
+    });
 }
 exports.unvalidated_public_key_to_authentication_key_ = unvalidated_public_key_to_authentication_key_;
 function unvalidated_public_key_to_bytes_(pk, $c) {
-    return $.copy(pk.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pk).bytes);
+    });
 }
 exports.unvalidated_public_key_to_bytes_ = unvalidated_public_key_to_bytes_;
 function validated_public_key_to_authentication_key_(pk, $c) {
-    return public_key_bytes_to_authentication_key_($.copy(pk.bytes), $c);
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield public_key_bytes_to_authentication_key_($.copy((pk).bytes), $c);
+    });
 }
 exports.validated_public_key_to_authentication_key_ = validated_public_key_to_authentication_key_;
 function validated_public_key_to_bytes_(pk, $c) {
-    return $.copy(pk.bytes);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((pk).bytes);
+    });
 }
 exports.validated_public_key_to_bytes_ = validated_public_key_to_bytes_;
 function loadParsers(repo) {

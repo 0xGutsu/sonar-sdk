@@ -4,7 +4,7 @@ import { TypeParamDeclType, FieldDeclType } from "@manahippo/move-to-ts";
 import { StructTag, TypeTag } from "@manahippo/move-to-ts";
 import { HexString, AptosClient } from "aptos";
 import * as Stdlib from "../stdlib";
-export declare const packageName = "Nexus";
+export declare const packageName = "nexus";
 export declare const moduleAddress: HexString;
 export declare const moduleName = "open_table";
 export declare class OpenTable {
@@ -22,11 +22,11 @@ export declare class OpenTable {
     static makeTag($p: TypeTag[]): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(open_table: OpenTable, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function borrow_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_mut_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function contains_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function empty_($c: AptosDataCache, $p: TypeTag[]): OpenTable;
+export declare function add_(open_table: OpenTable, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function borrow_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_mut_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function contains_(open_table: OpenTable, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function empty_($c: AptosDataCache, $p: TypeTag[]): Promise<OpenTable>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

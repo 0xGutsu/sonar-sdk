@@ -86,38 +86,46 @@ CurrentTimeMicroseconds.fields = [
     { name: "microseconds", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function now_microseconds_($c) {
-    return $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), new aptos_1.HexString("0x1")).microseconds);
+    return __awaiter(this, void 0, void 0, function* () {
+        return $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), new aptos_1.HexString("0x1"))).microseconds);
+    });
 }
 exports.now_microseconds_ = now_microseconds_;
 function now_seconds_($c) {
-    return (now_microseconds_($c)).div($.copy(exports.MICRO_CONVERSION_FACTOR));
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield now_microseconds_($c)).div($.copy(exports.MICRO_CONVERSION_FACTOR));
+    });
 }
 exports.now_seconds_ = now_seconds_;
 function set_time_has_started_(aptos_framework, $c) {
-    let timer;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    timer = new CurrentTimeMicroseconds({ microseconds: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), aptos_framework, timer);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let timer;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        timer = new CurrentTimeMicroseconds({ microseconds: (0, move_to_ts_1.u64)("0") }, new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), aptos_framework, timer);
+        return;
+    });
 }
 exports.set_time_has_started_ = set_time_has_started_;
 function update_global_time_(account, proposer, timestamp, $c) {
-    let global_timer, now;
-    System_addresses.assert_vm_(account, $c);
-    global_timer = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), new aptos_1.HexString("0x1"));
-    now = $.copy(global_timer.microseconds);
-    if ((($.copy(proposer)).hex() === (new aptos_1.HexString("0x0")).hex())) {
-        if (!($.copy(now)).eq(($.copy(timestamp)))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_TIMESTAMP), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let global_timer, now;
+        yield System_addresses.assert_vm_(account, $c);
+        global_timer = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(CurrentTimeMicroseconds), new aptos_1.HexString("0x1"));
+        now = $.copy((global_timer).microseconds);
+        if ((($.copy(proposer)).hex() === (new aptos_1.HexString("0x0")).hex())) {
+            if (!($.copy(now)).eq(($.copy(timestamp)))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_TIMESTAMP), $c));
+            }
         }
-    }
-    else {
-        if (!($.copy(now)).lt($.copy(timestamp))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_TIMESTAMP), $c));
+        else {
+            if (!($.copy(now)).lt($.copy(timestamp))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_TIMESTAMP), $c));
+            }
         }
-        global_timer.microseconds = $.copy(timestamp);
-    }
-    return;
+        (global_timer).microseconds = $.copy(timestamp);
+        return;
+    });
 }
 exports.update_global_time_ = update_global_time_;
 function loadParsers(repo) {
@@ -137,11 +145,14 @@ class App {
         return exports.moduleName;
     } }
     get CurrentTimeMicroseconds() { return CurrentTimeMicroseconds; }
-    loadCurrentTimeMicroseconds(owner, loadFull = true) {
+    loadCurrentTimeMicroseconds(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield CurrentTimeMicroseconds.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

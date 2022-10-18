@@ -196,17 +196,19 @@ MintCapStore.fields = [
     { name: "mint_cap", typeTag: new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "coin", "MintCapability", [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "aptos_coin", "AptosCoin", [])]) }
 ];
 function claim_mint_capability_(account, $c) {
-    let delegations, idx, maybe_index, mint_cap;
-    maybe_index = find_delegation_(Signer.address_of_(account, $c), $c);
-    if (!Option.is_some_(maybe_index, $c, [move_to_ts_2.AtomicTypeTag.U64])) {
-        throw $.abortCode($.copy(exports.EDELEGATION_NOT_FOUND));
-    }
-    idx = $.copy(Option.borrow_(maybe_index, $c, [move_to_ts_2.AtomicTypeTag.U64]));
-    delegations = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18")).inner;
-    Vector.swap_remove_(delegations, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
-    mint_cap = $.copy($c.borrow_global(new move_to_ts_2.SimpleStructTag(MintCapStore), new aptos_1.HexString("0xa550c18")).mint_cap);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(MintCapStore), account, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let delegations, idx, maybe_index, mint_cap;
+        maybe_index = yield find_delegation_(yield Signer.address_of_(account, $c), $c);
+        if (!(yield Option.is_some_(maybe_index, $c, [move_to_ts_2.AtomicTypeTag.U64]))) {
+            throw $.abortCode($.copy(exports.EDELEGATION_NOT_FOUND));
+        }
+        idx = $.copy(yield Option.borrow_(maybe_index, $c, [move_to_ts_2.AtomicTypeTag.U64]));
+        delegations = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18"))).inner;
+        yield Vector.swap_remove_(delegations, $.copy(idx), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
+        mint_cap = $.copy((yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(MintCapStore), new aptos_1.HexString("0xa550c18"))).mint_cap);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(MintCapStore), account, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
+        return;
+    });
 }
 exports.claim_mint_capability_ = claim_mint_capability_;
 function buildPayload_claim_mint_capability(isJSON = false) {
@@ -215,33 +217,37 @@ function buildPayload_claim_mint_capability(isJSON = false) {
 }
 exports.buildPayload_claim_mint_capability = buildPayload_claim_mint_capability;
 function configure_accounts_for_test_(aptos_framework, core_resources, mint_cap, $c) {
-    let coins;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    Coin.register_(core_resources, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    coins = Coin.mint_((0, move_to_ts_1.u64)("18446744073709551615"), mint_cap, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    Coin.deposit_(Signer.address_of_(core_resources, $c), coins, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(MintCapStore), core_resources, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
-    $c.move_to(new move_to_ts_2.SimpleStructTag(Delegations), core_resources, new Delegations({ inner: Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]) }, new move_to_ts_2.SimpleStructTag(Delegations)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let coins;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield Coin.register_(core_resources, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        coins = yield Coin.mint_((0, move_to_ts_1.u64)("18446744073709551615"), mint_cap, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        yield Coin.deposit_(yield Signer.address_of_(core_resources, $c), coins, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(MintCapStore), core_resources, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(Delegations), core_resources, new Delegations({ inner: yield Vector.empty_($c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]) }, new move_to_ts_2.SimpleStructTag(Delegations)));
+        return;
+    });
 }
 exports.configure_accounts_for_test_ = configure_accounts_for_test_;
 function delegate_mint_capability_(account, to, $c) {
-    let temp$1, temp$2, delegations, element, i;
-    System_addresses.assert_core_resource_(account, $c);
-    delegations = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18")).inner;
-    i = (0, move_to_ts_1.u64)("0");
-    while (($.copy(i)).lt(Vector.length_(delegations, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]))) {
-        {
-            [temp$1, temp$2] = [delegations, $.copy(i)];
-            element = Vector.borrow_(temp$1, temp$2, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
-            if (!(($.copy(element.to)).hex() !== ($.copy(to)).hex())) {
-                throw $.abortCode(Error.invalid_argument_($.copy(exports.EALREADY_DELEGATED), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, delegations, element, i;
+        yield System_addresses.assert_core_resource_(account, $c);
+        delegations = (yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18"))).inner;
+        i = (0, move_to_ts_1.u64)("0");
+        while (($.copy(i)).lt(yield Vector.length_(delegations, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]))) {
+            {
+                [temp$1, temp$2] = [delegations, $.copy(i)];
+                element = yield Vector.borrow_(temp$1, temp$2, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
+                if (!(($.copy((element).to)).hex() !== ($.copy(to)).hex())) {
+                    throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EALREADY_DELEGATED), $c));
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    Vector.push_back_(delegations, new DelegatedMintCapability({ to: $.copy(to) }, new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
-    return;
+        yield Vector.push_back_(delegations, new DelegatedMintCapability({ to: $.copy(to) }, new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
+        return;
+    });
 }
 exports.delegate_mint_capability_ = delegate_mint_capability_;
 function buildPayload_delegate_mint_capability(to, isJSON = false) {
@@ -252,56 +258,66 @@ function buildPayload_delegate_mint_capability(to, isJSON = false) {
 }
 exports.buildPayload_delegate_mint_capability = buildPayload_delegate_mint_capability;
 function destroy_mint_cap_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    let { mint_cap: mint_cap } = $c.move_from(new move_to_ts_2.SimpleStructTag(MintCapStore), new aptos_1.HexString("0x1"));
-    Coin.destroy_mint_cap_($.copy(mint_cap), $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        let { mint_cap: mint_cap } = yield $c.move_from_async(new move_to_ts_2.SimpleStructTag(MintCapStore), new aptos_1.HexString("0x1"));
+        yield Coin.destroy_mint_cap_($.copy(mint_cap), $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        return;
+    });
 }
 exports.destroy_mint_cap_ = destroy_mint_cap_;
 function find_delegation_(addr, $c) {
-    let delegations, element, i, index, len;
-    delegations = $c.borrow_global(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18")).inner;
-    i = (0, move_to_ts_1.u64)("0");
-    len = Vector.length_(delegations, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
-    index = Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]);
-    while (($.copy(i)).lt($.copy(len))) {
-        {
-            element = Vector.borrow_(delegations, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
-            if ((($.copy(element.to)).hex() === ($.copy(addr)).hex())) {
-                index = Option.some_($.copy(i), $c, [move_to_ts_2.AtomicTypeTag.U64]);
-                break;
+    return __awaiter(this, void 0, void 0, function* () {
+        let delegations, element, i, index, len;
+        delegations = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(Delegations), new aptos_1.HexString("0xa550c18"))).inner;
+        i = (0, move_to_ts_1.u64)("0");
+        len = yield Vector.length_(delegations, $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
+        index = yield Option.none_($c, [move_to_ts_2.AtomicTypeTag.U64]);
+        while (($.copy(i)).lt($.copy(len))) {
+            {
+                element = yield Vector.borrow_(delegations, $.copy(i), $c, [new move_to_ts_2.SimpleStructTag(DelegatedMintCapability)]);
+                if ((($.copy((element).to)).hex() === ($.copy(addr)).hex())) {
+                    index = yield Option.some_($.copy(i), $c, [move_to_ts_2.AtomicTypeTag.U64]);
+                    break;
+                }
+                else {
+                }
+                i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
             }
-            else {
-            }
-            i = ($.copy(i)).add((0, move_to_ts_1.u64)("1"));
         }
-    }
-    return $.copy(index);
+        return $.copy(index);
+    });
 }
 exports.find_delegation_ = find_delegation_;
 function has_mint_capability_(account, $c) {
-    return $c.exists(new move_to_ts_2.SimpleStructTag(MintCapStore), Signer.address_of_(account, $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield $c.exists_async(new move_to_ts_2.SimpleStructTag(MintCapStore), yield Signer.address_of_(account, $c));
+    });
 }
 exports.has_mint_capability_ = has_mint_capability_;
 function initialize_(aptos_framework, $c) {
-    let burn_cap, freeze_cap, mint_cap;
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    [burn_cap, freeze_cap, mint_cap] = Coin.initialize_with_parallelizable_supply_(aptos_framework, String.utf8_([(0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("112"), (0, move_to_ts_1.u8)("116"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("115"), (0, move_to_ts_1.u8)("32"), (0, move_to_ts_1.u8)("67"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("105"), (0, move_to_ts_1.u8)("110")], $c), String.utf8_([(0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("80"), (0, move_to_ts_1.u8)("84")], $c), (0, move_to_ts_1.u8)("8"), true, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(MintCapStore), aptos_framework, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
-    Coin.destroy_freeze_cap_($.copy(freeze_cap), $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    return [$.copy(burn_cap), $.copy(mint_cap)];
+    return __awaiter(this, void 0, void 0, function* () {
+        let burn_cap, freeze_cap, mint_cap;
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        [burn_cap, freeze_cap, mint_cap] = yield Coin.initialize_with_parallelizable_supply_(aptos_framework, yield String.utf8_([(0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("112"), (0, move_to_ts_1.u8)("116"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("115"), (0, move_to_ts_1.u8)("32"), (0, move_to_ts_1.u8)("67"), (0, move_to_ts_1.u8)("111"), (0, move_to_ts_1.u8)("105"), (0, move_to_ts_1.u8)("110")], $c), yield String.utf8_([(0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("80"), (0, move_to_ts_1.u8)("84")], $c), (0, move_to_ts_1.u8)("8"), true, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(MintCapStore), aptos_framework, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new move_to_ts_2.SimpleStructTag(MintCapStore)));
+        yield Coin.destroy_freeze_cap_($.copy(freeze_cap), $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        return [$.copy(burn_cap), $.copy(mint_cap)];
+    });
 }
 exports.initialize_ = initialize_;
 function mint_(account, dst_addr, amount, $c) {
-    let account_addr, coins_minted, mint_cap;
-    account_addr = Signer.address_of_(account, $c);
-    if (!$c.exists(new move_to_ts_2.SimpleStructTag(MintCapStore), $.copy(account_addr))) {
-        throw $.abortCode(Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
-    }
-    mint_cap = $c.borrow_global(new move_to_ts_2.SimpleStructTag(MintCapStore), $.copy(account_addr)).mint_cap;
-    coins_minted = Coin.mint_($.copy(amount), mint_cap, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    Coin.deposit_($.copy(dst_addr), coins_minted, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let account_addr, coins_minted, mint_cap;
+        account_addr = yield Signer.address_of_(account, $c);
+        if (!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(MintCapStore), $.copy(account_addr)))) {
+            throw $.abortCode(yield Error.not_found_($.copy(exports.ENO_CAPABILITIES), $c));
+        }
+        mint_cap = (yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(MintCapStore), $.copy(account_addr))).mint_cap;
+        coins_minted = yield Coin.mint_($.copy(amount), mint_cap, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        yield Coin.deposit_($.copy(dst_addr), coins_minted, $c, [new move_to_ts_2.SimpleStructTag(AptosCoin)]);
+        return;
+    });
 }
 exports.mint_ = mint_;
 function buildPayload_mint(dst_addr, amount, isJSON = false) {
@@ -332,32 +348,41 @@ class App {
         return exports.moduleName;
     } }
     get AptosCoin() { return AptosCoin; }
-    loadAptosCoin(owner, loadFull = true) {
+    loadAptosCoin(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield AptosCoin.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
     }
     get DelegatedMintCapability() { return DelegatedMintCapability; }
     get Delegations() { return Delegations; }
-    loadDelegations(owner, loadFull = true) {
+    loadDelegations(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield Delegations.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
             }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
+            }
             return val;
         });
     }
     get MintCapStore() { return MintCapStore; }
-    loadMintCapStore(owner, loadFull = true) {
+    loadMintCapStore(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield MintCapStore.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
@@ -365,28 +390,28 @@ class App {
     payload_claim_mint_capability(isJSON = false) {
         return buildPayload_claim_mint_capability(isJSON);
     }
-    claim_mint_capability(_account, _maxGas = 1000, _isJSON = false) {
+    claim_mint_capability(_account, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_claim_mint_capability(_isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_claim_mint_capability(_isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_delegate_mint_capability(to, isJSON = false) {
         return buildPayload_delegate_mint_capability(to, isJSON);
     }
-    delegate_mint_capability(_account, to, _maxGas = 1000, _isJSON = false) {
+    delegate_mint_capability(_account, to, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_delegate_mint_capability(to, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_delegate_mint_capability(to, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
     payload_mint(dst_addr, amount, isJSON = false) {
         return buildPayload_mint(dst_addr, amount, isJSON);
     }
-    mint(_account, dst_addr, amount, _maxGas = 1000, _isJSON = false) {
+    mint(_account, dst_addr, amount, option, _isJSON = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            const payload = buildPayload_mint(dst_addr, amount, _isJSON);
-            return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+            const payload__ = buildPayload_mint(dst_addr, amount, _isJSON);
+            return $.sendPayloadTx(this.client, _account, payload__, option);
         });
     }
 }

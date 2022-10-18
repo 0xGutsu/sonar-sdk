@@ -5,8 +5,8 @@ import { HexString, AptosClient } from "aptos";
 export declare const packageName = "AptosFramework";
 export declare const moduleAddress: HexString;
 export declare const moduleName = "util";
-export declare function address_from_bytes_(bytes: U8[], $c: AptosDataCache): HexString;
-export declare function from_bytes_(bytes: U8[], $c: AptosDataCache, $p: TypeTag[]): any;
+export declare function address_from_bytes_(bytes: U8[], $c: AptosDataCache): Promise<HexString>;
+export declare function from_bytes_(bytes: U8[], $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

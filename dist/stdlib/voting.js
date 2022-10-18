@@ -32,20 +32,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.loadParsers = exports.vote_ = exports.resolve_ = exports.register_ = exports.is_voting_period_over_ = exports.is_voting_closed_ = exports.is_resolved_ = exports.get_proposal_state_ = exports.get_proposal_expiration_secs_ = exports.get_execution_hash_ = exports.create_proposal_ = exports.can_be_resolved_early_ = exports.VotingForum = exports.VotingEvents = exports.VoteEvent = exports.ResolveProposal = exports.RegisterForumEvent = exports.Proposal = exports.CreateProposalEvent = exports.RESOLVABLE_TIME_METADATA_KEY = exports.PROPOSAL_STATE_SUCCEEDED = exports.PROPOSAL_STATE_PENDING = exports.PROPOSAL_STATE_FAILED = exports.EVOTING_FORUM_ALREADY_REGISTERED = exports.ERESOLUTION_CANNOT_BE_ATOMIC = exports.EPROPOSAL_VOTING_ALREADY_ENDED = exports.EPROPOSAL_EXECUTION_HASH_NOT_MATCHING = exports.EPROPOSAL_EMPTY_EXECUTION_HASH = exports.EPROPOSAL_CANNOT_BE_RESOLVED = exports.EPROPOSAL_ALREADY_RESOLVED = exports.EINVALID_MIN_VOTE_THRESHOLD = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
+exports.App = exports.loadParsers = exports.vote_ = exports.resolve_ = exports.register_ = exports.is_voting_period_over_ = exports.is_voting_closed_ = exports.is_resolved_ = exports.get_proposal_state_ = exports.get_proposal_expiration_secs_ = exports.get_execution_hash_ = exports.create_proposal_ = exports.can_be_resolved_early_ = exports.VotingForum = exports.VotingEvents = exports.VoteEvent = exports.ResolveProposal = exports.RegisterForumEvent = exports.Proposal = exports.CreateProposalEvent = exports.PROPOSAL_STATE_SUCCEEDED = exports.PROPOSAL_STATE_PENDING = exports.PROPOSAL_STATE_FAILED = exports.EVOTING_FORUM_ALREADY_REGISTERED = exports.EPROPOSAL_VOTING_ALREADY_ENDED = exports.EPROPOSAL_EXECUTION_HASH_NOT_MATCHING = exports.EPROPOSAL_EMPTY_EXECUTION_HASH = exports.EPROPOSAL_CANNOT_BE_RESOLVED = exports.EPROPOSAL_ALREADY_RESOLVED = exports.EINVALID_MIN_VOTE_THRESHOLD = exports.moduleName = exports.moduleAddress = exports.packageName = void 0;
 const $ = __importStar(require("@manahippo/move-to-ts"));
 const move_to_ts_1 = require("@manahippo/move-to-ts");
 const move_to_ts_2 = require("@manahippo/move-to-ts");
 const aptos_1 = require("aptos");
 const Account = __importStar(require("./account"));
-const Bcs = __importStar(require("./bcs"));
 const Error = __importStar(require("./error"));
 const Event = __importStar(require("./event"));
-const From_bcs = __importStar(require("./from_bcs"));
 const Option = __importStar(require("./option"));
 const Signer = __importStar(require("./signer"));
-const Simple_map = __importStar(require("./simple_map"));
-const String = __importStar(require("./string"));
 const Table = __importStar(require("./table"));
 const Timestamp = __importStar(require("./timestamp"));
 const Transaction_context = __importStar(require("./transaction_context"));
@@ -60,12 +56,10 @@ exports.EPROPOSAL_CANNOT_BE_RESOLVED = (0, move_to_ts_1.u64)("2");
 exports.EPROPOSAL_EMPTY_EXECUTION_HASH = (0, move_to_ts_1.u64)("4");
 exports.EPROPOSAL_EXECUTION_HASH_NOT_MATCHING = (0, move_to_ts_1.u64)("1");
 exports.EPROPOSAL_VOTING_ALREADY_ENDED = (0, move_to_ts_1.u64)("5");
-exports.ERESOLUTION_CANNOT_BE_ATOMIC = (0, move_to_ts_1.u64)("8");
 exports.EVOTING_FORUM_ALREADY_REGISTERED = (0, move_to_ts_1.u64)("6");
 exports.PROPOSAL_STATE_FAILED = (0, move_to_ts_1.u64)("3");
 exports.PROPOSAL_STATE_PENDING = (0, move_to_ts_1.u64)("0");
 exports.PROPOSAL_STATE_SUCCEEDED = (0, move_to_ts_1.u64)("1");
-exports.RESOLVABLE_TIME_METADATA_KEY = [(0, move_to_ts_1.u8)("82"), (0, move_to_ts_1.u8)("69"), (0, move_to_ts_1.u8)("83"), (0, move_to_ts_1.u8)("79"), (0, move_to_ts_1.u8)("76"), (0, move_to_ts_1.u8)("86"), (0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("66"), (0, move_to_ts_1.u8)("76"), (0, move_to_ts_1.u8)("69"), (0, move_to_ts_1.u8)("95"), (0, move_to_ts_1.u8)("84"), (0, move_to_ts_1.u8)("73"), (0, move_to_ts_1.u8)("77"), (0, move_to_ts_1.u8)("69"), (0, move_to_ts_1.u8)("95"), (0, move_to_ts_1.u8)("77"), (0, move_to_ts_1.u8)("69"), (0, move_to_ts_1.u8)("84"), (0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("68"), (0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("84"), (0, move_to_ts_1.u8)("65"), (0, move_to_ts_1.u8)("95"), (0, move_to_ts_1.u8)("75"), (0, move_to_ts_1.u8)("69"), (0, move_to_ts_1.u8)("89")];
 class CreateProposalEvent {
     constructor(proto, typeTag) {
         this.typeTag = typeTag;
@@ -337,194 +331,201 @@ VotingForum.fields = [
     { name: "next_proposal_id", typeTag: move_to_ts_2.AtomicTypeTag.U64 }
 ];
 function can_be_resolved_early_(proposal, $c, $p) {
-    let temp$1, early_resolution_threshold;
-    if (Option.is_some_(proposal.early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])) {
-        early_resolution_threshold = $.copy(Option.borrow_(proposal.early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128]));
-        if (($.copy(proposal.yes_votes)).ge($.copy(early_resolution_threshold))) {
-            temp$1 = true;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, early_resolution_threshold;
+        if (yield Option.is_some_((proposal).early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])) {
+            early_resolution_threshold = $.copy(yield Option.borrow_((proposal).early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128]));
+            if (($.copy((proposal).yes_votes)).ge($.copy(early_resolution_threshold))) {
+                temp$1 = true;
+            }
+            else {
+                temp$1 = ($.copy((proposal).no_votes)).ge($.copy(early_resolution_threshold));
+            }
+            if (temp$1) {
+                return true;
+            }
+            else {
+            }
         }
         else {
-            temp$1 = ($.copy(proposal.no_votes)).ge($.copy(early_resolution_threshold));
         }
-        if (temp$1) {
-            return true;
-        }
-        else {
-        }
-    }
-    else {
-    }
-    return false;
+        return false;
+    });
 }
 exports.can_be_resolved_early_ = can_be_resolved_early_;
 function create_proposal_(proposer, voting_forum_address, execution_content, execution_hash, min_vote_threshold, expiration_secs, early_resolution_vote_threshold, metadata, $c, $p) {
-    let temp$1, temp$10, temp$11, temp$12, temp$13, temp$14, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, proposal_id, voting_forum;
-    if (Option.is_some_(early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])) {
-        if (!($.copy(min_vote_threshold)).le($.copy(Option.borrow_(early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])))) {
-            throw $.abortCode(Error.invalid_argument_($.copy(exports.EINVALID_MIN_VOTE_THRESHOLD), $c));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$10, temp$11, temp$12, temp$13, temp$14, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, proposal_id, voting_forum;
+        if (yield Option.is_some_(early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])) {
+            if (!($.copy(min_vote_threshold)).le($.copy(yield Option.borrow_(early_resolution_vote_threshold, $c, [move_to_ts_2.AtomicTypeTag.U128])))) {
+                throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EINVALID_MIN_VOTE_THRESHOLD), $c));
+            }
         }
-    }
-    else {
-    }
-    if (!(Vector.length_(execution_hash, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EPROPOSAL_EMPTY_EXECUTION_HASH), $c));
-    }
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal_id = $.copy(voting_forum.next_proposal_id);
-    voting_forum.next_proposal_id = ($.copy(voting_forum.next_proposal_id)).add((0, move_to_ts_1.u64)("1"));
-    temp$14 = voting_forum.proposals;
-    temp$13 = $.copy(proposal_id);
-    temp$1 = $.copy(proposer);
-    temp$2 = Timestamp.now_seconds_($c);
-    temp$3 = Option.some_(execution_content, $c, [$p[0]]);
-    temp$4 = $.copy(execution_hash);
-    temp$5 = $.copy(metadata);
-    temp$6 = $.copy(min_vote_threshold);
-    temp$7 = $.copy(expiration_secs);
-    temp$8 = $.copy(early_resolution_vote_threshold);
-    temp$9 = (0, move_to_ts_1.u128)("0");
-    temp$10 = (0, move_to_ts_1.u128)("0");
-    temp$11 = false;
-    temp$12 = (0, move_to_ts_1.u64)("0");
-    Table.add_(temp$14, temp$13, new Proposal({ proposer: temp$1, execution_content: temp$3, metadata: temp$5, creation_time_secs: temp$2, execution_hash: temp$4, min_vote_threshold: temp$6, expiration_secs: temp$7, early_resolution_vote_threshold: temp$8, yes_votes: temp$9, no_votes: temp$10, is_resolved: temp$11, resolution_time_secs: temp$12 }, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    Event.emit_event_(voting_forum.events.create_proposal_events, new CreateProposalEvent({ proposal_id: $.copy(proposal_id), early_resolution_vote_threshold: $.copy(early_resolution_vote_threshold), execution_hash: $.copy(execution_hash), expiration_secs: $.copy(expiration_secs), metadata: $.copy(metadata), min_vote_threshold: $.copy(min_vote_threshold) }, new move_to_ts_2.SimpleStructTag(CreateProposalEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateProposalEvent)]);
-    return $.copy(proposal_id);
+        else {
+        }
+        if (!(yield Vector.length_(execution_hash, $c, [move_to_ts_2.AtomicTypeTag.U8])).gt((0, move_to_ts_1.u64)("0"))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EPROPOSAL_EMPTY_EXECUTION_HASH), $c));
+        }
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal_id = $.copy((voting_forum).next_proposal_id);
+        (voting_forum).next_proposal_id = ($.copy((voting_forum).next_proposal_id)).add((0, move_to_ts_1.u64)("1"));
+        temp$14 = (voting_forum).proposals;
+        temp$13 = $.copy(proposal_id);
+        temp$1 = $.copy(proposer);
+        temp$2 = yield Timestamp.now_seconds_($c);
+        temp$3 = yield Option.some_(execution_content, $c, [$p[0]]);
+        temp$4 = $.copy(execution_hash);
+        temp$5 = $.copy(metadata);
+        temp$6 = $.copy(min_vote_threshold);
+        temp$7 = $.copy(expiration_secs);
+        temp$8 = $.copy(early_resolution_vote_threshold);
+        temp$9 = (0, move_to_ts_1.u128)("0");
+        temp$10 = (0, move_to_ts_1.u128)("0");
+        temp$11 = false;
+        temp$12 = (0, move_to_ts_1.u64)("0");
+        yield Table.add_(temp$14, temp$13, new Proposal({ proposer: temp$1, execution_content: temp$3, metadata: temp$5, creation_time_secs: temp$2, execution_hash: temp$4, min_vote_threshold: temp$6, expiration_secs: temp$7, early_resolution_vote_threshold: temp$8, yes_votes: temp$9, no_votes: temp$10, is_resolved: temp$11, resolution_time_secs: temp$12 }, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        yield Event.emit_event_(((voting_forum).events).create_proposal_events, new CreateProposalEvent({ proposal_id: $.copy(proposal_id), early_resolution_vote_threshold: $.copy(early_resolution_vote_threshold), execution_hash: $.copy(execution_hash), expiration_secs: $.copy(expiration_secs), metadata: $.copy(metadata), min_vote_threshold: $.copy(min_vote_threshold) }, new move_to_ts_2.SimpleStructTag(CreateProposalEvent)), $c, [new move_to_ts_2.SimpleStructTag(CreateProposalEvent)]);
+        return $.copy(proposal_id);
+    });
 }
 exports.create_proposal_ = create_proposal_;
 function get_execution_hash_(voting_forum_address, proposal_id, $c, $p) {
-    let proposal, voting_forum;
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    return $.copy(proposal.execution_hash);
+    return __awaiter(this, void 0, void 0, function* () {
+        let proposal, voting_forum;
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        return $.copy((proposal).execution_hash);
+    });
 }
 exports.get_execution_hash_ = get_execution_hash_;
 function get_proposal_expiration_secs_(voting_forum_address, proposal_id, $c, $p) {
-    let proposal, voting_forum;
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    return $.copy(proposal.expiration_secs);
+    return __awaiter(this, void 0, void 0, function* () {
+        let proposal, voting_forum;
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        return $.copy((proposal).expiration_secs);
+    });
 }
 exports.get_proposal_expiration_secs_ = get_proposal_expiration_secs_;
 function get_proposal_state_(voting_forum_address, proposal_id, $c, $p) {
-    let temp$1, temp$2, temp$3, no_votes, proposal, voting_forum, yes_votes;
-    if (is_voting_closed_($.copy(voting_forum_address), $.copy(proposal_id), $c, [$p[0]])) {
-        voting_forum = $c.borrow_global(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-        proposal = Table.borrow_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-        yes_votes = $.copy(proposal.yes_votes);
-        no_votes = $.copy(proposal.no_votes);
-        if (($.copy(yes_votes)).gt($.copy(no_votes))) {
-            temp$1 = (($.copy(yes_votes)).add($.copy(no_votes))).ge($.copy(proposal.min_vote_threshold));
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, no_votes, proposal, voting_forum, yes_votes;
+        if (yield is_voting_closed_($.copy(voting_forum_address), $.copy(proposal_id), $c, [$p[0]])) {
+            voting_forum = yield $c.borrow_global_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+            proposal = yield Table.borrow_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+            yes_votes = $.copy((proposal).yes_votes);
+            no_votes = $.copy((proposal).no_votes);
+            if (($.copy(yes_votes)).gt($.copy(no_votes))) {
+                temp$1 = (($.copy(yes_votes)).add($.copy(no_votes))).ge($.copy((proposal).min_vote_threshold));
+            }
+            else {
+                temp$1 = false;
+            }
+            if (temp$1) {
+                temp$2 = $.copy(exports.PROPOSAL_STATE_SUCCEEDED);
+            }
+            else {
+                temp$2 = $.copy(exports.PROPOSAL_STATE_FAILED);
+            }
+            temp$3 = temp$2;
         }
         else {
-            temp$1 = false;
+            temp$3 = $.copy(exports.PROPOSAL_STATE_PENDING);
         }
-        if (temp$1) {
-            temp$2 = $.copy(exports.PROPOSAL_STATE_SUCCEEDED);
-        }
-        else {
-            temp$2 = $.copy(exports.PROPOSAL_STATE_FAILED);
-        }
-        temp$3 = temp$2;
-    }
-    else {
-        temp$3 = $.copy(exports.PROPOSAL_STATE_PENDING);
-    }
-    return temp$3;
+        return temp$3;
+    });
 }
 exports.get_proposal_state_ = get_proposal_state_;
 function is_resolved_(voting_forum_address, proposal_id, $c, $p) {
-    let proposal, voting_forum;
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    return $.copy(proposal.is_resolved);
+    return __awaiter(this, void 0, void 0, function* () {
+        let proposal, voting_forum;
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        return $.copy((proposal).is_resolved);
+    });
 }
 exports.is_resolved_ = is_resolved_;
 function is_voting_closed_(voting_forum_address, proposal_id, $c, $p) {
-    let temp$1, proposal, voting_forum;
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    if (can_be_resolved_early_(proposal, $c, [$p[0]])) {
-        temp$1 = true;
-    }
-    else {
-        temp$1 = is_voting_period_over_(proposal, $c, [$p[0]]);
-    }
-    return temp$1;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, proposal, voting_forum;
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        if (yield can_be_resolved_early_(proposal, $c, [$p[0]])) {
+            temp$1 = true;
+        }
+        else {
+            temp$1 = yield is_voting_period_over_(proposal, $c, [$p[0]]);
+        }
+        return temp$1;
+    });
 }
 exports.is_voting_closed_ = is_voting_closed_;
 function is_voting_period_over_(proposal, $c, $p) {
-    return (Timestamp.now_seconds_($c)).gt($.copy(proposal.expiration_secs));
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield Timestamp.now_seconds_($c)).ge($.copy((proposal).expiration_secs));
+    });
 }
 exports.is_voting_period_over_ = is_voting_period_over_;
 function register_(account, $c, $p) {
-    let temp$1, temp$2, temp$3, addr, voting_forum;
-    addr = Signer.address_of_(account, $c);
-    if (!!$c.exists(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(addr))) {
-        throw $.abortCode(Error.already_exists_($.copy(exports.EVOTING_FORUM_ALREADY_REGISTERED), $c));
-    }
-    temp$1 = (0, move_to_ts_1.u64)("0");
-    temp$2 = Table.new___($c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    temp$3 = new VotingEvents({ create_proposal_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(CreateProposalEvent)]), register_forum_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(RegisterForumEvent)]), resolve_proposal_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(ResolveProposal)]), vote_events: Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(VoteEvent)]) }, new move_to_ts_2.SimpleStructTag(VotingEvents));
-    voting_forum = new VotingForum({ proposals: temp$2, events: temp$3, next_proposal_id: temp$1 }, new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]));
-    Event.emit_event_(voting_forum.events.register_forum_events, new RegisterForumEvent({ hosting_account: $.copy(addr), proposal_type_info: Type_info.type_of_($c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(RegisterForumEvent)), $c, [new move_to_ts_2.SimpleStructTag(RegisterForumEvent)]);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), account, voting_forum);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let temp$1, temp$2, temp$3, addr, voting_forum;
+        addr = yield Signer.address_of_(account, $c);
+        if (!!(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(addr)))) {
+            throw $.abortCode(yield Error.already_exists_($.copy(exports.EVOTING_FORUM_ALREADY_REGISTERED), $c));
+        }
+        temp$1 = (0, move_to_ts_1.u64)("0");
+        temp$2 = yield Table.new___($c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        temp$3 = new VotingEvents({ create_proposal_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(CreateProposalEvent)]), register_forum_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(RegisterForumEvent)]), resolve_proposal_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(ResolveProposal)]), vote_events: yield Account.new_event_handle_(account, $c, [new move_to_ts_2.SimpleStructTag(VoteEvent)]) }, new move_to_ts_2.SimpleStructTag(VotingEvents));
+        voting_forum = new VotingForum({ proposals: temp$2, events: temp$3, next_proposal_id: temp$1 }, new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]));
+        yield Event.emit_event_(((voting_forum).events).register_forum_events, new RegisterForumEvent({ hosting_account: $.copy(addr), proposal_type_info: yield Type_info.type_of_($c, [$p[0]]) }, new move_to_ts_2.SimpleStructTag(RegisterForumEvent)), $c, [new move_to_ts_2.SimpleStructTag(RegisterForumEvent)]);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), account, voting_forum);
+        return;
+    });
 }
 exports.register_ = register_;
 function resolve_(voting_forum_address, proposal_id, $c, $p) {
-    let temp$1, temp$2, proposal, proposal_state, resolvable_time, resolved_early, voting_forum;
-    proposal_state = get_proposal_state_($.copy(voting_forum_address), $.copy(proposal_id), $c, [$p[0]]);
-    if (!($.copy(proposal_state)).eq(($.copy(exports.PROPOSAL_STATE_SUCCEEDED)))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPROPOSAL_CANNOT_BE_RESOLVED), $c));
-    }
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    if (!!$.copy(proposal.is_resolved)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPROPOSAL_ALREADY_RESOLVED), $c));
-    }
-    temp$2 = proposal.metadata;
-    temp$1 = String.utf8_($.copy(exports.RESOLVABLE_TIME_METADATA_KEY), $c);
-    resolvable_time = From_bcs.to_u64_($.copy(Simple_map.borrow_(temp$2, temp$1, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8)])), $c);
-    if (!(Timestamp.now_seconds_($c)).gt($.copy(resolvable_time))) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ERESOLUTION_CANNOT_BE_ATOMIC), $c));
-    }
-    resolved_early = can_be_resolved_early_(proposal, $c, [$p[0]]);
-    proposal.is_resolved = true;
-    proposal.resolution_time_secs = Timestamp.now_seconds_($c);
-    if (!$.veq(Transaction_context.get_script_hash_($c), $.copy(proposal.execution_hash))) {
-        throw $.abortCode(Error.invalid_argument_($.copy(exports.EPROPOSAL_EXECUTION_HASH_NOT_MATCHING), $c));
-    }
-    Event.emit_event_(voting_forum.events.resolve_proposal_events, new ResolveProposal({ proposal_id: $.copy(proposal_id), yes_votes: $.copy(proposal.yes_votes), no_votes: $.copy(proposal.no_votes), resolved_early: resolved_early }, new move_to_ts_2.SimpleStructTag(ResolveProposal)), $c, [new move_to_ts_2.SimpleStructTag(ResolveProposal)]);
-    return Option.extract_(proposal.execution_content, $c, [$p[0]]);
+    return __awaiter(this, void 0, void 0, function* () {
+        let proposal, proposal_state, resolved_early, voting_forum;
+        proposal_state = yield get_proposal_state_($.copy(voting_forum_address), $.copy(proposal_id), $c, [$p[0]]);
+        if (!($.copy(proposal_state)).eq(($.copy(exports.PROPOSAL_STATE_SUCCEEDED)))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPROPOSAL_CANNOT_BE_RESOLVED), $c));
+        }
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        if (!!$.copy((proposal).is_resolved)) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPROPOSAL_ALREADY_RESOLVED), $c));
+        }
+        resolved_early = yield can_be_resolved_early_(proposal, $c, [$p[0]]);
+        (proposal).is_resolved = true;
+        (proposal).resolution_time_secs = yield Timestamp.now_seconds_($c);
+        if (!$.veq(yield Transaction_context.get_script_hash_($c), $.copy((proposal).execution_hash))) {
+            throw $.abortCode(yield Error.invalid_argument_($.copy(exports.EPROPOSAL_EXECUTION_HASH_NOT_MATCHING), $c));
+        }
+        yield Event.emit_event_(((voting_forum).events).resolve_proposal_events, new ResolveProposal({ proposal_id: $.copy(proposal_id), yes_votes: $.copy((proposal).yes_votes), no_votes: $.copy((proposal).no_votes), resolved_early: resolved_early }, new move_to_ts_2.SimpleStructTag(ResolveProposal)), $c, [new move_to_ts_2.SimpleStructTag(ResolveProposal)]);
+        return yield Option.extract_((proposal).execution_content, $c, [$p[0]]);
+    });
 }
 exports.resolve_ = resolve_;
 function vote_(_proof, voting_forum_address, proposal_id, num_votes, should_pass, $c, $p) {
-    let temp$1, key, proposal, timestamp_secs_bytes, voting_forum;
-    voting_forum = $c.borrow_global_mut(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
-    proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
-    if (!!is_voting_period_over_(proposal, $c, [$p[0]])) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPROPOSAL_VOTING_ALREADY_ENDED), $c));
-    }
-    if (!!$.copy(proposal.is_resolved)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.EPROPOSAL_ALREADY_RESOLVED), $c));
-    }
-    if (should_pass) {
-        proposal.yes_votes = ($.copy(proposal.yes_votes)).add((0, move_to_ts_1.u128)($.copy(num_votes)));
-    }
-    else {
-        proposal.no_votes = ($.copy(proposal.no_votes)).add((0, move_to_ts_1.u128)($.copy(num_votes)));
-    }
-    temp$1 = Timestamp.now_seconds_($c);
-    timestamp_secs_bytes = Bcs.to_bytes_(temp$1, $c, [move_to_ts_2.AtomicTypeTag.U64]);
-    key = String.utf8_($.copy(exports.RESOLVABLE_TIME_METADATA_KEY), $c);
-    if (Simple_map.contains_key_(proposal.metadata, key, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8)])) {
-        $.set(Simple_map.borrow_mut_(proposal.metadata, key, $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8)]), $.copy(timestamp_secs_bytes));
-    }
-    else {
-        Simple_map.add_(proposal.metadata, $.copy(key), $.copy(timestamp_secs_bytes), $c, [new move_to_ts_2.StructTag(new aptos_1.HexString("0x1"), "string", "String", []), new move_to_ts_2.VectorTag(move_to_ts_2.AtomicTypeTag.U8)]);
-    }
-    Event.emit_event_(voting_forum.events.vote_events, new VoteEvent({ proposal_id: $.copy(proposal_id), num_votes: $.copy(num_votes) }, new move_to_ts_2.SimpleStructTag(VoteEvent)), $c, [new move_to_ts_2.SimpleStructTag(VoteEvent)]);
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        let proposal, voting_forum;
+        voting_forum = yield $c.borrow_global_mut_async(new move_to_ts_2.SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
+        proposal = yield Table.borrow_mut_((voting_forum).proposals, $.copy(proposal_id), $c, [move_to_ts_2.AtomicTypeTag.U64, new move_to_ts_2.SimpleStructTag(Proposal, [$p[0]])]);
+        if (!!(yield is_voting_period_over_(proposal, $c, [$p[0]]))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPROPOSAL_VOTING_ALREADY_ENDED), $c));
+        }
+        if (!!$.copy((proposal).is_resolved)) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.EPROPOSAL_ALREADY_RESOLVED), $c));
+        }
+        if (should_pass) {
+            (proposal).yes_votes = ($.copy((proposal).yes_votes)).add((0, move_to_ts_1.u128)($.copy(num_votes)));
+        }
+        else {
+            (proposal).no_votes = ($.copy((proposal).no_votes)).add((0, move_to_ts_1.u128)($.copy(num_votes)));
+        }
+        yield Event.emit_event_(((voting_forum).events).vote_events, new VoteEvent({ proposal_id: $.copy(proposal_id), num_votes: $.copy(num_votes) }, new move_to_ts_2.SimpleStructTag(VoteEvent)), $c, [new move_to_ts_2.SimpleStructTag(VoteEvent)]);
+        return;
+    });
 }
 exports.vote_ = vote_;
 function loadParsers(repo) {
@@ -556,11 +557,14 @@ class App {
     get VoteEvent() { return VoteEvent; }
     get VotingEvents() { return VotingEvents; }
     get VotingForum() { return VotingForum; }
-    loadVotingForum(owner, $p, /* <ProposalType> */ loadFull = true) {
+    loadVotingForum(owner, $p, /* <ProposalType> */ loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield VotingForum.load(this.repo, this.client, owner, $p);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });

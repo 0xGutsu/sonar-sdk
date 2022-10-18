@@ -37,23 +37,23 @@ export declare class Table {
     toTypedTable<K = any, V = any>(): TypedTable<K, V>;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function add_(table: Table, key: any, val: any, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function add_box_(table: Table, key: any, val: Box, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function borrow_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Box;
-export declare function borrow_box_mut_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Box;
-export declare function borrow_mut_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function borrow_mut_with_default_(table: Table, key: any, default__: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function contains_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function contains_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): boolean;
-export declare function destroy_(table: Table, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function destroy_empty_box_(table: Table, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function drop_unchecked_box_(table: Table, $c: AptosDataCache, $p: TypeTag[]): void;
-export declare function new___($c: AptosDataCache, $p: TypeTag[]): Table;
-export declare function new_table_handle_($c: AptosDataCache, $p: TypeTag[]): HexString;
-export declare function remove_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): any;
-export declare function remove_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Box;
-export declare function upsert_(table: Table, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): void;
+export declare function add_(table: Table, key: any, val: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function add_box_(table: Table, key: any, val: Box, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function borrow_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Box>;
+export declare function borrow_box_mut_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Box>;
+export declare function borrow_mut_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function borrow_mut_with_default_(table: Table, key: any, default__: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function contains_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function contains_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<boolean>;
+export declare function destroy_(table: Table, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function destroy_empty_box_(table: Table, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function drop_unchecked_box_(table: Table, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
+export declare function new___($c: AptosDataCache, $p: TypeTag[]): Promise<Table>;
+export declare function new_table_handle_($c: AptosDataCache, $p: TypeTag[]): Promise<HexString>;
+export declare function remove_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<any>;
+export declare function remove_box_(table: Table, key: any, $c: AptosDataCache, $p: TypeTag[]): Promise<Box>;
+export declare function upsert_(table: Table, key: any, value: any, $c: AptosDataCache, $p: TypeTag[]): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;
@@ -63,7 +63,7 @@ export declare class App {
     get moduleAddress(): HexString;
     get moduleName(): string;
     get Box(): typeof Box;
-    loadBox(owner: HexString, $p: TypeTag[], /* <V> */ loadFull?: boolean): Promise<Box>;
+    loadBox(owner: HexString, $p: TypeTag[], /* <V> */ loadFull?: boolean, fillCache?: boolean): Promise<Box>;
     get Table(): typeof Table;
 }
 export declare class TypedTable<K = any, V = any> {

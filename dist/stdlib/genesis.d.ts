@@ -79,19 +79,19 @@ export declare class ValidatorConfigurationWithCommission {
     static getTag(): StructTag;
     loadFullState(app: $.AppType): Promise<void>;
 }
-export declare function create_account_(aptos_framework: HexString, account_address: HexString, balance: U64, $c: AptosDataCache): HexString;
-export declare function create_accounts_(aptos_framework: HexString, accounts: AccountMap[], $c: AptosDataCache): void;
-export declare function create_employee_validators_(employees: EmployeeAccountMap[], $c: AptosDataCache): void;
-export declare function create_initialize_validator_(aptos_framework: HexString, commission_config: ValidatorConfigurationWithCommission, use_staking_contract: boolean, $c: AptosDataCache): void;
-export declare function create_initialize_validators_(aptos_framework: HexString, validators: ValidatorConfiguration[], $c: AptosDataCache): void;
-export declare function create_initialize_validators_with_commission_(aptos_framework: HexString, use_staking_contract: boolean, validators: ValidatorConfigurationWithCommission[], $c: AptosDataCache): void;
-export declare function create_signer_(addr: HexString, $c: AptosDataCache): HexString;
-export declare function initialize_(gas_schedule: U8[], chain_id: U8, initial_version: U64, consensus_config: U8[], epoch_interval_microsecs: U64, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, $c: AptosDataCache): void;
-export declare function initialize_aptos_coin_(aptos_framework: HexString, $c: AptosDataCache): void;
-export declare function initialize_core_resources_and_aptos_coin_(aptos_framework: HexString, core_resources_auth_key: U8[], $c: AptosDataCache): void;
-export declare function initialize_for_verification_(gas_schedule: U8[], chain_id: U8, initial_version: U64, consensus_config: U8[], epoch_interval_microsecs: U64, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, aptos_framework: HexString, validators: ValidatorConfiguration[], min_voting_threshold: U128, required_proposer_stake: U64, voting_duration_secs: U64, $c: AptosDataCache): void;
-export declare function initialize_validator_(pool_address: HexString, validator: ValidatorConfiguration, $c: AptosDataCache): void;
-export declare function set_genesis_end_(aptos_framework: HexString, $c: AptosDataCache): void;
+export declare function create_account_(aptos_framework: HexString, account_address: HexString, balance: U64, $c: AptosDataCache): Promise<HexString>;
+export declare function create_accounts_(aptos_framework: HexString, accounts: AccountMap[], $c: AptosDataCache): Promise<void>;
+export declare function create_employee_validators_(employees: EmployeeAccountMap[], $c: AptosDataCache): Promise<void>;
+export declare function create_initialize_validator_(aptos_framework: HexString, commission_config: ValidatorConfigurationWithCommission, use_staking_contract: boolean, $c: AptosDataCache): Promise<void>;
+export declare function create_initialize_validators_(aptos_framework: HexString, validators: ValidatorConfiguration[], $c: AptosDataCache): Promise<void>;
+export declare function create_initialize_validators_with_commission_(aptos_framework: HexString, use_staking_contract: boolean, validators: ValidatorConfigurationWithCommission[], $c: AptosDataCache): Promise<void>;
+export declare function create_signer_(addr: HexString, $c: AptosDataCache): Promise<HexString>;
+export declare function initialize_(gas_schedule: U8[], chain_id: U8, initial_version: U64, consensus_config: U8[], epoch_interval_microsecs: U64, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, $c: AptosDataCache): Promise<void>;
+export declare function initialize_aptos_coin_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
+export declare function initialize_core_resources_and_aptos_coin_(aptos_framework: HexString, core_resources_auth_key: U8[], $c: AptosDataCache): Promise<void>;
+export declare function initialize_for_verification_(gas_schedule: U8[], chain_id: U8, initial_version: U64, consensus_config: U8[], epoch_interval_microsecs: U64, minimum_stake: U64, maximum_stake: U64, recurring_lockup_duration_secs: U64, allow_validator_set_change: boolean, rewards_rate: U64, rewards_rate_denominator: U64, voting_power_increase_limit: U64, aptos_framework: HexString, validators: ValidatorConfiguration[], min_voting_threshold: U128, required_proposer_stake: U64, voting_duration_secs: U64, $c: AptosDataCache): Promise<void>;
+export declare function initialize_validator_(pool_address: HexString, validator: ValidatorConfiguration, $c: AptosDataCache): Promise<void>;
+export declare function set_genesis_end_(aptos_framework: HexString, $c: AptosDataCache): Promise<void>;
 export declare function loadParsers(repo: AptosParserRepo): void;
 export declare class App {
     client: AptosClient;

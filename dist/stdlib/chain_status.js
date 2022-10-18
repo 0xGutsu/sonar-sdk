@@ -82,31 +82,41 @@ GenesisEndMarker.structName = "GenesisEndMarker";
 GenesisEndMarker.typeParameters = [];
 GenesisEndMarker.fields = [];
 function assert_genesis_($c) {
-    if (!is_genesis_($c)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ENOT_OPERATING), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_genesis_($c))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ENOT_OPERATING), $c));
+        }
+        return;
+    });
 }
 exports.assert_genesis_ = assert_genesis_;
 function assert_operating_($c) {
-    if (!is_operating_($c)) {
-        throw $.abortCode(Error.invalid_state_($.copy(exports.ENOT_OPERATING), $c));
-    }
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!(yield is_operating_($c))) {
+            throw $.abortCode(yield Error.invalid_state_($.copy(exports.ENOT_OPERATING), $c));
+        }
+        return;
+    });
 }
 exports.assert_operating_ = assert_operating_;
 function is_genesis_($c) {
-    return !$c.exists(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), new aptos_1.HexString("0x1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        return !(yield $c.exists_async(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), new aptos_1.HexString("0x1")));
+    });
 }
 exports.is_genesis_ = is_genesis_;
 function is_operating_($c) {
-    return $c.exists(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), new aptos_1.HexString("0x1"));
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield $c.exists_async(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), new aptos_1.HexString("0x1"));
+    });
 }
 exports.is_operating_ = is_operating_;
 function set_genesis_end_(aptos_framework, $c) {
-    System_addresses.assert_aptos_framework_(aptos_framework, $c);
-    $c.move_to(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), aptos_framework, new GenesisEndMarker({}, new move_to_ts_2.SimpleStructTag(GenesisEndMarker)));
-    return;
+    return __awaiter(this, void 0, void 0, function* () {
+        yield System_addresses.assert_aptos_framework_(aptos_framework, $c);
+        yield $c.move_to_async(new move_to_ts_2.SimpleStructTag(GenesisEndMarker), aptos_framework, new GenesisEndMarker({}, new move_to_ts_2.SimpleStructTag(GenesisEndMarker)));
+        return;
+    });
 }
 exports.set_genesis_end_ = set_genesis_end_;
 function loadParsers(repo) {
@@ -126,11 +136,14 @@ class App {
         return exports.moduleName;
     } }
     get GenesisEndMarker() { return GenesisEndMarker; }
-    loadGenesisEndMarker(owner, loadFull = true) {
+    loadGenesisEndMarker(owner, loadFull = true, fillCache = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = yield GenesisEndMarker.load(this.repo, this.client, owner, []);
             if (loadFull) {
                 yield val.loadFullState(this);
+            }
+            if (fillCache) {
+                this.cache.set(val.typeTag, owner, val);
             }
             return val;
         });
